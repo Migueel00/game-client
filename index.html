@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The hunt</title>
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+
+<body>
+    <div class="game">
+        <!-- HUD DEL JUEGO W: 256 H: 16-->
+        <canvas id="gameHUD" width="320" height="22">
+            Your browser does not support the HTML5 canvas tag
+        </canvas>
+        <div class="gameScreen">
+            <!-- W: 512 H: 512-->
+            <canvas id="gameScreen" width="512" height="512">
+                Your browser does not support the HTML5 canvas tag
+                
+            </canvas>
+            <!-- WIDTH: 124 HEIGHT: 512-->
+            <canvas id="gameHUD2" width="126" height="512">
+                Your browser does not support the HTML5 canvas tag;
+            </canvas>
+        </div>
+    </div>
+
+    <audio id = "gameMusic" >
+        <source src="./sounds/ game-playing.mp3" type="audio/mpeg">
+        <source src="./sounds/Interstellar-lobby.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="shootSound" >
+        <source src="./sounds/laserShoot.wav" type="audio/mpeg">
+    </audio>
+    <audio id="explosionSound">
+        <source src="./sounds/explosion.wav" type="audio/mpeg">
+    </audio>
+    <audio id="hitSound">
+        <source src="./sounds/hitHurt.wav" type="audio/mpeg">
+    </audio>
+    <script type="module" src="./src/game.js"></script>
+
+</body>
+
+</html>

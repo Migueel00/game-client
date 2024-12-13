@@ -1,0 +1,66 @@
+@font-face {
+    font-family: emulogic;
+    src: url('../fonts/emulogic.ttf');
+}
+@font-face {
+    font-family: "pixelify";
+    src: url('../fonts/PixelifySans-VariableFont_wght.ttf');
+}
+
+@font-face {
+    font-family: retrosans ;
+    src: url('../fonts/RetroSans.ttf');
+}
+
+@font-face {
+    font-family: "publicpixel";
+    src: url('../fonts/PublicPixel-z84yD.ttf');
+}
+
+*{
+    margin: 0;
+    box-sizing: border-box;
+    background-color: #1F1F1F;
+}
+#gameScreen {
+    margin-top: 20px;
+    /* width: 890px; */
+    width: 1024px;
+    height: 890px;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-crisp-edges;
+    image-rendering: pixelated; 
+    image-rendering: crisp-edges;
+    background-color: black;
+}
+
+/* GAME HUD */
+#gameHUD {
+    width: 1120px;
+    height: 10vh;
+    background-color: black;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-crisp-edges;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
+
+/* GAME HUD LATERAL */
+#gameHUD2{
+    width: 230px;
+    height: 80vh;
+    margin-bottom: 40px;
+    background-color: black;
+}
+
+.game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.gameScreen{
+    display: flex;
+    align-items: center;
+}
+
+/* Sincronizar */
