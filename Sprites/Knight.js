@@ -111,23 +111,9 @@ export default class Knight extends Sprite{
         // Moviemiento acelerado aleatorio (Falta acabar xd);
         const random = Math.random() * 10 + 1;
         random > 9 ? this.physics.vLimit += 100 : this.physics.vLimit = 30;
-        // if(random > 9){
-        //     this.physics.vLimit += 100;
-
-        // }else{
-        //     this.physics.vLimit  = 30;
-        // }
     }
 
     goAttackLucretia(vy, lucretiaYPos){
-        // let lucretiaYPos = positionLucretia().yPos;
-        // if(this.yPos < lucretiaYPos){
-    
-        //     this.physics.vy = vy;
-        // }else if(this.yPos > lucretiaYPos){
-        //     this.physics.vy = -vy;
-        // }
-        // como ternario 
         this.yPos < lucretiaYPos ? this.physics.vy = vy : this.physics.vy = -vy;
     }
 
@@ -155,7 +141,7 @@ export default class Knight extends Sprite{
     updateDirectionRandom(){
         //Incrementar el tiempo para cambio de direccion
         this.directionChangeCounter += globals.deltaTime;
-       
+
         if( this.directionChangeCounter > this.maxTimeToChangeDirection){
             
             //Resetear el contador

@@ -54,66 +54,6 @@ export default function update(){
     }
 }
 
-function goAttackLucretia(sprite, vy){
-    let lucretiaYPos = positionLucretia().yPos;
-    if(sprite.yPos < lucretiaYPos){
-
-        sprite.physics.vy = vy;
-    }else if(sprite.yPos > lucretiaYPos){
-        sprite.physics.vy = -vy;
-    }
-}
-
-
-//actualizar estado caballero escudo
-function updateKnightShield(sprite){
-
-    // Maquina de estados de caballero
-    switch(sprite.state){
-        case State.KNIGHT_SHIELD_RIGHT:
-            sprite.physics.vx = sprite.physics.vLimit;
-            break;
-        case State.KNIGHT_SHIELD_LEFT:
-            sprite.physics.vx = -sprite.physics.vLimit;
-            break;
-        default:
-            console.error("Error: State invalid");
-    }
-
-    // calcular la distancia que se mueve 
-    sprite.xPos += sprite.physics.vx * globals.deltaTime;
-    sprite.yPos += sprite.physics.vy * globals.deltaTime;
-
-    // Actualizar la animacion
-    updateAnimationFrame(sprite);
-
-    // Ir a atacar a lucretia
-    goAttackLucretia(sprite, 5);
-
-    // cambio de direccion automatica
-    updateDirectionRandom(sprite);
-
-    // calcular colisiones con los bordes de la pantalla
-    if(sprite.isCollidingWithObstacleOnTheRight || sprite.isCollidingWithObstacleOnTheLeft){
-        swapDirection(sprite);
-    }
-
-
-    // colision con lucretia Animacion atacar (acabar al tener colisiones)
-  /*   if(sprite.isCollidingWithPlayer){
-        if(sprite.state === State.KNIGHT_SHIELD_LEFT){
-
-            sprite.state = State.KNIGHT_SHIELD_ATTACK;
-        }
-        
-    } */
-
-    if(sprite.isCollidingWithPlayerProyectile){
-        
-        sprite.state = State.OFF;
-    }
-}
-
 //actualizar estado de caballero arquero
 function updateKnightArcher(sprite){
 
@@ -182,151 +122,6 @@ function positionLucretia(){
     let yPos = lucretia.yPos;
 
     return{xPos, yPos};
-}
-
-//actualizar estado lucretia
-function updateLucretia(sprite){
-    // Lectura de teclado. Asignamos direccion a tecla
-    readKeyboardAndAssignState(sprite);
-
-    // Maquina de estados lucretia
-    switch(sprite.state){
-        case State.LUCRETIA_RIGHT:
-            // si se mueve a la derecha asignamos vx (positiva)
-            sprite.physics.vx = sprite.physics.vLimit;
-            sprite.physics.vy = 0
-            // sprite.frames.framesPerState = 8;
-            break;
-        case State.LUCRETIA_LEFT:
-            // si se muve a la izquierda vx negativa
-            sprite.physics.vx = -sprite.physics.vLimit;
-            sprite.physics.vy = 0;
-            // sprite.frames.framesPerState = 8
-            break;
-        case State.LUCRETIA_IDLE_RIGHT:
-            // Sprite movimiento y idle tienen distinto numero de fotogramas
-            // sprite.frames.framesPerState = 6;
-            sprite.physics.vx = 0;
-            sprite.physics.vy = 0;
-            break;
-        case State.LUCRETIA_IDLE_LEFT:
-            //sprite.frames.framesPerState = 6;
-            sprite.physics.vx = 0;
-            sprite.physics.vy = 0;
-            break;
-        case State.LUCRETIA_ATTACK_LEFT:
-            //sprite.frames.framesPerState = 8;
-            sprite.physics.vx = 0;
-            sprite.physics.vy = 0;
-        case State.LUCRETIA_ATTACK_RIGHT:
-            //sprite.frames.framesPerState = 8;
-            sprite.physics.vx = 0;
-            sprite.physics.vy = 0;
-        default: 
-            // caso de estar parado
-            sprite.physics.vx = 0;
-            sprite.physics.vy = 0;
-    }
-
-    if(globals.action.moveDown){
-       if(sprite.state === State.LUCRETIA_ATTACK_LEFT){
-
-            sprite.state = State.LUCRETIA_IDLE_LEFT;
-        }else if(sprite.state === State.LUCRETIA_ATTACK_RIGHT){
-
-            sprite.state = State.LUCRETIA_IDLE_RIGHT;
-        }
- 
-        sprite.physics.vy = sprite.physics.vLimit;
-        sprite.physics.vx = 0;
-
-    }else if(globals.action.moveUp){
-        if(sprite.state === State.LUCRETIA_ATTACK_LEFT){
-
-            sprite.state = State.LUCRETIA_IDLE_LEFT;
-        }else if(sprite.state === State.LUCRETIA_ATTACK_RIGHT){
-
-            sprite.state = State.LUCRETIA_IDLE_RIGHT;
-        }
-
-        sprite.physics.vy = -sprite.physics.vLimit;
-        sprite.physics.vx = 0;
-
-    }
-
-    // ataque hacia arriba y hacia abajo con timer
-    const time = globals.shootTimer.value;  
-
-    if(time >= 1){
-     
-        if(globals.action.attack && sprite.state === State.LUCRETIA_IDLE_LEFT && sprite.physics.vy === 0 || globals.action.attack && sprite.state === State.LUCRETIA_IDLE_RIGHT && sprite.physics.vy === 0){
-
-            let directionProyectile = lucretiaAttackDirection();
-    
-            if(directionProyectile === 1){
-    
-                initLucretiaProyectile();
-            }else if(directionProyectile === 2){
-    
-                initLucretiaProyectileLeft();
-            }
-        }
-    
-        if(globals.action.attack && sprite.state === State.LUCRETIA_ATTACK_LEFT){
-    
-            initLucretiaProyectileLeft();
-        }else if(globals.action.attack && sprite.state === State.LUCRETIA_ATTACK_RIGHT){
-            initLucretiaProyectile();
-        }
-    
-    
-        if(globals.action.attack && globals.action.moveUp){
-    
-            lucretiaAttackDirection();
-            initLucretiaProyectileUp();
-        
-        }else if(globals.action.attack && globals.action.moveDown){
-            
-            lucretiaAttackDirection();
-            initLucretiaProyectileDown();
-    
-        }else if(globals.action.attack && globals.action.moveLeft){
-            
-            lucretiaAttackDirection();
-            initLucretiaProyectileLeft();
-    
-        }else if(globals.action.attack && globals.action.moveRight){
-    
-            lucretiaAttackDirection();
-            initLucretiaProyectile();
-        }
-
-    }
-    
-    
-    // calcularla distancia que se mueve
-    sprite.xPos += sprite.physics.vx * globals.deltaTime;
-    sprite.yPos += sprite.physics.vy * globals.deltaTime;
-
-    // actualizar la animacion
-    updateAnimationFrame(sprite);
-
-    function lucretiaAttackDirection(){
-        let directionProyectile;
-        if(sprite.state === State.LUCRETIA_RIGHT || sprite.state === State.LUCRETIA_IDLE_RIGHT){
-
-            sprite.state = State.LUCRETIA_ATTACK_RIGHT;
-            directionProyectile = 1;
-        }else if(sprite.state === State.LUCRETIA_LEFT || sprite.state === State.LUCRETIA_IDLE_LEFT){
-
-            sprite.state = State.LUCRETIA_ATTACK_LEFT;
-
-            directionProyectile = 2;
-        }
-
-        return directionProyectile;
-    }
-   
 }
 
 function updateLucretiaProyectileUp(sprite){
@@ -778,13 +573,13 @@ function updateAnimationFrame(sprite){
 
 function updateSprite(sprite){
     const type = sprite.id;
+    const lucretiaYPos = positionLucretia().yPos;
     switch(type){
         case SpriteID.KNIGHT:
-            const lucretiaYPos = positionLucretia().yPos;
             sprite.update(lucretiaYPos);
             break;  
         case SpriteID.KNIGHT_SHIELD:
-            updateKnightShield(sprite);
+            sprite.update(lucretiaYPos);
             break;   
         case SpriteID.KNIGHT_ARCHER:
             updateKnightArcher(sprite);
@@ -829,38 +624,6 @@ function swapDirection(sprite){
     sprite.state = sprite.state === State.KNIGHT_RIGHT ? State.KNIGHT_LEFT : State.KNIGHT_RIGHT;
 }
 
-function updateDirectionRandom(sprite){
-    //Incrementar el tiempo para cambio de direccion
-    sprite.directionChangeCounter += globals.deltaTime;
-   
-    if( sprite.directionChangeCounter > sprite.maxTimeToChangeDirection){
-        
-        //Resetear el contador
-        sprite.directionChangeCounter = 0;
-
-        //Actualizar el tiempo de cambio de direccion aleatoriamente entre 1 y 8 s
-        sprite.maxTimeToChangeDirection = Math.floor(Math.random() * 8) + 1;
-
-        swapDirection(sprite);
-    }
-}
-
-
-//falta acabar (bloquear ataques player)
-/* function defendRandomly(sprite){ 
-    sprite.defTimeCounter += globals.deltaTime;
-
-    if( sprite.defTimeCounter > sprite.maxTimeToDef){
-
-        sprite.defTimeCounter = 0;
-
-        sprite.maxTimeToDef = Math.floor(Math.random() * 4) + 1;
-
-
-    }
-}
- */
-
 function calculateCollisionWithBorders(sprite){
     let isCollision = false;
 
@@ -878,14 +641,6 @@ function calculateCollisionWithBorders(sprite){
     }
 
     return isCollision;
-}
-
-function readKeyboardAndAssignState(sprite){
-    sprite.state = globals.action.moveLeft  ? State.LUCRETIA_LEFT:   // Left key
-                   globals.action.moveRight ? State.LUCRETIA_RIGHT:  // Right Key
-                   sprite.state === State.LUCRETIA_LEFT  ? State.LUCRETIA_IDLE_LEFT : // No key pressed and previous state LEFT
-                   sprite.state === State.LUCRETIA_RIGHT ? State.LUCRETIA_IDLE_RIGHT: 
-                   sprite.state;
 }
 
 function updateLife(){
@@ -910,9 +665,9 @@ function updateLife(){
 function generateEnemiesRandomly(){
 
     const time = globals.enemiesTimers.value;
+    initKnight2();
 
     if(time < 30 && time > 0){
-        initKnight2();
         initKnightArcher();
 
     }else if(time < 60 && time > 30){
