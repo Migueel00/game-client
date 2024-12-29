@@ -216,3 +216,10 @@ export const Sound = {
     GAME_MUSIC:     0,
     JUMP:           1
 }
+
+export const ProyectileType = {
+    UP: 0,
+    DOWN: 1,
+    LEFT: 2,
+    RIGHT: 3,
+}

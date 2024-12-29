@@ -1,5 +1,5 @@
 import globals from "./globals.js";
-import {Game, FPS, SpriteID, State, ParticleID, ParticleState, GRAVITI, Sound} from "./constants.js";
+import {Game, FPS, SpriteID, State, ParticleID, ParticleState, GRAVITI, Sound, ProyectileType} from "./constants.js";
 import Sprite from "../Sprites/Sprite.js";
 import Knight from "../Sprites/Knight.js";
 import HealPotion from "../Sprites/HealPotion.js";
@@ -216,7 +216,7 @@ export function initLucretiaProyectile(){
     let xPos = calculatePositionProyectile().xPosLucretia + 50;
     let yPos = calculatePositionProyectile().yPosLucretia + 20;
     
-    const lucretiaProyectile = LucretiaProyectile.create(xPos, yPos);
+    const lucretiaProyectile = LucretiaProyectile.create(xPos, yPos, ProyectileType.RIGHT);
 
     globals.sprites.push(lucretiaProyectile);
 }
@@ -226,7 +226,7 @@ export function initLucretiaProyectileUp(){
     let xPos = calculatePositionProyectile().xPosLucretia + 22;
     let yPos = calculatePositionProyectile().yPosLucretia; 
 
-    const lucretiaProyectile = LucretiaProyectile.createUp(xPos, yPos);
+    const lucretiaProyectile = LucretiaProyectile.create(xPos, yPos, ProyectileType.UP);
 
     globals.sprites.push(lucretiaProyectile);
 }
@@ -236,7 +236,7 @@ export function initLucretiaProyectileDown(){
     let xPos = calculatePositionProyectile().xPosLucretia + 27;
     let yPos = calculatePositionProyectile().yPosLucretia + 20; 
     
-    const lucretiaProyectile = LucretiaProyectile.createDown(xPos, yPos);
+    const lucretiaProyectile = LucretiaProyectile.create(xPos, yPos, ProyectileType.DOWN);
 
     globals.sprites.push(lucretiaProyectile);
 }
@@ -246,7 +246,7 @@ export function initLucretiaProyectileLeft(){
     let xPos = calculatePositionProyectile().xPosLucretia;
     let yPos = calculatePositionProyectile().yPosLucretia;
 
-    const lucretiaProyectile = LucretiaProyectile.createLeft(xPos, yPos);
+    const lucretiaProyectile = LucretiaProyectile.create(xPos, yPos, ProyectileType.LEFT);
 
     globals.sprites.push(lucretiaProyectile);
 }
