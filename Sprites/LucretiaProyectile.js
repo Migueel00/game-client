@@ -14,33 +14,36 @@ export default class LucretiaProyectile extends Sprite {
     }
 
     static create(xPos, yPos, type){
-        const imageSet      = new ImageSet(30, 0, 50, 50, 120, 80, 45, 20);
-
         const frames        = new Frames(1);
-    
-        const physics       = new Physics(150, 0, 0, 0, 0);
+        const physics       = new Physics(150, 0, 0, 0, 0); 
+
         let hitBox;
         let sprite;
+        let imageSet;
 
         console.log(`el tipo es ${type}`)
         switch(type){
             case ProyectileType.UP:
-                hitBox = new HitBox(25, 25, 5, 8); 
+                hitBox = new HitBox(25, 25, 5, 8);
+                imageSet = new ImageSet(30, 2, 50, 50, 120, 80, 45, 20);
                 sprite = new LucretiaProyectile(SpriteID.LUCRETIA_PROYECTILE_UP, State.LUCRETIA_PROYECTILE_UP, xPos, yPos, imageSet, frames, false, physics, hitBox, true);
                 break;
 
             case ProyectileType.DOWN:
-                hitBox = new HitBox(25, 25, 2, 15); 
+                hitBox = new HitBox(25, 25, 2, 15);
+                imageSet = new ImageSet(30, 3, 50, 50, 120, 80, 45, 20);
                 sprite = new LucretiaProyectile(SpriteID.LUCRETIA_PROYECTILE_DOWN, State.LUCRETIA_PROYECTILE_DOWN, xPos, yPos, imageSet, frames, false, physics, hitBox, true);
                 break;
 
             case ProyectileType.LEFT:
-                hitBox = new HitBox(25, 25, 14, 8); 
+                hitBox = new HitBox(25, 25, 14, 8);
+                imageSet = new ImageSet(30, 1, 50, 50, 120, 80, 45, 20);
                 sprite = new LucretiaProyectile(SpriteID.LUCRETIA_PROYECTILE_LEFT, State.LUCRETIA_PROYECTILE_LEFT, xPos, yPos, imageSet, frames, false, physics, hitBox, true);
                 break;
 
             case ProyectileType.RIGHT:
                 hitBox = new HitBox(25, 25, 14, 8);
+                imageSet = new ImageSet(30, 0, 50, 50, 120, 80, 45, 20);
                 sprite = new LucretiaProyectile(SpriteID.LUCRETIA_PROYECTILE_RIGHT, State.LUCRETIA_PROYECTILE_RIGHT, xPos, yPos, imageSet, frames, false, physics, hitBox, true); 
                 break;
 

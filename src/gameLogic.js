@@ -620,9 +620,6 @@ function updateSprite(sprite){
     }
 }
 
-function swapDirection(sprite){
-    sprite.state = sprite.state === State.KNIGHT_RIGHT ? State.KNIGHT_LEFT : State.KNIGHT_RIGHT;
-}
 
 function calculateCollisionWithBorders(sprite){
     let isCollision = false;
