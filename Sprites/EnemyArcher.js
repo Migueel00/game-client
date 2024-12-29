@@ -30,7 +30,7 @@ export default class EnemyArcher extends Sprite{
         const physics       = new Physics(0, omega, initAngle, xRotCenter, yRotCenter);
     
         const hitBox        = new HitBox(16, 40, 37, 22);
-     
+        
         return new EnemyArcher(SpriteID.KNIGHT_ARCHER, State.KNIGHT_ARCHER_RIGHT, 0, 0, imageSet, frames, false, physics, hitBox);
     }
 }

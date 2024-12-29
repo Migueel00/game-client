@@ -1,5 +1,5 @@
 import globals from "./globals.js";
-import { Block2, Obstacles, State } from "./constants.js";
+import { Block2, Obstacles, SpriteID, State } from "./constants.js";
 
 export default function detectCollisions() {
 
@@ -10,36 +10,37 @@ export default function detectCollisions() {
     const proyectiles = [];
 
     // calcular colision del player con cada uno de los sprites
-    for (let i = 1; i < globals.sprites.length; i++) {
+    for (let i = 0; i < globals.sprites.length; i++) {
         const sprite = globals.sprites[i];
-        if (!sprite.hud && !sprite.lucretiaProyectile){
+
+        switch (sprite.id) {
+            case SpriteID.LUCRETIA:
+                sprite.updateCollisions();
+                break;
+        }
+
+        if (!sprite.hud && !sprite.lucretiaProyectile) {
             detectCollisionBetweenPlayerAndSprite(sprite);
             detetcCollisionBetweenEnemiesAndMap(sprite);
             detectCollisionBetweenSpritesAndMapObstaclesTree(sprite)
         }
 
-        if(sprite.lucretiaProyectile){
+        if (sprite.lucretiaProyectile) {
             proyectiles.push(sprite);
         }
 
-        if(sprite.enemy){
+        if (sprite.enemy) {
             enemies.push(sprite);
         }
 
-        if(sprite.enemyArcher){
+        if (sprite.enemyArcher) {
             collisionBetweenArcherAndTree(sprite);
         }
-
     }
-
-    // Calculamos colision del player con los obstaculos del mapa
-    detectCollisionBetweenPlayerAndMap();
-    detectCollisionBetweenPlayerAndMapObstaclesAbove();
-    detectCollisionBetweenPlayerAndMapObstaclesTree();
 
     colisionPlayerProyectileSprite(proyectiles, enemies);
 
-    if(enemies.length > 0){
+    if (enemies.length > 0) {
         detectCollisionBetweenSpritesAndMapObstaclesTree(enemies);
         detetcCollisionBetweenEnemiesAndMap(enemies);
         detetcCollisionBetweenEnemiesAndMap(enemies);
@@ -48,7 +49,7 @@ export default function detectCollisions() {
     }
 }
 
-function colisionPlayerProyectileSprite(projectiles, sprites){
+function colisionPlayerProyectileSprite(projectiles, sprites) {
     for (let i = 0; i < projectiles.length; i++) {
         const playerProjectile = projectiles[i];
 
@@ -56,7 +57,7 @@ function colisionPlayerProyectileSprite(projectiles, sprites){
         for (let j = 0; j < sprites.length; j++) {
             const sprite = sprites[j];
             sprite.isCollidingWithPlayerProyectile = false;
-         
+
 
             const x1 = playerProjectile.xPos + playerProjectile.hitBox.xOffSet;
             const y1 = playerProjectile.yPos + playerProjectile.hitBox.yOffSet;
@@ -164,34 +165,34 @@ function getObstaclesTileId(brickSize, levelData, xPos, yPos) {
 function isCollidingWithObstacleTreeAt(xPos, yPos, ObstacleId, mapObstaclesId) {
     let isColliding;
 
-    const brickSize     = globals.obstacles.imageSet.xGridSize;
+    const brickSize = globals.obstacles.imageSet.xGridSize;
     const obstaclesData = globals.obstacles.data;
-    const levelData     = globals.level.data;
+    const levelData = globals.level.data;
 
     const idLevel = getObstaclesTileId(brickSize, levelData, xPos, yPos);
-    const id      = getObstaclesTileId(brickSize, obstaclesData, xPos, yPos);
+    const id = getObstaclesTileId(brickSize, obstaclesData, xPos, yPos);
 
-    if(mapObstaclesId.length > 0 && ObstacleId.length > 0){
+    if (mapObstaclesId.length > 0 && ObstacleId.length > 0) {
 
-        if (id === ObstacleId[0] || id === ObstacleId[1] || id === ObstacleId[2] || id === ObstacleId[3] || id === ObstacleId[4] || id === ObstacleId[5] || 
-            idLevel === mapObstaclesId[0] || idLevel === mapObstaclesId[1]){
+        if (id === ObstacleId[0] || id === ObstacleId[1] || id === ObstacleId[2] || id === ObstacleId[3] || id === ObstacleId[4] || id === ObstacleId[5] ||
+            idLevel === mapObstaclesId[0] || idLevel === mapObstaclesId[1]) {
 
             isColliding = true;
         } else {
-    
+
             isColliding = false;
         }
 
-    }else if(mapObstaclesId.length > 0 ){
-        if(idLevel === mapObstaclesId[0] || idLevel === mapObstaclesId[1]){
+    } else if (mapObstaclesId.length > 0) {
+        if (idLevel === mapObstaclesId[0] || idLevel === mapObstaclesId[1]) {
 
             isColliding = true;
-        }else{
+        } else {
 
             isColliding = false;
         }
 
-    }else if(ObstacleId.length > 0){
+    } else if (ObstacleId.length > 0) {
 
         // Calculamos colisión con el arbol
         if (id === ObstacleId[0] || id === ObstacleId[1] || id === ObstacleId[2] || id === ObstacleId[3] || id === ObstacleId[4] || id === ObstacleId[5]) {
@@ -223,13 +224,16 @@ function isCollidingWithObstacleAt(xPos, yPos, ObstacleId) {
 
     return isColliding;
 }
-// funcion que detecta si hay colision entre el player y el mapa
-function detectCollisionBetweenPlayerAndMap() {
-    const player = globals.sprites[0];
+
+// funcion que detecta colision entre el player y los obstaculos del mapa
+function detectCollisionBetweenSpritesAndMapObstaclesTree(enemy) {
+
 
     // Reset collision state
-    player.isCollidingWithObstacleOnTheRight = false;
-    player.isCollidingWithObstacleOnTheLeft = false;
+    enemy.isCollidingWithObstacleOnTheBottom = false;
+    enemy.isCollidingWithObstacleOnTheLeft = false;
+    enemy.isCollidingWithObstacleOnTheRight = false;
+    enemy.isCollidingWithObstacleOnTheTop = false;
 
     // Variables to use
     let xPos;
@@ -237,389 +241,96 @@ function detectCollisionBetweenPlayerAndMap() {
     let isCollidingOnPos1;
     let isCollidingOnPos2;
     let isCollidingOnPos3;
+
+    // Detectar colisiones
     let isColliding;
-    let overlap;
+    let xOverlap;
 
-    const brickSize = globals.level.imageSet.xGridSize;
-    const direction = player.state;
+    const brickSize = globals.obstacles.imageSet.xGridSize;
+    const direction = enemy.state;
 
-    const ObstacleId = Block2.BLOQUE_4;
+    const ObstacleIdRightTop = Obstacles.BLOQUE_3;
+    const obstacleId = Obstacles.BLOQUE_2;
+    const obstaclesIdMiddleRight = Obstacles.BLOQUE_6;
+    const obstaclesIdMiddleLeft = Obstacles.BLOQUE_5;
+    const obstaclesBottomRight = Obstacles.BLOQUE_8;
+    const obstaclesBottomLeft = Obstacles.BLOQUE_7;
+
+    const obstaclesId = [ObstacleIdRightTop, obstacleId, obstaclesBottomRight, obstaclesBottomLeft, obstaclesIdMiddleLeft, obstaclesIdMiddleRight];
 
     switch (direction) {
-        case State.LUCRETIA_RIGHT:
 
-            //Primera colisión en (xPos + xSize -1, yPos)
-            xPos = player.xPos + player.hitBox.xOffSet + player.hitBox.xSize - 1;
-            yPos = player.yPos + player.hitBox.yOffSet;
-            isCollidingOnPos1 = isCollidingWithObstacleAt(xPos, yPos, ObstacleId)
-
-            //Segunda colision en (xPos + xSize -1, yPos + brickSize)
-            yPos = player.yPos + player.hitBox.yOffSet + brickSize;
-            isCollidingOnPos2 = isCollidingWithObstacleAt(xPos, yPos, ObstacleId);
-
-            //Ultima collision en (xPos + xSize -1, yPos + xSize -1)
-            yPos = player.yPos + player.hitBox.yOffSet + player.hitBox.ySize - 1;
-            isCollidingOnPos3 = isCollidingWithObstacleAt(xPos, yPos, ObstacleId);
-
-            // Habra colision si toca algunos de los 3 bloques 
-            isColliding = isCollidingOnPos1 || isCollidingOnPos2 || isCollidingOnPos3;
-
-            if (isColliding) {
-
-                //Existe colision a la derecha
-                player.isCollidingWithObstacleOnTheRight = true;
-
-                //AJUSTE: Calculamos solapamiento (overlap) y lo elimina
-                //Movimiento el personaje tantos pixeles como overlap a la izquierda
-                overlap = Math.floor(xPos) % brickSize + 1;
-                player.xPos -= overlap;
-            }
-            break;
-        case State.LUCRETIA_LEFT:
+        case State.KNIGHT_LEFT:
+        case State.KNIGHT_SHIELD_LEFT:
             // Primera colisión en (xPos - 1, yPos)
-            xPos = player.xPos + player.hitBox.xOffSet - 1;
-            yPos = player.yPos + player.hitBox.yOffSet;
-            isCollidingOnPos1 = isCollidingWithObstacleAt(xPos, yPos, ObstacleId);
+            xPos = enemy.xPos + enemy.hitBox.xOffSet - 1;
+            yPos = enemy.yPos + enemy.hitBox.yOffSet;
+            isCollidingOnPos1 = isCollidingWithObstacleTreeAt(xPos, yPos, obstaclesId, 0);
 
             // Segunda colisión en (xPos, yPos + brickSize)
-            yPos = player.yPos + player.hitBox.yOffSet + brickSize;
-            isCollidingOnPos2 = isCollidingWithObstacleAt(xPos, yPos, ObstacleId);
+            yPos = enemy.yPos + enemy.hitBox.yOffSet + brickSize;
+            isCollidingOnPos2 = isCollidingWithObstacleTreeAt(xPos, yPos, obstaclesId, 0);
 
             // Última colisión en (xPos, yPos + xSize - 1)
-            yPos = player.yPos + player.hitBox.yOffSet + player.hitBox.ySize - 1;
-            isCollidingOnPos3 = isCollidingWithObstacleAt(xPos, yPos, ObstacleId);
+            yPos = enemy.yPos + enemy.hitBox.yOffSet + enemy.hitBox.ySize - 1;
+            isCollidingOnPos3 = isCollidingWithObstacleTreeAt(xPos, yPos, obstaclesId, 0);
 
             // Habrá colisión si toca alguno de los 3 bloques
             isColliding = isCollidingOnPos1 || isCollidingOnPos2 || isCollidingOnPos3;
 
             if (isColliding) {
                 // Existe colisión a la izquierda
-                player.isCollidingWithObstacleOnTheLeft = true;
-
-                // AJUSTE: Calculamos solapamiento (overlap) y lo eliminamos
-                // Movemos el personaje tantos píxeles como overlap a la derecha
-                overlap = Math.floor(xPos) % brickSize;
-                player.xPos += brickSize - overlap;
-            }
-            break;
-        default:
-            break;
-
-
-    }
-} 
-// funcion que detecta si hay colision entre el player y la parte de arriba del mapa
-function detectCollisionBetweenPlayerAndMapObstaclesAbove() {
-    const player = globals.sprites[0];
-
-    // Reset collision state
-    player.isCollidingWithObstacleOnTheTop = false;
-
-
-    // Variables to use
-    let xPos;
-    let yPos;
-    let isCollidingOnPos1;
-    let isCollidingOnPos2;
-    let yOverlap;
-
-    const brickSize = globals.obstacles.imageSet.xGridSize;
-
-
-    const ObstacleId = Block2.BLOQUE_2;
-
-    if (globals.action.moveUp) {
-        // Primera colision en este bloque
-        xPos = player.xPos + player.hitBox.xOffSet;
-        yPos = player.yPos + player.hitBox.yOffSet;
-
-        isCollidingOnPos1 = isCollidingWithObstacleAt(xPos, yPos, ObstacleId);
-
-        //Segunda posicion en X
-        xPos = player.xPos + player.hitBox.xOffSet + player.hitBox.xSize;
-        isCollidingOnPos2 = isCollidingWithObstacleAt(xPos, yPos, ObstacleId);
-
-        if (isCollidingOnPos1 || isCollidingOnPos2) {
-            // Existe colision arriba
-            player.isCollidingWithObstacleOnTheTop = true;
-
-            // Ajuste: Calculamos el solapamiento en Y lo eliminamos
-
-
-            yOverlap = Math.floor(yPos) % brickSize;
-            player.yPos += brickSize - yOverlap;
-        }
-    }
-}
-
-// funcion que detecta colision entre el player y los obstaculos del mapa
-function detectCollisionBetweenPlayerAndMapObstaclesTree(){
-    const player = globals.sprites[0];
-
-    // Reset collision state
-    player.isCollidingWithObstacleOnTheBottom = false;
-    player.isCollidingWithObstacleOnTheLeft   = false;
-    player.isCollidingWithObstacleOnTheRight  = false;
-    player.isCollidingWithObstacleOnTheTop    = false;
-
-    // Variables to use
-    let xPos;
-    let yPos;
-
-    // bloque arribas
-    let isCollidingOnPos1;
-    let isCollidingOnPos2;
-    let isCollidingOnPos3;
-
-
-    // Detectar colisiones
-    let isColliding;
-
-    let yOverlap;
-    let xOverlap;
-
-    const brickSize = globals.obstacles.imageSet.xGridSize;
-    const direction = player.state;
-
-    const obstacleId        = Obstacles.BLOQUE_3;
-    const obstacleId2       = Obstacles.BLOQUE_2;
-    const obstacleId3       = Obstacles.BLOQUE_6;
-    const obstacleId4       = Obstacles.BLOQUE_5;
-    const obstacleId5       = Obstacles.BLOQUE_8;
-    const obstacleId6       = Obstacles.BLOQUE_7;
-
-    const obstaclesId = [obstacleId, obstacleId2, obstacleId3, obstacleId4, obstacleId5, obstacleId6];
-
-
-    switch (direction) {
-        case State.LUCRETIA_LEFT:
-            // Primera colisión en (xPos - 1, yPos)
-            xPos = player.xPos + player.hitBox.xOffSet;
-            yPos = player.yPos + player.hitBox.yOffSet;
-            isCollidingOnPos1 = isCollidingWithObstacleTreeAt(xPos, yPos, obstaclesId, 0);
-     
-
-            // Segunda colisión en (xPos, yPos + brickSize)
-            yPos = player.yPos + player.hitBox.yOffSet + brickSize;
-            isCollidingOnPos2 = isCollidingWithObstacleTreeAt(xPos, yPos, obstaclesId, 0);
-         
-
-            // Última colisión en (xPos, yPos + xSize - 1)
-            yPos = player.yPos + player.hitBox.yOffSet + player.hitBox.ySize - 1;
-            isCollidingOnPos3 = isCollidingWithObstacleTreeAt(xPos, yPos, obstaclesId, 0);
-
-            // Habrá colisión si toca algun bloque en cualquiera de las 3 posiciones
-            isColliding  = isCollidingOnPos1  || isCollidingOnPos2  || isCollidingOnPos3;
-
-
-            if (isColliding) {
-                // Existe colisión a la izquierda
-                player.isCollidingWithObstacleOnTheLeft = true;
+                enemy.isCollidingWithObstacleOnTheLeft = true;
 
                 // AJUSTE: Calculamos solapamiento (overlap) y lo eliminamos
                 // Movemos el personaje tantos píxeles como overlap a la derecha
                 xOverlap = Math.floor(xPos) % brickSize;
-                player.xPos += brickSize - xOverlap;
+                enemy.xPos += brickSize - xOverlap;
             }
 
             break;
-        case State.LUCRETIA_RIGHT:
-
+        case State.KNIGHT_RIGHT:
+        case State.KNIGHT_SHIELD_RIGHT:
             //Primera colisión en (xPos + xSize -1, yPos)
-            xPos = player.xPos + player.hitBox.xOffSet + player.hitBox.xSize - 1;
-            yPos = player.yPos + player.hitBox.yOffSet;
-            isCollidingOnPos1   = isCollidingWithObstacleTreeAt(xPos, yPos, obstaclesId, 0);
-         
+            xPos = enemy.xPos + enemy.hitBox.xOffSet + enemy.hitBox.xSize - 1;
+            yPos = enemy.yPos + enemy.hitBox.yOffSet;
+            isCollidingOnPos1 = isCollidingWithObstacleTreeAt(xPos, yPos, obstaclesId, 0);
+
             //Segunda colision en (xPos + xSize -1, yPos + brickSize)
-            yPos = player.yPos + player.hitBox.yOffSet + brickSize;
-            isCollidingOnPos2   = isCollidingWithObstacleTreeAt(xPos, yPos, obstaclesId, 0);
-       
+            yPos = enemy.yPos + enemy.hitBox.yOffSet + brickSize;
+            isCollidingOnPos2 = isCollidingWithObstacleTreeAt(xPos, yPos, obstaclesId, 0);
 
             //Ultima collision en (xPos + xSize -1, yPos + xSize -1)
-            yPos = player.yPos + player.hitBox.yOffSet + player.hitBox.ySize - 1;
-            isCollidingOnPos3   = isCollidingWithObstacleTreeAt(xPos, yPos, obstaclesId, 0);
-     
+            yPos = enemy.yPos + enemy.hitBox.yOffSet + enemy.hitBox.ySize - 1;
+            isCollidingOnPos3 = isCollidingWithObstacleTreeAt(xPos, yPos, obstaclesId, 0);
 
             // Habra colision si toca algunos de los 3 bloques 
-            isColliding  = isCollidingOnPos1  || isCollidingOnPos2  || isCollidingOnPos3;
-       
+            isColliding = isCollidingOnPos1 || isCollidingOnPos2 || isCollidingOnPos3;
 
             if (isColliding) {
 
                 //Existe colision a la derecha
-                player.isCollidingWithObstacleOnTheRight = true;
+                enemy.isCollidingWithObstacleOnTheRight = true;
 
                 //AJUSTE: Calculamos solapamiento (overlap) y lo elimina
                 //Movimiento el personaje tantos pixeles como overlap a la izquierda
                 xOverlap = Math.floor(xPos) % brickSize + 1;
-                player.xPos -= xOverlap;
+                enemy.xPos -= xOverlap;
             }
-            break;    
+            break;
 
         default:
             break;
     }
-
-    if (globals.action.moveDown) {
-
-        //Primera colision 
-        xPos = player.xPos + player.hitBox.xOffSet;
-        yPos = player.yPos + player.hitBox.yOffSet + player.hitBox.ySize - 1;
-        isCollidingOnPos1 = isCollidingWithObstacleTreeAt(xPos, yPos, obstaclesId, 0);
-
-
-        // Segunda Colision
-        xPos = player.xPos + player.hitBox.xOffSet + player.hitBox.xSize - 1;
-        isCollidingOnPos2 = isCollidingWithObstacleTreeAt(xPos, yPos, obstaclesId, 0);
- 
-        //Comprobaciones
-        isColliding = isCollidingOnPos1 || isCollidingOnPos2;
-   
-        if (isColliding) {
-
-            // Existe colision hacia abajo
-            player.isCollidingWithObstacleOnTheBottom = true;
-            // Ajuste: Calculamos el solapamiento en Y 
-
-            yOverlap = Math.floor(yPos) % brickSize;
-            player.yPos -= yOverlap + 1;
-
-        }
-    }else if(globals.action.moveUp){
-
-        // Primera colision en este bloque
-        xPos = player.xPos + player.hitBox.xOffSet;
-        yPos = player.yPos + player.hitBox.xOffSet - 1;
-        isCollidingOnPos1   = isCollidingWithObstacleTreeAt(xPos, yPos, obstaclesId, 0);
-
-
-        //Segunda posicion en X
-        xPos = player.xPos + player.hitBox.xOffSet + player.hitBox.xSize - 1;
-        isCollidingOnPos2   = isCollidingWithObstacleTreeAt(xPos, yPos, obstaclesId, 0);
-  
-
-        //Comprobaciones 
-        isColliding   = isCollidingOnPos1  || isCollidingOnPos2;
-
-        if(isColliding){
-
-            // Existe colision hacia arriba
-            player.isCollidingWithObstacleOnTheTop = true;
-
-            // Ajuste: Calculamos el solapamiento en Y
-            yOverlap = Math.floor(yPos) % brickSize;
-            player.yPos += brickSize - yOverlap + 1;
-        }
-    }
-
-}
-
-// funcion que detecta colision entre el player y los obstaculos del mapa
-function detectCollisionBetweenSpritesAndMapObstaclesTree(enemy){
-        
-   
-        // Reset collision state
-        enemy.isCollidingWithObstacleOnTheBottom = false;
-        enemy.isCollidingWithObstacleOnTheLeft   = false;
-        enemy.isCollidingWithObstacleOnTheRight  = false;
-        enemy.isCollidingWithObstacleOnTheTop    = false;
-
-        // Variables to use
-        let xPos;
-        let yPos;
-        let isCollidingOnPos1;
-        let isCollidingOnPos2;
-        let isCollidingOnPos3;
-
-        // Detectar colisiones
-        let isColliding;
-        let xOverlap;
-
-        const brickSize = globals.obstacles.imageSet.xGridSize;
-        const direction = enemy.state;
-
-        const ObstacleIdRightTop        = Obstacles.BLOQUE_3;
-        const obstacleId               = Obstacles.BLOQUE_2;
-        const obstaclesIdMiddleRight    = Obstacles.BLOQUE_6;
-        const obstaclesIdMiddleLeft     = Obstacles.BLOQUE_5;
-        const obstaclesBottomRight      = Obstacles.BLOQUE_8;
-        const obstaclesBottomLeft       = Obstacles.BLOQUE_7;
-
-        const obstaclesId = [ObstacleIdRightTop, obstacleId, obstaclesBottomRight, obstaclesBottomLeft, obstaclesIdMiddleLeft, obstaclesIdMiddleRight];
-
-        switch (direction) {
-
-            case State.KNIGHT_LEFT:
-            case State.KNIGHT_SHIELD_LEFT:
-                // Primera colisión en (xPos - 1, yPos)
-                xPos = enemy.xPos  + enemy.hitBox.xOffSet - 1;
-                yPos = enemy.yPos  + enemy.hitBox.yOffSet;
-                isCollidingOnPos1 = isCollidingWithObstacleTreeAt(xPos, yPos, obstaclesId, 0);
-
-                // Segunda colisión en (xPos, yPos + brickSize)
-                yPos = enemy.yPos + enemy.hitBox.yOffSet + brickSize;
-                isCollidingOnPos2  = isCollidingWithObstacleTreeAt(xPos, yPos, obstaclesId, 0);
-
-                // Última colisión en (xPos, yPos + xSize - 1)
-                yPos = enemy.yPos + enemy.hitBox.yOffSet + enemy.hitBox.ySize - 1;
-                isCollidingOnPos3 = isCollidingWithObstacleTreeAt(xPos, yPos, obstaclesId, 0);
-
-                // Habrá colisión si toca alguno de los 3 bloques
-                isColliding  = isCollidingOnPos1  || isCollidingOnPos2  || isCollidingOnPos3;
-
-                if (isColliding) {
-                    // Existe colisión a la izquierda
-                    enemy.isCollidingWithObstacleOnTheLeft = true;
-
-                    // AJUSTE: Calculamos solapamiento (overlap) y lo eliminamos
-                    // Movemos el personaje tantos píxeles como overlap a la derecha
-                    xOverlap = Math.floor(xPos) % brickSize;
-                    enemy.xPos += brickSize - xOverlap;
-                }
-
-                break;
-            case State.KNIGHT_RIGHT:
-            case State.KNIGHT_SHIELD_RIGHT:
-                //Primera colisión en (xPos + xSize -1, yPos)
-                xPos = enemy.xPos + enemy.hitBox.xOffSet + enemy.hitBox.xSize - 1;
-                yPos = enemy.yPos + enemy.hitBox.yOffSet;
-                isCollidingOnPos1   = isCollidingWithObstacleTreeAt(xPos, yPos, obstaclesId, 0);
-        
-                //Segunda colision en (xPos + xSize -1, yPos + brickSize)
-                yPos = enemy.yPos + enemy.hitBox.yOffSet + brickSize;
-                isCollidingOnPos2   = isCollidingWithObstacleTreeAt(xPos, yPos, obstaclesId, 0);
-             
-                //Ultima collision en (xPos + xSize -1, yPos + xSize -1)
-                yPos = enemy.yPos + enemy.hitBox.yOffSet + enemy.hitBox.ySize - 1;
-                isCollidingOnPos3   = isCollidingWithObstacleTreeAt(xPos, yPos, obstaclesId, 0);
-            
-                // Habra colision si toca algunos de los 3 bloques 
-                isColliding  = isCollidingOnPos1  || isCollidingOnPos2  || isCollidingOnPos3;
-              
-                if (isColliding) {
-
-                    //Existe colision a la derecha
-                    enemy.isCollidingWithObstacleOnTheRight = true;
-
-                    //AJUSTE: Calculamos solapamiento (overlap) y lo elimina
-                    //Movimiento el personaje tantos pixeles como overlap a la izquierda
-                    xOverlap = Math.floor(xPos) % brickSize + 1;
-                    enemy.xPos -= xOverlap;
-                }
-                break;    
-
-            default:
-                break;
-        }
 }
 
 // funcion que detecta colision entre el mapa y los sprites
-function detetcCollisionBetweenEnemiesAndMap(enemies){
+function detetcCollisionBetweenEnemiesAndMap(enemies) {
 
-    for(let i = 0; i < enemies.length; i++){
+    for (let i = 0; i < enemies.length; i++) {
         const enemy = enemies[i];
 
-         // Reset collision state
+        // Reset collision state
         enemy.isCollidingWithObstacleOnTheRight = false;
         enemy.isCollidingWithObstacleOnTheLeft = false;
 
@@ -638,7 +349,7 @@ function detetcCollisionBetweenEnemiesAndMap(enemies){
 
 
 
-        if(enemy.physics.vx > 0){
+        if (enemy.physics.vx > 0) {
 
             //Primera colisión en (xPos + xSize -1, yPos)
             xPos = enemy.xPos + enemy.hitBox.xOffSet + enemy.hitBox.xSize - 1;
@@ -666,9 +377,9 @@ function detetcCollisionBetweenEnemiesAndMap(enemies){
                 overlap = Math.floor(xPos) % brickSize + 1;
                 enemy.xPos -= overlap;
             }
-                
-        }else if(enemy.physics.vx < 0){
-        
+
+        } else if (enemy.physics.vx < 0) {
+
             // Primera colisión en (xPos - 1, yPos)
             xPos = enemy.xPos + enemy.hitBox.xOffSet - 1;
             yPos = enemy.yPos + enemy.hitBox.yOffSet;
@@ -697,20 +408,20 @@ function detetcCollisionBetweenEnemiesAndMap(enemies){
 
         }
     }
-    
 
-   
+
+
 
 }
 
-function collisionBetweenArcherAndTree(archer){
+function collisionBetweenArcherAndTree(archer) {
 
     //Reset the collision state
-    archer.isCollidingWithObstacleOnTheBottom   = false;
-    archer.isCollidingWithObstacleOnTheLeft     = false;
-    archer.isCollidingWithObstacleOnTheRight    = false;
-    archer.isCollidingWithObstacleOnTheTop      = false;
-   
+    archer.isCollidingWithObstacleOnTheBottom = false;
+    archer.isCollidingWithObstacleOnTheLeft = false;
+    archer.isCollidingWithObstacleOnTheRight = false;
+    archer.isCollidingWithObstacleOnTheTop = false;
+
     //variables a usar
     let xPos;
     let yPos;
@@ -721,19 +432,19 @@ function collisionBetweenArcherAndTree(archer){
     let isCollidingOnPos5;
     let isCollidingOnPos6;
 
-    const brickSize   = globals.obstacles.imageSet.xGridSize;
+    const brickSize = globals.obstacles.imageSet.xGridSize;
 
     // ID de los obstaculos
-    const ObstacleIdRightTop        = Obstacles.BLOQUE_3;
-    const obstacleId                = Obstacles.BLOQUE_2;
-    const obstaclesIdMiddleRight    = Obstacles.BLOQUE_6;
-    const obstaclesIdMiddleLeft     = Obstacles.BLOQUE_5;
-    const obstaclesBottomRight      = Obstacles.BLOQUE_8;
-    const obstaclesBottomLeft       = Obstacles.BLOQUE_7;
+    const ObstacleIdRightTop = Obstacles.BLOQUE_3;
+    const obstacleId = Obstacles.BLOQUE_2;
+    const obstaclesIdMiddleRight = Obstacles.BLOQUE_6;
+    const obstaclesIdMiddleLeft = Obstacles.BLOQUE_5;
+    const obstaclesBottomRight = Obstacles.BLOQUE_8;
+    const obstaclesBottomLeft = Obstacles.BLOQUE_7;
 
     const obstaclesId = [ObstacleIdRightTop, obstacleId, obstaclesIdMiddleLeft, obstaclesIdMiddleRight, obstaclesBottomRight, obstaclesBottomLeft];
-    
-    const mapObstacleId  = Block2.BLOQUE_4;
+
+    const mapObstacleId = Block2.BLOQUE_4;
     const mapObstacleId2 = Block2.BLOQUE_2;
 
     const mapObstaclesId = [mapObstacleId, mapObstacleId2];
@@ -742,17 +453,17 @@ function collisionBetweenArcherAndTree(archer){
     let overlapY;
 
 
-    
+
     // tema condiciones acabar
     // Calculamos colisiones en los 6 puntos
-    if((archer.physics.omega < 0 && archer.physics.angle > 0 && archer.physics.vx > 0)){
+    if ((archer.physics.omega < 0 && archer.physics.angle > 0 && archer.physics.vx > 0)) {
 
         //Punto 6
         xPos = archer.xPos + archer.hitBox.xOffSet;
         yPos = archer.yPos + archer.hitBox.yOffSet;
         isCollidingOnPos6 = isCollidingWithObstacleTreeAt(xPos, yPos, obstaclesId, mapObstaclesId);
 
-        if(isCollidingOnPos6) { // Hay colision en punto 6
+        if (isCollidingOnPos6) { // Hay colision en punto 6
 
             // Se trata de una esquina
             archer.isCollidingWithObstacleOnTheTop = true;
@@ -769,7 +480,7 @@ function collisionBetweenArcherAndTree(archer){
         yPos = archer.yPos + archer.hitBox.yOffSet + archer.hitBox.ySize - 1;
         isCollidingOnPos4 = isCollidingWithObstacleTreeAt(xPos, yPos, obstaclesId, mapObstaclesId);
 
-        if(isCollidingOnPos4){ // Hay colision P4
+        if (isCollidingOnPos4) { // Hay colision P4
 
             archer.isCollidingWithObstacleOnTheBottom = true;
             // Calculamos overlap en Y
@@ -782,9 +493,9 @@ function collisionBetweenArcherAndTree(archer){
         xPos = archer.xPos + archer.hitBox.xOffSet + archer.hitBox.xSize - 1;
         yPos = archer.yPos + archer.hitBox.yOffSet + brickSize;
         isCollidingOnPos2 = isCollidingWithObstacleTreeAt(xPos, yPos, obstaclesId, mapObstaclesId);
-        
-        if(isCollidingOnPos2){
-            
+
+        if (isCollidingOnPos2) {
+
             archer.isCollidingWithObstacleOnTheRight = true;
 
             overlapX = Math.floor(xPos) % brickSize + 1;
@@ -795,22 +506,22 @@ function collisionBetweenArcherAndTree(archer){
         xPos = archer.xPos + archer.hitBox.xOffSet + archer.hitBox.xSize - 1;
         yPos = archer.yPos + archer.hitBox.yOffSet;
         isCollidingOnPos1 = isCollidingWithObstacleTreeAt(xPos, yPos, obstaclesId, mapObstaclesId);
-        
-        if(isCollidingOnPos1){ //Hay colision en el P1
-            
+
+        if (isCollidingOnPos1) { //Hay colision en el P1
+
             //Calculamos el overlap en X y en Y
 
             overlapX = Math.floor(xPos) % brickSize + 1;
             overlapY = brickSize - Math.floor(yPos) % brickSize;
 
-            if(overlapX <= overlapY){
+            if (overlapX <= overlapY) {
 
                 //Colision en eje X
                 archer.xPos -= overlapX;
 
                 archer.isCollidingWithObstacleOnTheRight = true;
-              
-            }else{
+
+            } else {
 
                 archer.isCollidingWithObstacleOnTheTop = true;
                 //Colision en eje x
@@ -823,34 +534,34 @@ function collisionBetweenArcherAndTree(archer){
         yPos = archer.yPos + archer.hitBox.xOffSet + archer.hitBox.xSize - 1;
         isCollidingOnPos3 = isCollidingWithObstacleTreeAt(xPos, yPos, obstaclesId, mapObstaclesId);
 
-        if(isCollidingOnPos3){ //Hay colision en P3
+        if (isCollidingOnPos3) { //Hay colision en P3
 
             //Calculamos el overlap en X y en Y
 
             overlapX = Math.floor(xPos) % brickSize + 1;
             overlapY = Math.floor(yPos) % brickSize + 1;
 
-            if(overlapX <= overlapY){
+            if (overlapX <= overlapY) {
 
                 archer.isCollidingWithObstacleOnTheRight = true;
                 //Colision en eje X
                 archer.xPos -= overlapX;
-       
-            }else{
+
+            } else {
 
                 archer.isCollidingWithObstacleOnTheBottom = true;
                 //colision en eje y
                 archer.yPos -= overlapY;
             }
         }
-    }else if((archer.physics.omega > 0 && archer.physics.angle > 1)){
+    } else if ((archer.physics.omega > 0 && archer.physics.angle > 1)) {
 
-       //Punto 1
+        //Punto 1
         xPos = archer.xPos + archer.hitBox.xOffSet + archer.hitBox.xSize - 1;
         yPos = archer.yPos + archer.hitBox.yOffSet;
-        isCollidingOnPos1 = isCollidingWithObstacleTreeAt(xPos , yPos, obstaclesId, mapObstaclesId);
+        isCollidingOnPos1 = isCollidingWithObstacleTreeAt(xPos, yPos, obstaclesId, mapObstaclesId);
 
-        if(isCollidingOnPos1){ //Hay colision en P1
+        if (isCollidingOnPos1) { //Hay colision en P1
 
             //Calculamos el overlap en Y
             archer.isCollidingWithObstacleOnTheTop = true;
@@ -864,7 +575,7 @@ function collisionBetweenArcherAndTree(archer){
         yPos = archer.yPos + archer.hitBox.yOffSet + archer.hitBox.ySize - 1;
         isCollidingOnPos3 = isCollidingWithObstacleTreeAt(xPos, yPos, obstaclesId, mapObstaclesId);
 
-        if(isCollidingOnPos3){ //Hay colision en P3
+        if (isCollidingOnPos3) { //Hay colision en P3
 
             //calculamos overlap en Y
             archer.isCollidingWithObstacleOnTheRight = true;
@@ -878,7 +589,7 @@ function collisionBetweenArcherAndTree(archer){
         yPos = archer.yPos + archer.hitBox.yOffSet + brickSize;
         isCollidingOnPos5 = isCollidingWithObstacleTreeAt(xPos, yPos, obstaclesId, mapObstaclesId);
 
-        if(isCollidingOnPos5){ //Hay colision en P5
+        if (isCollidingOnPos5) { //Hay colision en P5
 
             //Calculamos overlapX
             archer.isCollidingWithObstacleOnTheLeft = true;
@@ -887,50 +598,50 @@ function collisionBetweenArcherAndTree(archer){
             archer.xPos += overlapX;
             return;
         }
-        
+
         //Punto 6
         xPos = archer.xPos + archer.hitBox.xOffSet;
         yPos = archer.yPos + archer.hitBox.yOffSet;
         isCollidingOnPos6 = isCollidingWithObstacleTreeAt(xPos, yPos, obstaclesId, mapObstaclesId);
-    
-        if(isCollidingOnPos6){ //Hay colision en P6
+
+        if (isCollidingOnPos6) { //Hay colision en P6
 
             //calculamos overlap X e Y
             overlapX = brickSize - Math.floor(xPos) % brickSize;
             overlapY = brickSize - Math.floor(yPos) % brickSize;
 
-            if(overlapX <= overlapY){
+            if (overlapX <= overlapY) {
                 //Colision en eje X
                 archer.xPos += overlapX;
                 archer.isCollidingWithObstacleOnTheLeft = true;
-             
-            }else{
+
+            } else {
 
                 archer.isCollidingWithObstacleOnTheTop = true;
                 archer.yPos += overlapY;
 
-                
+
             }
         }
-        
+
         //Punto 4
         xPos = archer.xPos + archer.hitBox.xOffSet;
-        yPos = archer.yPos + archer.hitBox.yOffSet + archer.hitBox.ySize -1;
-        isCollidingOnPos4 = isCollidingWithObstacleTreeAt(xPos , yPos , obstaclesId, mapObstaclesId);
+        yPos = archer.yPos + archer.hitBox.yOffSet + archer.hitBox.ySize - 1;
+        isCollidingOnPos4 = isCollidingWithObstacleTreeAt(xPos, yPos, obstaclesId, mapObstaclesId);
 
-        if(isCollidingOnPos4){ //Hay colision en P4 
+        if (isCollidingOnPos4) { //Hay colision en P4 
 
             //Calculamos overlap X e Y
-   
+
             overlapX = brickSize - Math.floor(xPos) % brickSize;
             overlapY = Math.floor(yPos) % brickSize + 1;
 
-            if(overlapX <= overlapY){
+            if (overlapX <= overlapY) {
 
                 archer.isCollidingWithObstacleOnTheLeft = true;
                 //Colision en eje X
                 archer.xPos += overlapX;
-            }else{
+            } else {
 
                 archer.isCollidingWithObstacleOnTheBottom = true;
                 //Colision en eje Y
