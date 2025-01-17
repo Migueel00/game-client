@@ -24,7 +24,7 @@ export default function detectCollisions() {
             detetcCollisionBetweenEnemiesAndMap(sprite);
             detectCollisionBetweenSpritesAndMapObstaclesTree(sprite)
         }
-
+        
         if (sprite.lucretiaProyectile) {
             proyectiles.push(sprite);
         }
@@ -52,7 +52,7 @@ export default function detectCollisions() {
 function colisionPlayerProyectileSprite(projectiles, sprites) {
     for (let i = 0; i < projectiles.length; i++) {
         const playerProjectile = projectiles[i];
-
+        
         playerProjectile.isCollidingWithSprite = false;
         for (let j = 0; j < sprites.length; j++) {
             const sprite = sprites[j];
