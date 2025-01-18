@@ -25,30 +25,29 @@ export default class LucretiaProyectile extends Sprite {
         let sprite;
         let imageSet;
 
-        console.log(`el tipo es ${type}`)
         switch(type){
             case ProyectileType.UP:
                 hitBox = new HitBox(25, 25, 5, 8);
-                imageSet = new ImageSet(30, 2, 50, 50, 120, 80, 45, 20);
+                imageSet = new ImageSet(27, 2, 50, 50, 120, 80, 45, 20);
                 sprite = new LucretiaProyectile(SpriteID.LUCRETIA_PROYECTILE, State.LUCRETIA_PROYECTILE_UP, xPos, yPos, imageSet, frames, physics, hitBox);
 
                 break;
 
             case ProyectileType.DOWN:
                 hitBox = new HitBox(25, 25, 2, 15);
-                imageSet = new ImageSet(30, 3, 50, 50, 120, 80, 45, 20);
+                imageSet = new ImageSet(26, 3, 50, 50, 120, 80, 45, 20);
                 sprite = new LucretiaProyectile(SpriteID.LUCRETIA_PROYECTILE, State.LUCRETIA_PROYECTILE_DOWN, xPos, yPos, imageSet, frames, physics, hitBox);
                 break;
 
             case ProyectileType.LEFT:
                 hitBox = new HitBox(25, 25, 14, 8);
-                imageSet = new ImageSet(30, 1, 50, 50, 120, 80, 45, 20);
+                imageSet = new ImageSet(28, 1, 50, 50, 120, 80, 45, 20);
                 sprite = new LucretiaProyectile(SpriteID.LUCRETIA_PROYECTILE, State.LUCRETIA_PROYECTILE_LEFT, xPos, yPos, imageSet, frames, physics, hitBox);
                 break;
 
             case ProyectileType.RIGHT:
                 hitBox = new HitBox(25, 25, 14, 8);
-                imageSet = new ImageSet(30, 0, 50, 50, 120, 80, 45, 20);
+                imageSet = new ImageSet(29, 0, 50, 50, 120, 80, 45, 20);
                 sprite = new LucretiaProyectile(SpriteID.LUCRETIA_PROYECTILE, State.LUCRETIA_PROYECTILE_RIGHT, xPos, yPos, imageSet, frames, physics, hitBox); 
                 break;
 
@@ -77,9 +76,12 @@ export default class LucretiaProyectile extends Sprite {
             case State.LUCRETIA_PROYECTILE_RIGHT:
                 this.updateLucretiaProyectile(this.physics.vLimit, 0);
                 break;
+            case State.OFF:
+                console.log("Proyectil de lucretia desactivado");
+                break;
 
             default:
-                console.error(`Error al actualizar el sprite con id: ${this.state}`);
+                console.error(`Error al actualizar el proyectil de lucretia con estado ${this.state}`);
         }
 
 
@@ -113,21 +115,15 @@ export default class LucretiaProyectile extends Sprite {
     }
     
     calculateCollisionWithBorders(){
-        let isCollision = false;
-        
-        //Colision con el borde derecho de la pantalla
-        if(this.xPos + this.imageSet.xSize > globals.canvas.width){
+        const { xPos, yPos, imageSet } = this;
+        const { width, height } = globals.canvas;
 
-            isCollision = true;
-        }else if(this.yPos + this.imageSet.ySize > globals.canvas.height){
-    
-            isCollision = true;
-        }else if(this.xPos < 0 || this.yPos < 0){
-
-            isCollision = true;
-        }
-    
-        return isCollision;
+        return (
+            xPos + imageSet.xSize > width ||
+            yPos + imageSet.ySize > height || 
+            xPos < 0 || 
+            yPos < 0
+        );
     }
     
 }

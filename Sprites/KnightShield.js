@@ -56,6 +56,9 @@ export default class KnightShield extends Sprite {
             case State.KNIGHT_SHIELD_LEFT:
                 this.physics.vx = -this.physics.vLimit;
                 break;
+            case State.OFF: 
+                // Estado de muerte
+                break;
             default:
                 console.error("Error: State invalid");
         }

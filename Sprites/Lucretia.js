@@ -29,49 +29,12 @@ export default class Lucretia extends Sprite {
 
         // Lectura de teclado. Asignamos direccion a tecla
         this.readKeyboardAndAssignState();
-        const state = this.state;
 
         // Maquina de estados lucretia
-        switch (state) {
-            case State.LUCRETIA_RIGHT:
-                this.physics.vx = this.physics.vLimit;
-                this.physics.vy = 0;
-                break;
+        this.assignVelocityBasedOnState();
+        this.handleVerticalMovement();
 
-            case State.LUCRETIA_LEFT:
-                this.physics.vx = -this.physics.vLimit;
-                this.physics.vy = 0;
-                break;
-
-            case State.LUCRETIA_IDLE_RIGHT:
-            case State.LUCRETIA_IDLE_LEFT:
-            case State.LUCRETIA_ATTACK_LEFT:
-            case State.LUCRETIA_ATTACK_RIGHT:
-                this.physics.vx = 0;
-                this.physics.vy = 0;
-                break;
-
-            default:
-                // caso de estar parado
-                this.physics.vx = 0;
-                this.physics.vy = 0;
-                break;
-        }
-
-        if (globals.action.moveUp) {
-            this.state = this.state === State.LUCRETIA_ATTACK_LEFT
-                ? State.LUCRETIA_IDLE_LEFT : this.state === State.LUCRETIA_ATTACK_RIGHT
-                    ? State.LUCRETIA_IDLE_RIGHT : this.state;
-            this.physics.vy = -this.physics.vLimit;
-            this.physics.vx = 0;
-        } else if (globals.action.moveDown) {
-            this.state = this.state === State.LUCRETIA_ATTACK_LEFT
-                ? State.LUCRETIA_IDLE_LEFT : this.state === State.LUCRETIA_ATTACK_RIGHT
-                    ? State.LUCRETIA_IDLE_RIGHT : this.state;
-            this.physics.vy = this.physics.vLimit;
-            this.physics.vx = 0;
-        }
-
+    
         // ataque hacia arriba y hacia abajo con timer
         const time = globals.shootTimer.value;
 
@@ -129,6 +92,40 @@ export default class Lucretia extends Sprite {
         // actualizar la animacion
         this.updateAnimationFrame();
 
+    }
+
+    assignVelocityBasedOnState() {
+        const stateVelocites = {
+            [State.LUCRETIA_RIGHT]: {vx: this.physics.vLimit, vy: 0},
+            [State.LUCRETIA_LEFT]: {vx: -this.physics.vLimit, vy: 0},
+            [State.LUCRETIA_IDLE_RIGHT]: {vx: 0, vy: 0},
+            [State.LUCRETIA_IDLE_LEFT]: {vx: 0, vy: 0},
+            [State.LUCRETIA_ATTACK_RIGHT]: {vx: 0, vy: 0},
+            [State.LUCRETIA_ATTACK_LEFT]: {vx: 0, vy: 0}
+        }
+
+        const velocity = stateVelocites[this.state] ||  {vx: 0, vy: 0};
+        this.physics.vy =  velocity.vy;
+        this.physics.vx = velocity.vx;
+    }
+
+    handleVerticalMovement(){
+
+        if (globals.action.moveUp) {
+            this.handleIdleAttackVertical();
+            this.physics.vy = -this.physics.vLimit;
+            this.physics.vx = 0;
+        } else if (globals.action.moveDown) {
+            this.handleIdleAttackVertical();
+            this.physics.vy = this.physics.vLimit;
+            this.physics.vx = 0;
+        }
+    }
+
+    handleIdleAttackVertical(){
+        this.state = this.state === State.LUCRETIA_ATTACK_LEFT ? 
+        State.LUCRETIA_IDLE_LEFT : this.state === State.LUCRETIA_ATTACK_RIGHT ? 
+        State.LUCRETIA_IDLE_RIGHT : this.state;
     }
 
     lucretiaAttackDirection() {
