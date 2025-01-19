@@ -1,6 +1,32 @@
 //Clase gestora de los sprites
 export default class Sprite{
-    constructor(id, state, xPos, yPos, imageSet, frames, hud, physics, hitBox){
+    id: number;
+    state: number;
+    xPos: number;
+    yPos: number;
+    imageSet: any;
+    frames: any;
+    hud: boolean;
+    physics: any;
+    hitBox: any;
+    enemy: boolean;
+    isCollidingWithPlayer: boolean;
+    isCollidingWithObstacleOnTheTop: boolean;
+    isCollidingWithObstacleOnTheLeft: boolean;
+    isCollidingWithObstacleOnTheBottom: boolean;
+    isCollidingWithObstacleOnTheRight: boolean;
+
+    constructor(
+        id: number,
+        state: number,
+        xPos: number,
+        yPos: number,
+        imageSet : any,
+        frames: number,
+        hud: boolean,
+        physics: any,
+        hitBox: any
+    ){
 
         this.id                                 = id;       // Tipo de sprite
         this.state                              = state;    // Estado de animacion del sprite
@@ -19,8 +45,6 @@ export default class Sprite{
         this.isCollidingWithObstacleOnTheRight  = false;    // Hacia la derecha
     }
 }
-
-
 
 
 

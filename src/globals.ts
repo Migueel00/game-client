@@ -89,4 +89,48 @@ export default {
 
     // Current sound to play
     currentSound: -1
+} as globals;
+
+interface globals {
+    canvas: any;
+    ctx: any;
+    canvasHUD: any; 
+    ctxHUD: any;
+    canvasHUD2: any;
+    ctxHUD2: any;
+    gameState: number;
+    previousCycleMiliseconds: number;
+    deltaTime: number;
+    cicleRealTime: number;
+    frameTimeObj: number;
+    txtPruebas: any;
+    assetsToLoad: any[];
+    assetsLoaded: number;
+    sprites: any[];
+    storySprites: any[];
+    controlSprites: any[];
+    spritesHUD: any[];
+    spritesNewGame: any[];
+    tileSets: any[];
+    level: any;
+    obstacles: any;
+    action: any;
+    life: number;
+    points: number;
+    shootTimer: any;
+    levelTimer: any;
+    fireworkTimer: any;
+    potionsTimers: any;
+    damagePotionTimer: any;
+    enemiesTimers: any;
+    menuTimer: any;
+    camera: any;
+    particles: any[];
+    score: any[];
+    username: string;
+    gameOverTimer: any;
+    aux: number;
+    auxName: number;
+    sounds: any[];
+    currentSound: number;
 }

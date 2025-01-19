@@ -7,7 +7,19 @@ import { ProyectileType, SpriteID, State } from "../src/constants.js";
 import globals from "../src/globals.js";
 
 export default class LucretiaProyectile extends Sprite {
-    constructor(id, state, xPos, yPos, imageSet, frames, physics, hitBox){
+    lucretiaProyectile: boolean;
+    isCollidingWithSprite: boolean;
+
+    constructor(
+        id: number, 
+        state: number, 
+        xPos: number, 
+        yPos: number, 
+        imageSet: any, 
+        frames: any, 
+        physics: any, 
+        hitBox: any
+    ){
 
         super(id, state, xPos, yPos, imageSet, frames, false,physics, hitBox);
 
@@ -17,7 +29,7 @@ export default class LucretiaProyectile extends Sprite {
         this.isCollidingWithSprite = false; // Variable que indica si colisiona con un sprite
     }
 
-    static create(xPos, yPos, type){
+    public static create(xPos : number, yPos : number, type : number){
         const frames        = new Frames(1);
         const physics       = new Physics(150, 0, 0, 0, 0); 
 
@@ -58,7 +70,7 @@ export default class LucretiaProyectile extends Sprite {
         return sprite;
     }
 
-    update(){
+    public update(){
 
         switch(this.state){
             case State.LUCRETIA_PROYECTILE_UP:
@@ -92,7 +104,7 @@ export default class LucretiaProyectile extends Sprite {
 
     
 
-    updateLucretiaProyectile(vx, vy){
+    private updateLucretiaProyectile(vx : number, vy : number){
         // Maquina de estados
         this.physics.vx = vx;
         this.physics.vy = vy;
@@ -106,7 +118,7 @@ export default class LucretiaProyectile extends Sprite {
     
     }
 
-    calculateCollisionSpriteAndRemove(){
+    private calculateCollisionSpriteAndRemove(){
         const isCollision = this.calculateCollisionWithBorders();
     
         if(isCollision){
@@ -114,9 +126,9 @@ export default class LucretiaProyectile extends Sprite {
         }
     }
     
-    calculateCollisionWithBorders(){
+    private calculateCollisionWithBorders() : boolean{
         const { xPos, yPos, imageSet } = this;
-        const { width, height } = globals.canvas;
+        const { width, height } = globals.canvas as any;
 
         return (
             xPos + imageSet.xSize > width ||

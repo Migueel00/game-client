@@ -1,5 +1,4 @@
 //CONSTANTES 
-
 //ESTADOS DEL JUEGO
 export const Game = {
     INVALID: -1,
@@ -11,11 +10,9 @@ export const Game = {
     CONTROLS: 6,
     HIGHSCORES: 7,
     LOAD_SCORES: 8
-}
-
+};
 //Velocidad del juego
 export const FPS = 30;
-
 //Identificador de tipo de Sprite (ID)
 export const SpriteID = {
     // GAME SPRITES
@@ -40,9 +37,7 @@ export const SpriteID = {
     LUCRETIA_PROYECTILE: 19,
     ARCHER_PROYECTILE: 20,
     ARCHER_PROYECTILE_LEFT: 21
-
-}
-
+};
 //Identificador de estado de sprite (direccion)
 export const State = {
     //Estados Enemigo 
@@ -54,21 +49,18 @@ export const State = {
     KNIGHT_DIE: 5,
     KNIGHT_ROLL: 6,
     KNIGHT_ROLL_LEFT: 7,
-
     //Estados caballero escudo
     KNIGHT_SHIELD_RIGHT: 0,
     KNIGHT_SHIELD_LEFT: 1,
     KNIGHT_SHIELD_ATTACK: 2,
     KNIGHT_SHIELD_BLOCK: 3,
     KNIGHT_SHIELD_DIE: 4,
-
     //Estado caballero con arco
     KNIGHT_ARCHER_STILL: 0,
     KNIGHT_ARCHER_RIGHT: 1,
     KNIGHT_ARCHER_LEFT: 2,
     KNIGHT_ARCHER_ATTACK_RIGHT: 3,
     KNIGHT_ARCHER_ATTACK_LEFT: 4,
-
     //Estado de lucretia
     LUCRETIA_IDLE_LEFT: 0,
     LUCRETIA_IDLE_RIGHT: 1,
@@ -78,26 +70,18 @@ export const State = {
     LUCRETIA_ATTACK_RIGHT: 5,
     LUCRETIA_HIT_LEFT: 6,
     LUCRETIA_HIT_RIGHT: 7,
-
     //ESTADO POCIONES
     HEAL: 0,
-
-
     //ESTADO POCIONES DAÑO
     DAMAGE: 0,
-
     //ESTADOS FIRE
     FIRE_LOOP: 0,
-
     //ESTADOS CALAVERA
     STILL_CALAVERA: 0,
-
     //ESTADO PERGAMINO
     STILL_PERGAMINO: 0,
-
     //IMAGEN MANDO
     STILL_MANDO: 0,
-
     //TECLAS
     RIGHT_KEY: 0,
     LEFT_KEY: 0,
@@ -107,32 +91,25 @@ export const State = {
     P_KEY: 0,
     X_KEY: 0,
     C_KEY: 0,
-
     // ICONO DE SALUD
     LIFE_ICON: 0,
     LIFE_ICON_WASTED: 0,
-
     //PROYECTILES
     LUCRETIA_PROYECTILE_RIGHT: 1,
     LUCRETIA_PROYECTILE_LEFT: 2,
     LUCRETIA_PROYECTILE_UP: 3,
     LUCRETIA_PROYECTILE_DOWN: 4,
-
     ARCHER_PROYECTILE_HORIZONTAL: 0,
     ARCHER_PROYECTILE_VERTICAL: 1,
-
-
     // Estados Pintar sprite
     ON: 0,
     OFF: -1
-}
-
+};
 //Tamaños de tileSet 
 export const Tile = {
     SIZE_64: 0, //Sprites 64 x 64
-    SIZE_32: 1  //Tiles de mapa 32 x 32
-}
-
+    SIZE_32: 1 //Tiles de mapa 32 x 32
+};
 export const Block2 = {
     BLOQUE_1: 41,
     BLOQUE_2: 34,
@@ -161,8 +138,7 @@ export const Block2 = {
     BLOQUE_25: 217,
     BLOQUE_26: 220,
     BLOQUE_27: 222,
-}
-
+};
 export const Obstacles = {
     BLOQUE_1: 0,
     BLOQUE_2: 214,
@@ -174,10 +150,7 @@ export const Obstacles = {
     BLOQUE_8: 217,
     BLOQUE_9: 220,
     BLOQUE_10: 222,
-}
-
-
-
+};
 // Keyboard key codes
 export const Key = {
     UP: 38,
@@ -189,34 +162,28 @@ export const Key = {
     HEAL: 67,
     ENTER: 13,
     ESCAPE: 27
-}
-
+};
 // ID de particulas
 export const ParticleID = {
     EXPLOSION: 0,
     FIRE: 1,
     FIREWORKS: 2
-}
-
+};
 // Estados de particula
 export const ParticleState = {
     ON: 0,
     FADE: 1,
     OFF: -1
-}
-
+};
 export const GRAVITI = 9.8;
-
 export const Sound = {
-
     NO_SOUND: -1,
     GAME_MUSIC: 0,
     JUMP: 1
-}
-
+};
 export const ProyectileType = {
     UP: 0,
     DOWN: 1,
     LEFT: 2,
     RIGHT: 3,
-}
+};
