@@ -4,6 +4,5 @@ export default class Text {
         this.xPos = xPos;
         this.yPos = yPos;
         this.Physics = Physics;
-        //xFinal = Xo + vx * deltatime
     }
 }

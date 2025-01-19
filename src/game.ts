@@ -7,7 +7,7 @@ import render from "./gameRender.js";
 
 window.onload = init;
 
-function init(){
+function init() : void{
 
     //Inicializamos los elementos HTML: Canvas, Context, Caja de texto de pruebas
     initHTMLelements();
@@ -43,10 +43,10 @@ function init(){
 //GAME EXECUTE
 
 //Bucle principal de ejecución
-function gameLoop(timeStamp){
+function gameLoop(timeStamp: number) : void{
 
     //Keep requesting new frames
-    window.requestAnimationFrame(gameLoop, globals.canvas);
+    window.requestAnimationFrame(gameLoop);
 
     //Tiempo real de ciclo de ejecución
     const elapsedCycleSeconds = (timeStamp - globals.previousCycleMiliseconds) / 1000; //seconds

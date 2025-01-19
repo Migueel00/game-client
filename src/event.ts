@@ -1,9 +1,11 @@
+import HealPotion from "../Sprites/HealPotion.js";
+import Sprite from "../Sprites/Sprite.js";
 import { Key, Sound } from "./constants.js";
 import globals from "./globals.js";
 import { initLifeIcon, initScores } from "./initialize.js";
 
-export function keydownHandler(event){
-
+export function keydownHandler(event : KeyboardEvent) : void{
+    
     switch(event.keyCode){
         case Key.UP:
             globals.action.moveUp = true;
@@ -43,7 +45,7 @@ export function keydownHandler(event){
     }
 }
 
-export function keyupHandler(event){
+export function keyupHandler(event: KeyboardEvent) : void{
     switch(event.keyCode){
 
         case Key.UP:
@@ -85,7 +87,7 @@ export function keyupHandler(event){
 }
 
 //Potion events
-export function healPotionEvent(sprite){
+export function healPotionEvent(sprite : HealPotion) : void{
     const life = globals.life
     if(sprite.frames.frameCounter === 3 && globals.action.heal && life < 40){
         // Add life
@@ -107,7 +109,7 @@ export function healPotionEvent(sprite){
 
 }
 
-export function damagePotionEvent(sprite){ 
+export function damagePotionEvent(sprite : Sprite): void{ 
     if(sprite.frames.frameCounter === 3 && globals.action.damage){
 
 
@@ -134,7 +136,7 @@ export function damagePotionEvent(sprite){
 }
 
 // GET, POST events
-export function getPlayerData(){
+export function getPlayerData(): void{
     fetch('http://localhost:3000/api/highscores')
         .then(response => {
             if(!response.ok){
@@ -152,17 +154,16 @@ export function getPlayerData(){
 }
 
 
-export function createUserName(key){
-    
+export function createUserName(key: string) : void{
+
     if(key.match(/[a-z]/) && globals.username.length < 3 && globals.menuTimer.value != 0){
         globals.username += key;
-
         return;
     }    
 }
 
 //POST 
-export function postNewScore(){
+export function postNewScore(): void{
 
     const name  = globals.username.toUpperCase();
     const score = globals.points;
@@ -189,7 +190,7 @@ export function postNewScore(){
         .catch(error => console.error('Error posting data' , error));
 }
 
-export function updateMusic(){
+export function updateMusic() : void{
     const buffer = 0.28;
     const music  = globals.sounds[Sound.GAME_MUSIC];
 

@@ -1,5 +1,8 @@
 export default class Score {
-    constructor(name, score) {
+    name: string;
+    score: number;
+
+    constructor(name: string, score: number) {
         this.name   = name;
         this.score  = score;
     }

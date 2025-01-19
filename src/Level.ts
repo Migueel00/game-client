@@ -1,6 +1,10 @@
-export class Level {
+import ImageSet from "./ImageSet.js";
 
-    constructor(data, imageSet) {
+export class Level {
+    data: number[][];      //Array bidimensional de datos del mapa
+    imageSet: ImageSet;
+
+    constructor(data : number[][], imageSet: ImageSet) {
         this.data = data;           //Array bidimensional de datos del mapa
         this.imageSet = imageSet;   //Datos de las imagenes del mapa
     }

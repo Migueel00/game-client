@@ -29,7 +29,7 @@ function init() {
 //Bucle principal de ejecución
 function gameLoop(timeStamp) {
     //Keep requesting new frames
-    window.requestAnimationFrame(gameLoop, globals.canvas);
+    window.requestAnimationFrame(gameLoop);
     //Tiempo real de ciclo de ejecución
     const elapsedCycleSeconds = (timeStamp - globals.previousCycleMiliseconds) / 1000; //seconds
     //Tiempo anterior de ciclo de ejecucion
