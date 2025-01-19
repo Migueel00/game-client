@@ -13,11 +13,11 @@ export default class Lucretia extends Sprite {
         state: number,
         xPos: number,
         yPos: number,
-        imageSet: any,
-        frames: any,
-        hud: any,
-        physics: any,
-        hitBox: any
+        imageSet: ImageSet,
+        frames: Frames,
+        hud: boolean,
+        physics: Physics,
+        hitBox: HitBox
     ){
         super(id, state, xPos, yPos, imageSet, frames, hud, physics, hitBox);
     }

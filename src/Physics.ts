@@ -1,6 +1,13 @@
 export default class Physics{
+    vx: number;
+    vy: number;
+    vLimit: number;
+    omega: number;
+    angle: number;
+    xRotCenter: number;
+    yRotCenter: number;
 
-    constructor(vLimit, omega = 0, angle = 0, xRotCenter = 100, yRotCenter = 100){
+    constructor(vLimit : number, omega = 0, angle = 0, xRotCenter = 100, yRotCenter = 100){
         this.vx     = 0; //Velocidad actual en el eje x (pixels/seconds)
         this.vy     = 0; //Velocidad eje y
         this.vLimit = vLimit; //Velocidad maxiama a la que puede ir el sprite
@@ -12,8 +19,13 @@ export default class Physics{
 }
 
 class PhysicsParticle extends Physics{
+    
+    aLimit: number;
+    friction: number;
+    ax: number;
+    ay: number;
 
-    constructor(vLimit, aLimit = 0, friction = 1){
+    constructor(vLimit : number, aLimit = 0, friction = 1){
         super(vLimit);
         this.aLimit     = aLimit;
         this.friction   = friction;

@@ -1,14 +1,19 @@
+import ImageSet from "../src/ImageSet.js";
+import Frames from "../src/Frames.js";
+import Physics from "../src/Physics.js";
+import HitBox from "../src/HitBox.js";
+
 //Clase gestora de los sprites
 export default class Sprite{
     id: number;
     state: number;
     xPos: number;
     yPos: number;
-    imageSet: any;
-    frames: any;
+    imageSet: ImageSet;
+    frames: Frames;
     hud: boolean;
-    physics: any;
-    hitBox: any;
+    physics: Physics;
+    hitBox: HitBox;
     enemy: boolean;
     isCollidingWithPlayer: boolean;
     isCollidingWithObstacleOnTheTop: boolean;
@@ -21,11 +26,11 @@ export default class Sprite{
         state: number,
         xPos: number,
         yPos: number,
-        imageSet : any,
-        frames: number,
+        imageSet : ImageSet,
+        frames: Frames,
         hud: boolean,
-        physics: any,
-        hitBox: any
+        physics: Physics,
+        hitBox: HitBox
     ){
 
         this.id                                 = id;       // Tipo de sprite

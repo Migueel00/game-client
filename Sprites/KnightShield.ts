@@ -16,11 +16,11 @@ export default class KnightShield extends Sprite {
         state: number,
         xPos: number,
         yPos: number,
-        imageSet: any,
-        frames: any,
+        imageSet: ImageSet,
+        frames: Frames,
         hud: boolean,
-        physics: any,
-        hitBox: any,
+        physics: Physics,
+        hitBox: HitBox,
         maxTimeToChangeDirection: number
     ) {
 

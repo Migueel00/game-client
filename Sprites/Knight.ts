@@ -7,7 +7,22 @@ import { SpriteID, State } from "../src/constants.js";
 import globals from "../src/globals.js";
 
 export default class Knight extends Sprite{
-    constructor(id, state, xPos, yPos, imageSet, frames, hud, physics, hitBox, maxTimeToChangeDirection){
+    directionChangeCounter: number;
+    maxTimeToChangeDirection: number;
+    isCollidingWithPlayerProyectile: boolean;
+
+    constructor(
+        id: number,
+        state: number,
+        xPos: number,
+        yPos: number,
+        imageSet: ImageSet,
+        frames: Frames,
+        hud: boolean,
+        physics: Physics,
+        hitBox: HitBox,
+        maxTimeToChangeDirection: number
+    ){
 
         //LLamada al constructor de la clase Sprite
         super(id, state, xPos, yPos, imageSet, frames, hud, physics, hitBox);
@@ -19,7 +34,7 @@ export default class Knight extends Sprite{
 
     }
 
-    static create(){
+    public static create(){
 
         //Creamos las propiedades de las imagenes: initFil, initCol, xSize, ySize, xGridSize, yGridSize, xOffset, yOffset
         const imageSet  = new ImageSet(0, 0, 50, 80, 120, 80, 30, 20);
@@ -50,7 +65,7 @@ export default class Knight extends Sprite{
     }
 
     //actulizar estado caballero
-    update(lucretiaYPos){
+    public update(lucretiaYPos : number) : void{
         const state = this.state;
         //Maquina de estados del caballero
         switch(state){
@@ -113,11 +128,11 @@ export default class Knight extends Sprite{
         random > 9 ? this.physics.vLimit += 100 : this.physics.vLimit = 30;
     }
 
-    goAttackLucretia(vy, lucretiaYPos){
+    private goAttackLucretia(vy: number, lucretiaYPos: number) : void{
         this.yPos < lucretiaYPos ? this.physics.vy = vy : this.physics.vy = -vy;
     }
 
-    updateAnimationFrame(){
+    private updateAnimationFrame() : void{
 
         //aumento el contador de tiempo entre frames
         this.frames.frameChangeCounter++;
@@ -138,7 +153,7 @@ export default class Knight extends Sprite{
         }   
     }
 
-    updateDirectionRandom(){
+    private updateDirectionRandom() : void{
         //Incrementar el tiempo para cambio de direccion
         this.directionChangeCounter += globals.deltaTime;
 
@@ -154,7 +169,7 @@ export default class Knight extends Sprite{
         }
     }
 
-    swapDirection(){
+    private swapDirection() : void{
         this.state = this.state === State.KNIGHT_RIGHT ? State.KNIGHT_LEFT : State.KNIGHT_RIGHT
     }
 

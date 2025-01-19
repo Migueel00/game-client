@@ -15,10 +15,10 @@ export default class LucretiaProyectile extends Sprite {
         state: number, 
         xPos: number, 
         yPos: number, 
-        imageSet: any, 
-        frames: any, 
-        physics: any, 
-        hitBox: any
+        imageSet: ImageSet, 
+        frames: Frames, 
+        physics: Physics, 
+        hitBox: HitBox
     ){
 
         super(id, state, xPos, yPos, imageSet, frames, false,physics, hitBox);

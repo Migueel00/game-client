@@ -59,14 +59,6 @@ export default class KnightShield extends Sprite {
         if (this.isCollidingWithObstacleOnTheRight || this.isCollidingWithObstacleOnTheLeft) {
             this.swapDirection();
         }
-        // colision con lucretia Animacion atacar (acabar al tener colisiones)
-        /*   if(sprite.isCollidingWithPlayer){
-                if(sprite.state === State.KNIGHT_SHIELD_LEFT){
-    
-                    sprite.state = State.KNIGHT_SHIELD_ATTACK;
-                }
-                
-            } */
         if (this.isCollidingWithPlayerProyectile) {
             this.state = State.OFF;
         }
