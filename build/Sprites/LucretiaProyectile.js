@@ -41,7 +41,7 @@ export default class LucretiaProyectile extends Sprite {
                 sprite = new LucretiaProyectile(SpriteID.LUCRETIA_PROYECTILE, State.LUCRETIA_PROYECTILE_RIGHT, xPos, yPos, imageSet, frames, physics, hitBox);
                 break;
             default:
-                console.error(`Error al crear el tipo de proyectil ${type}`);
+                throw new Error(`Error al crear el tipo de proyectil ${type}`);
         }
         return sprite;
     }

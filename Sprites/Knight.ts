@@ -34,7 +34,7 @@ export default class Knight extends Sprite{
 
     }
 
-    public static create(){
+    public static create() : Knight{
 
         //Creamos las propiedades de las imagenes: initFil, initCol, xSize, ySize, xGridSize, yGridSize, xOffset, yOffset
         const imageSet  = new ImageSet(0, 0, 50, 80, 120, 80, 30, 20);
@@ -59,9 +59,7 @@ export default class Knight extends Sprite{
         const yPos = Math.floor(Math.random() * canvasHeightWithoutBorders) + 32; // Suma el alto de un borde
 
         //creamos el this
-        const knight = new Knight(SpriteID.KNIGHT, State.KNIGHT_RIGHT, xPos, yPos, imageSet, frames, false, physics, hitBox, maxTimeToChangeDirection);
-
-        return knight;
+        return new Knight(SpriteID.KNIGHT, State.KNIGHT_RIGHT, xPos, yPos, imageSet, frames, false, physics, hitBox, maxTimeToChangeDirection);
     }
 
     //actulizar estado caballero

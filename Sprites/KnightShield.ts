@@ -34,7 +34,7 @@ export default class KnightShield extends Sprite {
 
     }
 
-    public static create() {
+    public static create() : KnightShield{
         const imageSet = new ImageSet(10, 0, 70, 70, 120, 80, 10, 20);
 
         const frames = new Frames(9, 3);

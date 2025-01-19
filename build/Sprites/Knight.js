@@ -31,8 +31,7 @@ export default class Knight extends Sprite {
         const canvasHeightWithoutBorders = globals.canvas.height - 2 * 64; // Resta el doble del alto del borde
         const yPos = Math.floor(Math.random() * canvasHeightWithoutBorders) + 32; // Suma el alto de un borde
         //creamos el this
-        const knight = new Knight(SpriteID.KNIGHT, State.KNIGHT_RIGHT, xPos, yPos, imageSet, frames, false, physics, hitBox, maxTimeToChangeDirection);
-        return knight;
+        return new Knight(SpriteID.KNIGHT, State.KNIGHT_RIGHT, xPos, yPos, imageSet, frames, false, physics, hitBox, maxTimeToChangeDirection);
     }
     //actulizar estado caballero
     update(lucretiaYPos) {

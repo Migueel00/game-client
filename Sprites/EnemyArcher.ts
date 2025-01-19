@@ -7,7 +7,20 @@ import { SpriteID , State} from "../src/constants.js";
 import globals from "../src/globals.js";
 
 export default class EnemyArcher extends Sprite{
-    constructor(id, state, xPos, yPos, imageSet, frames, hud, physics, hitBox){
+    isCollidingWithPlayerProyectile: boolean;
+    enemyArcher: boolean;
+
+    constructor(
+        id: number,
+        state: number,
+        xPos: number,
+        yPos: number,
+        imageSet: ImageSet,
+        frames: Frames,
+        hud: boolean,
+        physics: Physics,
+        hitBox: HitBox
+    ){
 
         super(id, state, xPos, yPos, imageSet, frames, hud, physics, hitBox);
         this.isCollidingWithPlayerProyectile = false;
@@ -15,7 +28,7 @@ export default class EnemyArcher extends Sprite{
         this.enemy                           = true;
     }
 
-    static create(){
+    public static create() : EnemyArcher{
         const imageSet      = new ImageSet(16, 0, 80, 80, 120, 80, 0, 0);
     
         const frames        = new Frames(6, 10);

@@ -29,13 +29,13 @@ export default class LucretiaProyectile extends Sprite {
         this.isCollidingWithSprite = false; // Variable que indica si colisiona con un sprite
     }
 
-    public static create(xPos : number, yPos : number, type : number){
+    public static create(xPos : number, yPos : number, type : number) : LucretiaProyectile{
         const frames        = new Frames(1);
         const physics       = new Physics(150, 0, 0, 0, 0); 
 
-        let hitBox;
-        let sprite;
-        let imageSet;
+        let hitBox : HitBox;
+        let sprite : LucretiaProyectile;
+        let imageSet: ImageSet;
 
         switch(type){
             case ProyectileType.UP:
@@ -64,7 +64,7 @@ export default class LucretiaProyectile extends Sprite {
                 break;
 
             default:
-                console.error(`Error al crear el tipo de proyectil ${type}`);
+                throw new Error(`Error al crear el tipo de proyectil ${type}`);
         }
 
         return sprite;

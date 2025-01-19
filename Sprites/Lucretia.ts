@@ -22,7 +22,7 @@ export default class Lucretia extends Sprite {
         super(id, state, xPos, yPos, imageSet, frames, hud, physics, hitBox);
     }
 
-    public static create() {
+    public static create() : Lucretia{
         const imageSet = new ImageSet(22, 0, 90, 80, 120, 80, 30, 0);
 
         const frames = new Frames(6, 2);
