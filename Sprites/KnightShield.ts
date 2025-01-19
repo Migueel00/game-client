@@ -7,7 +7,22 @@ import { SpriteID, State } from "../src/constants.js";
 import globals from "../src/globals.js";
 
 export default class KnightShield extends Sprite {
-    constructor(id, state, xPos, yPos, imageSet, frames, hud, physics, hitBox, maxTimeToChangeDirection) {
+    directionChangeCounter: number;
+    maxTimeToChangeDirection: number;
+    isCollidingWithPlayerProyectile: boolean;
+
+    constructor(
+        id: number,
+        state: number,
+        xPos: number,
+        yPos: number,
+        imageSet: any,
+        frames: any,
+        hud: boolean,
+        physics: any,
+        hitBox: any,
+        maxTimeToChangeDirection: number
+    ) {
 
         //LLamada al constructor de la clase Sprite
         super(id, state, xPos, yPos, imageSet, frames, hud, physics, hitBox);
@@ -19,7 +34,7 @@ export default class KnightShield extends Sprite {
 
     }
 
-    static create() {
+    public static create() {
         const imageSet = new ImageSet(10, 0, 70, 70, 120, 80, 10, 20);
 
         const frames = new Frames(9, 3);
@@ -45,7 +60,7 @@ export default class KnightShield extends Sprite {
 
 
     //actualizar estado caballero escudo
-    update(lucretiaYPos) {
+    public update(lucretiaYPos : number) : void {
         const state = this.state;
 
         // Maquina de estados de caballero
@@ -80,14 +95,6 @@ export default class KnightShield extends Sprite {
         if (this.isCollidingWithObstacleOnTheRight || this.isCollidingWithObstacleOnTheLeft) {
             this.swapDirection();
         }
-        // colision con lucretia Animacion atacar (acabar al tener colisiones)
-        /*   if(sprite.isCollidingWithPlayer){
-                if(sprite.state === State.KNIGHT_SHIELD_LEFT){
-    
-                    sprite.state = State.KNIGHT_SHIELD_ATTACK;
-                }
-                
-            } */
 
         if (this.isCollidingWithPlayerProyectile) {
 
@@ -95,7 +102,7 @@ export default class KnightShield extends Sprite {
         }
     }
 
-    updateAnimationFrame() {
+    private updateAnimationFrame() : void {
 
         //aumento el contador de tiempo entre frames
         this.frames.frameChangeCounter++;
@@ -115,11 +122,11 @@ export default class KnightShield extends Sprite {
         }
     }
 
-    goAttackLucretia(vy, lucretiaYPos) {
+    private goAttackLucretia(vy : number, lucretiaYPos: number) : void{
         this.yPos < lucretiaYPos ? this.physics.vy = vy : this.physics.vy = -vy;
     }
 
-    updateDirectionRandom() {
+    private updateDirectionRandom() : void {
         //Incrementar el tiempo para cambio de direccion
         this.directionChangeCounter += globals.deltaTime;
 
@@ -135,7 +142,7 @@ export default class KnightShield extends Sprite {
         }
     }
 
-    swapDirection() {
+    private swapDirection() : void {
         this.state = this.state === State.KNIGHT_RIGHT ? State.KNIGHT_LEFT : State.KNIGHT_RIGHT
     }
 
