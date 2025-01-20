@@ -9,7 +9,7 @@ import Frames from "./Frames.js";
 import { Level, level1, obstacles } from "./Level.js"; //Importar clase Level y level1
 import { PhysicsParticle } from "./Physics.js";
 import { keydownHandler, keyupHandler, updateMusic } from "./event.js";
-import { setKnightArcherPosition, calculatePositionProyectile } from "./gameLogic.js";
+import { calculatePositionProyectile } from "./gameLogic.js";
 import HitBox from "./HitBox.js";
 import Timer from "./Timer.js";
 import Camera from "./Camera.js";
@@ -150,7 +150,6 @@ export function initKnightShield() {
 //Iniciar caballero arco
 export function initKnightArcher() {
     const knightArcher = EnemyArcher.create();
-    setKnightArcherPosition(knightArcher);
     globals.sprites.push(knightArcher);
 }
 // Proyectil de arquero

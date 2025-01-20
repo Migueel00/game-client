@@ -56,67 +56,7 @@ export default function update() {
     }
 }
 
-//actualizar estado de caballero arquero
-function updateKnightArcher(sprite) {
-
-    // Actualizar el angulo de giro
-    sprite.physics.angle += sprite.physics.omega * globals.deltaTime;
-
-
-
-    // calcular nueva posicion
-    setKnightArcherPosition(sprite);
-
-    updateAnimationFrame(sprite);
-
-    const time = globals.shootTimer.value;
-
-    let xPosLucretia = positionLucretia().xPos;
-    if (xPosLucretia > sprite.xPos) {
-        sprite.state = State.KNIGHT_ARCHER_ATTACK_RIGHT;
-        if (time % 56 === 0) {
-            initArcherProyectile(sprite.xPos, sprite.yPos + sprite.hitBox.ySize - 20);
-        }
-
-    } else {
-        if (time % 56 === 0) {
-            initArcherProyectileLeft(sprite.xPos, sprite.yPos + sprite.hitBox.ySize - 20);
-        }
-        sprite.state = State.KNIGHT_ARCHER_ATTACK_LEFT;
-    }
-
-    if (sprite.isCollidingWithObstacleOnTheLeft || sprite.isCollidingWithObstacleOnTheRight || sprite.isCollidingWithObstacleOnTheTop || sprite.isCollidingWithObstacleOnTheBottom) {
-
-        sprite.physics.omega = -sprite.physics.omega;
-    }
-
-    if (sprite.isCollidingWithPlayerProyectile) {
-
-        sprite.state = State.OFF;
-    }
-
-}
-
-export function setKnightArcherPosition(sprite) {
-    // Movimiento circular
-    // x = xCenter + Acos(angle)
-    // y = yCenter + Asin(angle)
-    const radius = 110;
-
-    let xPos = 40;
-    let yPos = 40;
-
-    sprite.xPos = xPos + radius * Math.cos(sprite.physics.angle);
-    sprite.yPos = yPos + radius * Math.sin(sprite.physics.angle);
-
-    // Centramos el giro respecto del centro del sprite (Lucretia)
-    sprite.xPos -= sprite.imageSet.xSize / 2;
-    sprite.yPos -= sprite.imageSet.ySize / 2;
-
-
-}
-
-function positionLucretia() {
+export function positionLucretia() {
 
     const lucretia = globals.sprites[0];
 
@@ -301,8 +241,6 @@ function newGame() {
     } else if (sprite.yPos === 196 && globals.action.enter) {
         globals.gameState = Game.LOAD_SCORES;
     }
-
-
 }
 
 function updateNewGame(sprite) {
@@ -482,7 +420,7 @@ function updateSprite(sprite) {
             sprite.update(lucretiaYPos);
             break;
         case SpriteID.KNIGHT_ARCHER:
-            updateKnightArcher(sprite);
+            sprite.update();
             break;
         case SpriteID.LUCRETIA:
             sprite.update();

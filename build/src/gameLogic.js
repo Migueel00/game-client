@@ -1,7 +1,7 @@
 import globals from "./globals.js";
 import { Game, State, SpriteID, ParticleState, ParticleID, Sound } from "./constants.js";
 import detectCollisions from "./collisions.js";
-import { initArcherProyectile, initArcherProyectileLeft, initKnight2, initKnightShield, initKnightArcher, initLifeIcon, createFireParticle, initFireworks } from "./initialize.js";
+import { initKnight2, initKnightShield, initKnightArcher, initLifeIcon, createFireParticle, initFireworks } from "./initialize.js";
 import { createUserName, damagePotionEvent, getPlayerData, healPotionEvent, postNewScore } from "./event.js";
 export default function update() {
     //Change what the game is doing based on the game state
@@ -40,48 +40,7 @@ export default function update() {
         globals.sounds[Sound.GAME_MUSIC].volume = 0.4;
     }
 }
-//actualizar estado de caballero arquero
-function updateKnightArcher(sprite) {
-    // Actualizar el angulo de giro
-    sprite.physics.angle += sprite.physics.omega * globals.deltaTime;
-    // calcular nueva posicion
-    setKnightArcherPosition(sprite);
-    updateAnimationFrame(sprite);
-    const time = globals.shootTimer.value;
-    let xPosLucretia = positionLucretia().xPos;
-    if (xPosLucretia > sprite.xPos) {
-        sprite.state = State.KNIGHT_ARCHER_ATTACK_RIGHT;
-        if (time % 56 === 0) {
-            initArcherProyectile(sprite.xPos, sprite.yPos + sprite.hitBox.ySize - 20);
-        }
-    }
-    else {
-        if (time % 56 === 0) {
-            initArcherProyectileLeft(sprite.xPos, sprite.yPos + sprite.hitBox.ySize - 20);
-        }
-        sprite.state = State.KNIGHT_ARCHER_ATTACK_LEFT;
-    }
-    if (sprite.isCollidingWithObstacleOnTheLeft || sprite.isCollidingWithObstacleOnTheRight || sprite.isCollidingWithObstacleOnTheTop || sprite.isCollidingWithObstacleOnTheBottom) {
-        sprite.physics.omega = -sprite.physics.omega;
-    }
-    if (sprite.isCollidingWithPlayerProyectile) {
-        sprite.state = State.OFF;
-    }
-}
-export function setKnightArcherPosition(sprite) {
-    // Movimiento circular
-    // x = xCenter + Acos(angle)
-    // y = yCenter + Asin(angle)
-    const radius = 110;
-    let xPos = 40;
-    let yPos = 40;
-    sprite.xPos = xPos + radius * Math.cos(sprite.physics.angle);
-    sprite.yPos = yPos + radius * Math.sin(sprite.physics.angle);
-    // Centramos el giro respecto del centro del sprite (Lucretia)
-    sprite.xPos -= sprite.imageSet.xSize / 2;
-    sprite.yPos -= sprite.imageSet.ySize / 2;
-}
-function positionLucretia() {
+export function positionLucretia() {
     const lucretia = globals.sprites[0];
     let xPos = lucretia.xPos;
     let yPos = lucretia.yPos;
@@ -350,7 +309,7 @@ function updateSprite(sprite) {
             sprite.update(lucretiaYPos);
             break;
         case SpriteID.KNIGHT_ARCHER:
-            updateKnightArcher(sprite);
+            sprite.update();
             break;
         case SpriteID.LUCRETIA:
             sprite.update();

@@ -1,10 +1,12 @@
-import Sprite from "./Sprite.js";
 import ImageSet from "../src/ImageSet.js";
 import Frames from "../src/Frames.js";
 import Physics from "../src/Physics.js";
 import HitBox from "../src/HitBox.js";
 import { SpriteID, State } from "../src/constants.js";
 import globals from "../src/globals.js";
+import Sprite from "./Sprite.js";
+import { initArcherProyectile, initArcherProyectileLeft } from "../src/initialize.js";
+import { positionLucretia } from "../src/gameLogic.js";
 export default class EnemyArcher extends Sprite {
     constructor(id, state, xPos, yPos, imageSet, frames, hud, physics, hitBox) {
         super(id, state, xPos, yPos, imageSet, frames, hud, physics, hitBox);
@@ -24,5 +26,63 @@ export default class EnemyArcher extends Sprite {
         const physics = new Physics(0, omega, initAngle, xRotCenter, yRotCenter);
         const hitBox = new HitBox(16, 40, 37, 22);
         return new EnemyArcher(SpriteID.KNIGHT_ARCHER, State.KNIGHT_ARCHER_RIGHT, 0, 0, imageSet, frames, false, physics, hitBox);
+    }
+    update() {
+        this.updateKnightArcher();
+    }
+    //actualizar estado de caballero arquero
+    updateKnightArcher() {
+        // Actualizar el angulo de giro
+        this.physics.angle += this.physics.omega * globals.deltaTime;
+        // calcular nueva posicion
+        this.setKnightArcherPosition();
+        this.updateAnimationFrame();
+        const time = globals.shootTimer.value;
+        let xPosLucretia = positionLucretia().xPos;
+        if (xPosLucretia > this.xPos) {
+            this.state = State.KNIGHT_ARCHER_ATTACK_RIGHT;
+            if (time % 56 === 0) {
+                initArcherProyectile(this.xPos, this.yPos + this.hitBox.ySize - 20);
+            }
+        }
+        else {
+            if (time % 56 === 0) {
+                initArcherProyectileLeft(this.xPos, this.yPos + this.hitBox.ySize - 20);
+            }
+            this.state = State.KNIGHT_ARCHER_ATTACK_LEFT;
+        }
+        if (this.isCollidingWithObstacleOnTheLeft || this.isCollidingWithObstacleOnTheRight || this.isCollidingWithObstacleOnTheTop || this.isCollidingWithObstacleOnTheBottom) {
+            this.physics.omega = -this.physics.omega;
+        }
+        if (this.isCollidingWithPlayerProyectile) {
+            this.state = State.OFF;
+        }
+    }
+    updateAnimationFrame() {
+        //aumento el contador de tiempo entre frames
+        this.frames.frameChangeCounter++;
+        //Cambiar de frame cuando el lag de animación alcanza animSpeed
+        if (this.frames.frameChangeCounter === this.frames.speed) {
+            //Cambiamos de frame y reseteamos el contador de frame
+            this.frames.frameCounter++;
+            this.frames.frameChangeCounter = 0;
+        }
+        //Si hemos llegado al máximo de frames reiniciamos el contador (animacion ciclica);
+        if (this.frames.frameCounter === this.frames.framesPerState) {
+            this.frames.frameCounter = 0;
+        }
+    }
+    setKnightArcherPosition() {
+        // Movimiento circular
+        // x = xCenter + Acos(angle)
+        // y = yCenter + Asin(angle)
+        const radius = 110;
+        let xPos = 40;
+        let yPos = 40;
+        this.xPos = xPos + radius * Math.cos(this.physics.angle);
+        this.yPos = yPos + radius * Math.sin(this.physics.angle);
+        // Centramos el giro respecto del centro del sprite (Lucretia)
+        this.xPos -= this.imageSet.xSize / 2;
+        this.yPos -= this.imageSet.ySize / 2;
     }
 }
