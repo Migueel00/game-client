@@ -46,4 +46,6 @@ export default class EnemyArcher extends Sprite{
         
         return new EnemyArcher(SpriteID.KNIGHT_ARCHER, State.KNIGHT_ARCHER_RIGHT, 0, 0, imageSet, frames, false, physics, hitBox);
     }
+
+    
 }

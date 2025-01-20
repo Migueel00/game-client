@@ -102,9 +102,12 @@ export default class Lucretia extends Sprite {
         // actualizar la animacion
         this.updateAnimationFrame();
 
+        // Actualizar las colisiones 
+        this.updateCollisions();
+
     }
 
-    private assignVelocityBasedOnState() {
+    private assignVelocityBasedOnState() : void {
         const stateVelocites = {
             [State.LUCRETIA_RIGHT]: {vx: this.physics.vLimit, vy: 0},
             [State.LUCRETIA_LEFT]: {vx: -this.physics.vLimit, vy: 0},
@@ -119,7 +122,7 @@ export default class Lucretia extends Sprite {
         this.physics.vx = velocity.vx;
     }
 
-    private handleVerticalMovement(){
+    private handleVerticalMovement(): void{
 
         if (globals.action.moveUp) {
             this.handleIdleAttackVertical();
@@ -132,14 +135,14 @@ export default class Lucretia extends Sprite {
         }
     }
 
-    private handleIdleAttackVertical(){
+    private handleIdleAttackVertical(): void{
         this.state = this.state === State.LUCRETIA_ATTACK_LEFT ? 
         State.LUCRETIA_IDLE_LEFT : this.state === State.LUCRETIA_ATTACK_RIGHT ? 
         State.LUCRETIA_IDLE_RIGHT : this.state;
     }
 
-    private lucretiaAttackDirection() {
-        let directionProyectile;
+    private lucretiaAttackDirection() : number{
+        let directionProyectile = 1;
         if (this.state === State.LUCRETIA_RIGHT || this.state === State.LUCRETIA_IDLE_RIGHT) {
 
             this.state = State.LUCRETIA_ATTACK_RIGHT;
@@ -154,7 +157,7 @@ export default class Lucretia extends Sprite {
         return directionProyectile;
     }
 
-    private updateAnimationFrame() {
+    private updateAnimationFrame() : void{
         //aumento el contador de tiempo entre frames
         this.frames.frameChangeCounter++;
 
@@ -174,7 +177,7 @@ export default class Lucretia extends Sprite {
         }
     }
 
-    private readKeyboardAndAssignState() {
+    private readKeyboardAndAssignState() : void{
         this.state = globals.action.moveLeft ? State.LUCRETIA_LEFT :   // Left key
             globals.action.moveRight ? State.LUCRETIA_RIGHT :  // Right Key
             this.state === State.LUCRETIA_LEFT ? State.LUCRETIA_IDLE_LEFT : // No key pressed and previous state LEFT
@@ -182,14 +185,14 @@ export default class Lucretia extends Sprite {
             this.state;
     }
 
-    public updateCollisions(){
+    private updateCollisions() : void{
         this.detectCollisionBetweenPlayerAndMap();
         this.detectCollisionBetweenPlayerAndMapObstaclesAbove();
         this.detectCollisionBetweenPlayerAndMapObstaclesTree();
     }
 
     // funcion que detecta si hay colision entre el player y el mapa
-    private detectCollisionBetweenPlayerAndMap() {
+    private detectCollisionBetweenPlayerAndMap(): void{
 
         // Reset collision state
         this.isCollidingWithObstacleOnTheRight = false;
@@ -301,7 +304,7 @@ export default class Lucretia extends Sprite {
     }
 
     // funcion que detecta si hay colision entre el player y la parte de arriba del mapa
-    private detectCollisionBetweenPlayerAndMapObstaclesAbove() {
+    private detectCollisionBetweenPlayerAndMapObstaclesAbove() : void{
         // Reset collision state
         this.isCollidingWithObstacleOnTheTop = false;
 
@@ -336,11 +339,9 @@ export default class Lucretia extends Sprite {
             }
         }
     }
-
-
-
+    
     // funcion que detecta colision entre el player y los obstaculos del mapa
-    private detectCollisionBetweenPlayerAndMapObstaclesTree() {
+    private detectCollisionBetweenPlayerAndMapObstaclesTree() :void{
 
         // Reset collision state
         this.isCollidingWithObstacleOnTheBottom = false;

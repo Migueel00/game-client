@@ -64,6 +64,8 @@ export default class Lucretia extends Sprite {
         this.yPos += this.physics.vy * globals.deltaTime;
         // actualizar la animacion
         this.updateAnimationFrame();
+        // Actualizar las colisiones 
+        this.updateCollisions();
     }
     assignVelocityBasedOnState() {
         const stateVelocites = {
@@ -96,7 +98,7 @@ export default class Lucretia extends Sprite {
             State.LUCRETIA_IDLE_RIGHT : this.state;
     }
     lucretiaAttackDirection() {
-        let directionProyectile;
+        let directionProyectile = 1;
         if (this.state === State.LUCRETIA_RIGHT || this.state === State.LUCRETIA_IDLE_RIGHT) {
             this.state = State.LUCRETIA_ATTACK_RIGHT;
             directionProyectile = 1;

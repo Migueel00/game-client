@@ -5,6 +5,7 @@ import Physics from "../src/Physics.js";
 import HitBox from "../src/HitBox.js";
 import { SpriteID, State } from "../src/constants.js";
 import globals from "../src/globals.js";
+import { Block2, Obstacles } from "../src/constants.js";
 
 export default class KnightShield extends Sprite {
     directionChangeCounter: number;
@@ -34,7 +35,7 @@ export default class KnightShield extends Sprite {
 
     }
 
-    public static create() : KnightShield{
+    public static create(): KnightShield {
         const imageSet = new ImageSet(10, 0, 70, 70, 120, 80, 10, 20);
 
         const frames = new Frames(9, 3);
@@ -60,7 +61,7 @@ export default class KnightShield extends Sprite {
 
 
     //actualizar estado caballero escudo
-    public update(lucretiaYPos : number) : void {
+    public update(lucretiaYPos: number): void {
         const state = this.state;
 
         // Maquina de estados de caballero
@@ -71,7 +72,7 @@ export default class KnightShield extends Sprite {
             case State.KNIGHT_SHIELD_LEFT:
                 this.physics.vx = -this.physics.vLimit;
                 break;
-            case State.OFF: 
+            case State.OFF:
                 // Estado de muerte
                 break;
             default:
@@ -100,9 +101,12 @@ export default class KnightShield extends Sprite {
 
             this.state = State.OFF;
         }
+
+        // Manage collisions
+        this.updateCollisions();
     }
 
-    private updateAnimationFrame() : void {
+    private updateAnimationFrame(): void {
 
         //aumento el contador de tiempo entre frames
         this.frames.frameChangeCounter++;
@@ -122,11 +126,11 @@ export default class KnightShield extends Sprite {
         }
     }
 
-    private goAttackLucretia(vy : number, lucretiaYPos: number) : void{
+    private goAttackLucretia(vy: number, lucretiaYPos: number): void {
         this.yPos < lucretiaYPos ? this.physics.vy = vy : this.physics.vy = -vy;
     }
 
-    private updateDirectionRandom() : void {
+    private updateDirectionRandom(): void {
         //Incrementar el tiempo para cambio de direccion
         this.directionChangeCounter += globals.deltaTime;
 
@@ -142,8 +146,239 @@ export default class KnightShield extends Sprite {
         }
     }
 
-    private swapDirection() : void {
+    private swapDirection(): void {
         this.state = this.state === State.KNIGHT_RIGHT ? State.KNIGHT_LEFT : State.KNIGHT_RIGHT
     }
 
+    private updateCollisions(): void {
+        // Detectar colisiones con los bordes del mapa
+        this.detetcCollisionBetweenKnigthAndMap();
+        // Detect collisions between the knight and the map obstacles
+        this.detectCollisionBetweenKnightAndMapObstaclesTree();
+    }
+
+    // funcion que detecta colision entre el mapa y los sprites
+    private detetcCollisionBetweenKnigthAndMap(): void {
+        // Reset collision state
+        this.isCollidingWithObstacleOnTheRight = false;
+        this.isCollidingWithObstacleOnTheLeft = false;
+
+        // Variables to use
+        let xPos;
+        let yPos;
+        let isCollidingOnPos1;
+        let isCollidingOnPos2;
+        let isCollidingOnPos3;
+        let isColliding;
+        let overlap;
+
+        // tamaño bricksize y id bloque
+        const brickSize = globals.level.imageSet.xGridSize;
+        const ObstacleId = Block2.BLOQUE_4;
+
+        if (this.physics.vx > 0) {
+
+            //Primera colisión en (xPos + xSize -1, yPos)
+            xPos = this.xPos + this.hitBox.xOffSet + this.hitBox.xSize - 1;
+            yPos = this.yPos + this.hitBox.yOffSet;
+            isCollidingOnPos1 = this.isCollidingWithObstacleAt(xPos, yPos, ObstacleId)
+
+            //Segunda colision en (xPos + xSize -1, yPos + brickSize)
+            yPos = this.yPos + this.hitBox.yOffSet + brickSize;
+            isCollidingOnPos2 = this.isCollidingWithObstacleAt(xPos, yPos, ObstacleId);
+
+            //Ultima collision en (xPos + xSize -1, yPos + xSize -1)
+            yPos = this.yPos + this.hitBox.yOffSet + this.hitBox.ySize - 1;
+            isCollidingOnPos3 = this.isCollidingWithObstacleAt(xPos, yPos, ObstacleId);
+
+            // Habra colision si toca algunos de los 3 bloques 
+            isColliding = isCollidingOnPos1 || isCollidingOnPos2 || isCollidingOnPos3;
+
+            if (isColliding) {
+
+                //Existe colision a la derecha
+                this.isCollidingWithObstacleOnTheRight = true;
+
+                //AJUSTE: Calculamos solapamiento (overlap) y lo elimina
+                //Movimiento el personaje tantos pixeles como overlap a la izquierda
+                overlap = Math.floor(xPos) % brickSize + 1;
+                this.xPos -= overlap;
+            }
+
+        } else if (this.physics.vx < 0) {
+
+            // Primera colisión en (xPos - 1, yPos)
+            xPos = this.xPos + this.hitBox.xOffSet - 1;
+            yPos = this.yPos + this.hitBox.yOffSet;
+            isCollidingOnPos1 = this.isCollidingWithObstacleAt(xPos, yPos, ObstacleId);
+
+            // Segunda colisión en (xPos, yPos + brickSize)
+            yPos = this.yPos + this.hitBox.yOffSet + brickSize;
+            isCollidingOnPos2 = this.isCollidingWithObstacleAt(xPos, yPos, ObstacleId);
+
+            // Última colisión en (xPos, yPos + xSize - 1)
+            yPos = this.yPos + this.hitBox.yOffSet + this.hitBox.ySize - 1;
+            isCollidingOnPos3 = this.isCollidingWithObstacleAt(xPos, yPos, ObstacleId);
+
+            // Habrá colisión si toca alguno de los 3 bloques
+            isColliding = isCollidingOnPos1 || isCollidingOnPos2 || isCollidingOnPos3;
+
+            if (isColliding) {
+                // Existe colisión a la izquierda
+                this.isCollidingWithObstacleOnTheLeft = true;
+
+                // AJUSTE: Calculamos solapamiento (overlap) y lo eliminamos
+                // Movemos el personaje tantos píxeles como overlap a la derecha
+                overlap = Math.floor(xPos) % brickSize;
+                this.xPos += brickSize - overlap;
+            }
+
+        }
+    }
+
+    private isCollidingWithObstacleAt(xPos: number, yPos: number, ObstacleId: number): boolean {
+        let isColliding = false;
+
+        const id = this.getMapTileId(xPos, yPos);
+
+        // Calculamos colision con bloque limite del mapa
+        id === ObstacleId ? isColliding = true : isColliding;
+
+        return isColliding;
+    }
+
+    // Devuelve el Id del tile del mapa para las coordenadas xPos, yPos
+    private getMapTileId(xPos: number, yPos: number): number {
+
+
+        const brickSize = globals.level.imageSet.xGridSize;
+
+        const levelData = globals.level.data;
+
+        const fil = Math.floor(yPos / brickSize);
+        const col = Math.floor(xPos / brickSize);
+
+        return levelData[fil][col];
+    }
+
+    private detectCollisionBetweenKnightAndMapObstaclesTree(): void {
+
+
+        // Reset collision state
+        this.isCollidingWithObstacleOnTheBottom = false;
+        this.isCollidingWithObstacleOnTheLeft = false;
+        this.isCollidingWithObstacleOnTheRight = false;
+        this.isCollidingWithObstacleOnTheTop = false;
+
+        // Variables to use
+        let xPos;
+        let yPos;
+        let isCollidingOnPos1;
+        let isCollidingOnPos2;
+        let isCollidingOnPos3;
+
+        // Detectar colisiones
+        let isColliding;
+        let xOverlap;
+
+        const brickSize = globals.obstacles.imageSet.xGridSize;
+        const direction = this.state;
+
+        const ObstacleIdRightTop = Obstacles.BLOQUE_3;
+        const obstacleId = Obstacles.BLOQUE_2;
+        const obstaclesIdMiddleRight = Obstacles.BLOQUE_6;
+        const obstaclesIdMiddleLeft = Obstacles.BLOQUE_5;
+        const obstaclesBottomRight = Obstacles.BLOQUE_8;
+        const obstaclesBottomLeft = Obstacles.BLOQUE_7;
+
+        const obstaclesId = [ObstacleIdRightTop, obstacleId, obstaclesBottomRight, obstaclesBottomLeft, obstaclesIdMiddleLeft, obstaclesIdMiddleRight];
+
+        switch (direction) {
+            case State.KNIGHT_SHIELD_LEFT:
+                // Primera colisión en (xPos - 1, yPos)
+                xPos = this.xPos + this.hitBox.xOffSet - 1;
+                yPos = this.yPos + this.hitBox.yOffSet;
+                isCollidingOnPos1 = this.isCollidingWithObstacleTreeAt(xPos, yPos, obstaclesId);
+
+                // Segunda colisión en (xPos, yPos + brickSize)
+                yPos = this.yPos + this.hitBox.yOffSet + brickSize;
+                isCollidingOnPos2 = this.isCollidingWithObstacleTreeAt(xPos, yPos, obstaclesId);
+
+                // Última colisión en (xPos, yPos + xSize - 1)
+                yPos = this.yPos + this.hitBox.yOffSet + this.hitBox.ySize - 1;
+                isCollidingOnPos3 = this.isCollidingWithObstacleTreeAt(xPos, yPos, obstaclesId);
+
+                // Habrá colisión si toca alguno de los 3 bloques
+                isColliding = isCollidingOnPos1 || isCollidingOnPos2 || isCollidingOnPos3;
+
+                if (isColliding) {
+                    // Existe colisión a la izquierda
+                    this.isCollidingWithObstacleOnTheLeft = true;
+
+                    // AJUSTE: Calculamos solapamiento (overlap) y lo eliminamos
+                    // Movemos el personaje tantos píxeles como overlap a la derecha
+                    xOverlap = Math.floor(xPos) % brickSize;
+                    this.xPos += brickSize - xOverlap;
+                }
+
+                break;
+            case State.KNIGHT_SHIELD_RIGHT:
+                //Primera colisión en (xPos + xSize -1, yPos)
+                xPos = this.xPos + this.hitBox.xOffSet + this.hitBox.xSize - 1;
+                yPos = this.yPos + this.hitBox.yOffSet;
+                isCollidingOnPos1 = this.isCollidingWithObstacleTreeAt(xPos, yPos, obstaclesId);
+
+                //Segunda colision en (xPos + xSize -1, yPos + brickSize)
+                yPos = this.yPos + this.hitBox.yOffSet + brickSize;
+                isCollidingOnPos2 = this.isCollidingWithObstacleTreeAt(xPos, yPos, obstaclesId);
+
+                //Ultima collision en (xPos + xSize -1, yPos + xSize -1)
+                yPos = this.yPos + this.hitBox.yOffSet + this.hitBox.ySize - 1;
+                isCollidingOnPos3 = this.isCollidingWithObstacleTreeAt(xPos, yPos, obstaclesId);
+
+                // Habra colision si toca algunos de los 3 bloques 
+                isColliding = isCollidingOnPos1 || isCollidingOnPos2 || isCollidingOnPos3;
+
+                if (isColliding) {
+
+                    //Existe colision a la derecha
+                    this.isCollidingWithObstacleOnTheRight = true;
+
+                    //AJUSTE: Calculamos solapamiento (overlap) y lo elimina
+                    //Movimiento el personaje tantos pixeles como overlap a la izquierda
+                    xOverlap = Math.floor(xPos) % brickSize + 1;
+                    this.xPos -= xOverlap;
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    // Funcion que uso para saber si el player esta colisionando con el obstaculo del mapa
+    private isCollidingWithObstacleTreeAt(xPos: number, yPos: number, ObstacleId: number[]): boolean {
+        let isColliding = false;
+
+        const brickSize = globals.obstacles.imageSet.xGridSize;
+        const obstaclesData = globals.obstacles.data;
+
+        const id = this.getObstaclesTileId(brickSize, obstaclesData, xPos, yPos);
+
+        ObstacleId.map((ObstacleId) => {
+            if (id === ObstacleId) {
+                isColliding = true;
+            }
+        });
+
+        return isColliding;
+    }
+
+    // Devuelve el Id del tile del mapa para las coordenadas xPos, yPos
+    private getObstaclesTileId(brickSize: number, levelData: number[][], xPos: number, yPos: number): number {
+
+        const fil = Math.floor(yPos / brickSize);
+        const col = Math.floor(xPos / brickSize);
+
+        return levelData[fil][col];
+    }
 }
