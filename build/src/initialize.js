@@ -1,16 +1,15 @@
 import globals from "./globals.js";
 import { Game, FPS, SpriteID, State, ParticleID, ParticleState, GRAVITI, Sound, ProyectileType } from "./constants.js";
-import Sprite from "../Sprites/Sprite.js";
 import Knight from "../Sprites/Knight.js";
-import HealPotion from "../Sprites/HealPotion.js";
+import Potion from "../Sprites/Potion.js";
 import LucretiaProyectile from "../Sprites/LucretiaProyectile.js";
 import EnemyArcher from "../Sprites/EnemyArcher.js";
 import ImageSet from "./ImageSet.js";
 import Frames from "./Frames.js";
 import { Level, level1, obstacles } from "./Level.js"; //Importar clase Level y level1
-import Physics, { PhysicsParticle } from "./Physics.js";
+import { PhysicsParticle } from "./Physics.js";
 import { keydownHandler, keyupHandler, updateMusic } from "./event.js";
-import update, { setKnightArcherPosition, calculatePositionProyectile } from "./gameLogic.js";
+import { setKnightArcherPosition, calculatePositionProyectile } from "./gameLogic.js";
 import HitBox from "./HitBox.js";
 import Timer from "./Timer.js";
 import Camera from "./Camera.js";
@@ -19,6 +18,8 @@ import Score from "./Score.js";
 import KnightShield from "../Sprites/KnightShield.js";
 import ArcherProyectile from "../Sprites/ArcherProyectile.js";
 import Lucretia from "../Sprites/Lucretia.js";
+import Fire from "../Sprites/Fire.js";
+import StaticSprite from "./StaticSprites/StaticSprite.js";
 //Funcion que inicializa los elementos HTML
 function initHTMLelements() {
     //canvas context Screen
@@ -77,10 +78,16 @@ function loadAssets() {
     globals.assetsToLoad.push(tileSet);
     // Load sounds
     let gameMusic = document.querySelector("#gameMusic");
-    gameMusic.addEventListener("canplaythrough", loadHandler, false);
-    gameMusic.addEventListener("timeupdate", updateMusic, false);
-    gameMusic.load();
-    globals.sounds.push(gameMusic);
+    if (gameMusic) {
+        gameMusic.addEventListener("canplaythrough", loadHandler, false);
+        gameMusic.addEventListener("timeupdate", updateMusic, false);
+        gameMusic.load();
+        globals.sounds.push(gameMusic);
+        globals.assetsToLoad.push(gameMusic);
+    }
+    else {
+        console.error("Element with id 'gameMusic' not found");
+    }
 }
 //Funcion que se llama cda vez que se carga un activo
 function loadHandler() {
@@ -107,9 +114,6 @@ function initSprites() {
     initHealPotion();
     initDamagePotion();
     initFire();
-    //Proyectiles
-    initArcherProyectile(globals.canvas.width, 0);
-    initArcherProyectileLeft(0, 0);
     //Story Screen
     initPergamino();
     // New game screen
@@ -195,20 +199,17 @@ export function initLucretiaProyectileLeft() {
 }
 //Iniciar pocion cura
 function initHealPotion() {
-    const healPotion = HealPotion.create();
-    globals.sprites.push(healPotion);
+    const healPotion = Potion.create(SpriteID.HEAL_POTION);
+    globals.spritesHUD.push(healPotion);
 }
 //Iniciar pocio daño
 function initDamagePotion() {
-    const imageSet = new ImageSet(33, 0, 50, 50, 120, 80, 30, 40);
-    const frames = new Frames(4, 80);
-    const damagePotion = new Sprite(SpriteID.DAMAGE_POTION, State.DAMAGE, 30, 216, imageSet, frames, true);
-    globals.sprites.push(damagePotion);
+    const damagePotion = Potion.create(SpriteID.DAMAGE_POTION);
+    globals.spritesHUD.push(damagePotion);
 }
 export function initLifeIcon(xPos) {
     const imageSet = new ImageSet(40, 0, 120, 80, 120, 80, 0, 0);
-    const frames = new Frames(1);
-    const lifeIcon = new Sprite(SpriteID.LIFE_ICON, State.LIFE_ICON, xPos, 3, imageSet, frames, false);
+    const lifeIcon = new StaticSprite(SpriteID.LIFE_ICON, State.LIFE_ICON, xPos, 3, imageSet);
     globals.spritesHUD.push(lifeIcon);
 }
 function initFire() {
@@ -220,7 +221,7 @@ function initFire() {
     for (let i = 0; i < nFire; i++) {
         let xPosAleatoria = Math.floor(Math.random() * (globals.canvas.width - 32) + 1);
         let yPosAleatoria = Math.floor(Math.random() * (globals.canvas.height - 32) + 1);
-        const fire = new Sprite(SpriteID.FIRE, State.FIRE_LOOP, xPosAleatoria, yPosAleatoria, imageSet, frames, false, 0, hitBox);
+        const fire = new Fire(SpriteID.FIRE, State.FIRE_LOOP, xPosAleatoria, yPosAleatoria, imageSet, frames, hitBox);
         fire.xPos = xPosAleatoria;
         fire.yPos = yPosAleatoria;
         globals.sprites.push(fire);
@@ -228,69 +229,57 @@ function initFire() {
 }
 function initPergamino() {
     const imageSet = new ImageSet(33, 6, 340, 410, 120, 80, -100, 0);
-    const frames = new Frames(1);
-    const pergamino = new Sprite(SpriteID.PERGAMINO, State.STILL_PERGAMINO, 100, 80, imageSet, frames, false);
+    const pergamino = new StaticSprite(SpriteID.PERGAMINO, State.STILL_PERGAMINO, 100, 80, imageSet);
     globals.storySprites.push(pergamino);
 }
 function initArrowMenu() {
     const imageSet = new ImageSet(38, 6, 200, 200, 120, 80, 0, 0);
-    const frames = new Frames(1);
-    const hitBox = new HitBox(0, 0, 0, 0);
-    const arrowMenu = new Sprite(25, 0, 30, 16, imageSet, frames, false, 0, hitBox);
+    const arrowMenu = new StaticSprite(25, 0, 30, 16, imageSet);
     globals.spritesNewGame.push(arrowMenu);
 }
 function initControl() {
     const imageSet = new ImageSet(38, 1, 240, 150, 120, 80, 0, 0);
-    const frames = new Frames(1);
-    const control = new Sprite(SpriteID.MANDO, State.STILL_MANDO, 250, 320, imageSet, frames, false);
+    const control = new StaticSprite(SpriteID.MANDO, State.STILL_MANDO, 250, 320, imageSet);
     globals.controlSprites.push(control);
 }
 function initRigthKey() {
     const imageSet = new ImageSet(34, 3, 120, 80, 120, 80, 0, 0);
-    const frames = new Frames(1);
-    const rightKey = new Sprite(SpriteID.RIGHT_KEY, State.RIGHT_KEY, 70, 95, imageSet, frames, false);
+    const rightKey = new StaticSprite(SpriteID.RIGHT_KEY, State.RIGHT_KEY, 70, 95, imageSet);
     globals.controlSprites.push(rightKey);
 }
 function initLeftKey() {
     const imageSet = new ImageSet(34, 2, 120, 80, 120, 80, 0, 0);
-    const frames = new Frames(1);
-    const rightKey = new Sprite(SpriteID.LEFT_KEY, State.LEFT_KEY, 70, 150, imageSet, frames, false);
+    const rightKey = new StaticSprite(SpriteID.LEFT_KEY, State.LEFT_KEY, 70, 150, imageSet);
     globals.controlSprites.push(rightKey);
 }
 function initUpKey() {
     const imageSet = new ImageSet(34, 0, 120, 80, 120, 80, 0, 0);
-    const frames = new Frames(1);
-    const rightKey = new Sprite(SpriteID.UP_KEY, State.UP_KEY, 80, 200, imageSet, frames, false);
+    const rightKey = new StaticSprite(SpriteID.UP_KEY, State.UP_KEY, 80, 200, imageSet);
     globals.controlSprites.push(rightKey);
 }
 function initDownKey() {
     const imageSet = new ImageSet(34, 1, 120, 60, 120, 80, 0, 20);
-    const frames = new Frames(1);
-    const rightKey = new Sprite(SpriteID.DOWN_KEY, State.DOWN_KEY, 73, 270, imageSet, frames, false);
+    const rightKey = new StaticSprite(SpriteID.DOWN_KEY, State.DOWN_KEY, 73, 270, imageSet);
     globals.controlSprites.push(rightKey);
 }
 function initXKey() {
     const imageSet = new ImageSet(35, 0, 120, 60, 120, 80, 4, 20);
-    const frames = new Frames(1);
-    const rightKey = new Sprite(SpriteID.X_KEY, State.X_KEY, 82, 330, imageSet, frames, false);
+    const rightKey = new StaticSprite(SpriteID.X_KEY, State.X_KEY, 82, 330, imageSet);
     globals.controlSprites.push(rightKey);
 }
 function initPkey() {
     const imageSet = new ImageSet(35, 1, 120, 60, 120, 80, 0, 10);
-    const frames = new Frames(1);
-    const pKey = new Sprite(SpriteID.P_KEY, State.P_KEY, 350, 210, imageSet, frames, false);
+    const pKey = new StaticSprite(SpriteID.P_KEY, State.P_KEY, 350, 210, imageSet);
     globals.controlSprites.push(pKey);
 }
 function initZkey() {
     const imageSet = new ImageSet(35, 2, 120, 60, 120, 80, 0, 20);
-    const frames = new Frames(1);
-    const pKey = new Sprite(SpriteID.P_KEY, State.P_KEY, 400, 160, imageSet, frames, false);
+    const pKey = new StaticSprite(SpriteID.P_KEY, State.P_KEY, 400, 160, imageSet);
     globals.controlSprites.push(pKey);
 }
 function initCkey() {
     const imageSet = new ImageSet(35, 3, 120, 60, 120, 80, 0, 20);
-    const frames = new Frames(1);
-    const pKey = new Sprite(SpriteID.P_KEY, State.P_KEY, 380, 90, imageSet, frames, false);
+    const pKey = new StaticSprite(SpriteID.P_KEY, State.P_KEY, 380, 90, imageSet);
     globals.controlSprites.push(pKey);
 }
 //Iniciar nivel
@@ -319,7 +308,7 @@ function initTimers() {
     globals.shootTimer = new Timer(0, 1);
     globals.potionsTimers = new Timer(0, 1);
     globals.enemiesTimers = new Timer(0, 1);
-    globals.menuTimer = new Timer(0, 0, 5);
+    globals.menuTimer = new Timer(0, 0);
     globals.damagePotionTimer = new Timer(0, 1);
     globals.levelTimer = new Timer(180, 1);
     globals.fireworkTimer = new Timer(0, 1);
@@ -329,13 +318,8 @@ function initCamera() {
     globals.camera = new Camera(0, 0);
 }
 function initParticles() {
-    /*     initFireParticle();
-    
-    
-        initFireworks();
-         */
 }
-export function initExplosion() {
+function initExplosion() {
     const numParticles = 30;
     const xInit = globals.canvas.width / 2;
     const yInit = globals.canvas.height / 2;
@@ -344,7 +328,7 @@ export function initExplosion() {
     const alpha = 1.0;
     for (let i = 0; i < numParticles; i++) {
         const velocity = Math.random() * 35 + 5;
-        const physics = new Physics(velocity);
+        const physics = new PhysicsParticle(velocity);
         const timeToFade = timeToFadeMax * Math.random() + 1;
         const particle = new ExplosionParticle(ParticleID.EXPLOSION, ParticleState.ON, xInit, yInit, radius, alpha, physics, timeToFade);
         //Asignar velocidad sgun ángulo aleatorio
@@ -376,20 +360,14 @@ export function initFireworks() {
         globals.particles.push(particle);
     }
 }
-function initFireParticle() {
-    const numParticles = 100;
-    for (let i = 0; i < numParticles; i++) {
-        createFireParticle();
-    }
-}
 export function createFireParticle() {
     const alpha = 1.0;
     const velocity = Math.random() * 20 + 10;
-    const physics = new Physics(velocity);
+    const physics = new PhysicsParticle(velocity);
     const xInit = Math.random() * 50 + 100;
     const yInit = 100;
     const radius = 2 + Math.random() + 2;
-    const particle = new FireParticle(ParticleID.FIRE, ParticleState.ON, xInit, yInit, radius, alpha, physics);
+    const particle = new FireParticle(ParticleID.FIRE, ParticleState.ON, xInit, yInit, radius, alpha, physics, 200);
     //Asignamos velocidades segun el angulo aleatorio
     const randomAngle = Math.random() * Math.PI / 3 + 3 * Math.PI / 2;
     particle.physics.vx = particle.physics.vLimit * Math.cos(randomAngle);

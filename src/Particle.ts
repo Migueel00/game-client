@@ -7,7 +7,7 @@ class Particle {
     yPos: number;
     radius: number;
     alpha: number;
-    physics: Physics;
+    physics: PhysicsParticle;
 
     constructor(
         id: number,
@@ -16,7 +16,7 @@ class Particle {
         yPos: number,
         radius: number,
         alpha: number,
-        physics: Physics
+        physics: PhysicsParticle
     ){
 
         this.id         = id;
@@ -62,7 +62,7 @@ class FireParticle extends Particle {
         yPos: number,
         radius: number,
         alpha: number,
-        physics: Physics,
+        physics: PhysicsParticle,
         timeToFade: number
     ){
 

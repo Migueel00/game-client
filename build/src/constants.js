@@ -107,7 +107,7 @@ export const State = {
 };
 //Tamaños de tileSet 
 export const Tile = {
-    SIZE_64: 0, //Sprites 64 x 64
+    SIZE_64: 0,
     SIZE_32: 1 //Tiles de mapa 32 x 32
 };
 export const Block2 = {

@@ -37,7 +37,6 @@ export default function detectCollisions() {
             collisionBetweenArcherAndTree(sprite);
         }
     }
-
     colisionPlayerProyectileSprite(proyectiles, enemies);
 
     if (enemies.length > 0) {
@@ -88,9 +87,6 @@ function colisionPlayerProyectileSprite(projectiles, sprites) {
 
 // Funcion que detecta la colision entre el player y un sprite
 function detectCollisionBetweenPlayerAndSprite(sprite) {
-
-
-
     // Reset the collision state
     sprite.isCollidingWithPlayer = false;
 
@@ -118,7 +114,6 @@ function detectCollisionBetweenPlayerAndSprite(sprite) {
 
         //Existe colision
         sprite.isCollidingWithPlayer = true;
-
     }
 }
 
