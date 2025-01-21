@@ -116,8 +116,6 @@ function updateDamagePotion(sprite) {
         if (Math.floor(time / 10 === i)) {
             sprite.frames.frameCounter = i;
         }
-
-
     }
 
     if (time >= 29) {
@@ -126,7 +124,6 @@ function updateDamagePotion(sprite) {
     }
 
     damagePotionEvent(sprite);
-
 }
 
 function updateDamagePotionTimer() {
@@ -141,10 +138,6 @@ function updateDamagePotionTimer() {
         //Reseteamos timeChangeCounter
         globals.damagePotionTimer.timeChangeCounter = 0;
     }
-}
-
-function updateFire(sprite) {
-    updateAnimationFrame(sprite);
 }
 
 function updateArcherProyectile(sprite) {
@@ -432,7 +425,7 @@ function updateSprite(sprite) {
             updateDamagePotion(sprite);
             break;
         case SpriteID.FIRE:
-            updateFire(sprite);
+            sprite.update();
             break;
         case SpriteID.LUCRETIA_PROYECTILE:
             sprite.update();

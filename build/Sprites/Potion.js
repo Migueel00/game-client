@@ -2,6 +2,13 @@ import ImageSet from "../src/ImageSet.js";
 import Frames from "../src/Frames.js";
 import { SpriteID, State } from "../src/constants.js";
 export default class Potion {
+    id;
+    state;
+    xPos;
+    yPos;
+    imageSet;
+    frames;
+    hud;
     constructor(id, state, xPos, yPos, imageSet, frames, hud) {
         this.id = id; // id del sprite
         this.state = state;

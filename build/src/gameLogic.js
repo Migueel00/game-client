@@ -99,9 +99,6 @@ function updateDamagePotionTimer() {
         globals.damagePotionTimer.timeChangeCounter = 0;
     }
 }
-function updateFire(sprite) {
-    updateAnimationFrame(sprite);
-}
 function updateArcherProyectile(sprite) {
     // Maquina de estados
     switch (sprite.state) {
@@ -321,7 +318,7 @@ function updateSprite(sprite) {
             updateDamagePotion(sprite);
             break;
         case SpriteID.FIRE:
-            updateFire(sprite);
+            sprite.update();
             break;
         case SpriteID.LUCRETIA_PROYECTILE:
             sprite.update();

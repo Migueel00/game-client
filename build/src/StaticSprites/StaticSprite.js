@@ -1,5 +1,12 @@
 import Frames from "../Frames.js";
 export default class StaticSprite {
+    id;
+    state;
+    xPos;
+    yPos;
+    frames;
+    imageSet;
+    hud;
     constructor(id, state, xPos, yPos, imageSet) {
         this.id = id;
         this.state = state;

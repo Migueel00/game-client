@@ -1,4 +1,11 @@
 class Particle {
+    id;
+    state;
+    xPos;
+    yPos;
+    radius;
+    alpha;
+    physics;
     constructor(id, state, xPos, yPos, radius, alpha, physics) {
         this.id = id;
         this.state = state;
@@ -10,6 +17,8 @@ class Particle {
     }
 }
 export default class ExplosionParticle extends Particle {
+    fadeCounter;
+    timeToFade;
     constructor(id, state, xPos, yPos, radius, alpha, physics, timeToFade) {
         super(id, state, xPos, yPos, radius, alpha, physics);
         this.fadeCounter = 0;
@@ -17,6 +26,8 @@ export default class ExplosionParticle extends Particle {
     }
 }
 class FireParticle extends Particle {
+    fadeCounter;
+    timeToFade;
     constructor(id, state, xPos, yPos, radius, alpha, physics, timeToFade) {
         super(id, state, xPos, yPos, radius, alpha, physics);
         this.fadeCounter = 0;

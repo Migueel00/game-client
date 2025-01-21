@@ -1,4 +1,6 @@
 export class Level {
+    data; //Array bidimensional de datos del mapa
+    imageSet;
     constructor(data, imageSet) {
         this.data = data; //Array bidimensional de datos del mapa
         this.imageSet = imageSet; //Datos de las imagenes del mapa

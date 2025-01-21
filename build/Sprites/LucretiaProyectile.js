@@ -6,6 +6,8 @@ import HitBox from "../src/HitBox.js";
 import { ProyectileType, SpriteID, State } from "../src/constants.js";
 import globals from "../src/globals.js";
 export default class LucretiaProyectile extends Sprite {
+    lucretiaProyectile;
+    isCollidingWithSprite;
     constructor(id, state, xPos, yPos, imageSet, frames, physics, hitBox) {
         super(id, state, xPos, yPos, imageSet, frames, false, physics, hitBox);
         this.lucretiaProyectile = true; // variable que indica si es un proyectil de lucretia

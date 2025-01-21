@@ -1,5 +1,13 @@
 //Clase que gestiona el tileSet de un sprite
 export default class ImageSet {
+    initFil;
+    initCol;
+    xSize;
+    ySize;
+    yOffset;
+    xOffset;
+    xGridSize;
+    yGridSize;
     constructor(initFil, initCol, xSize, ySize, xGridSize, yGridSize, xOffset, yOffset) {
         this.initFil = initFil; // Fila de inicio del imageSet
         this.initCol = initCol; // Columna de inicio del imageSet

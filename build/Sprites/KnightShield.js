@@ -7,6 +7,9 @@ import { SpriteID, State } from "../src/constants.js";
 import globals from "../src/globals.js";
 import { Block2, Obstacles } from "../src/constants.js";
 export default class KnightShield extends Sprite {
+    directionChangeCounter;
+    maxTimeToChangeDirection;
+    isCollidingWithPlayerProyectile;
     constructor(id, state, xPos, yPos, imageSet, frames, hud, physics, hitBox, maxTimeToChangeDirection) {
         //LLamada al constructor de la clase Sprite
         super(id, state, xPos, yPos, imageSet, frames, hud, physics, hitBox);

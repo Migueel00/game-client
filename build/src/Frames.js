@@ -1,4 +1,8 @@
 export default class Frames {
+    framesPerState;
+    frameCounter;
+    speed;
+    frameChangeCounter;
     constructor(framesPerState, speed = 1) {
         this.framesPerState = framesPerState; //Número de frames por estado de animacion
         this.frameCounter = 0; //Contador de frames

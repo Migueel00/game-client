@@ -1,4 +1,11 @@
 export default class Physics {
+    vx;
+    vy;
+    vLimit;
+    omega;
+    angle;
+    xRotCenter;
+    yRotCenter;
     constructor(vLimit, omega = 0, angle = 0, xRotCenter = 100, yRotCenter = 100) {
         this.vx = 0; //Velocidad actual en el eje x (pixels/seconds)
         this.vy = 0; //Velocidad eje y
@@ -10,6 +17,10 @@ export default class Physics {
     }
 }
 class PhysicsParticle extends Physics {
+    aLimit;
+    friction;
+    ax;
+    ay;
     constructor(vLimit, aLimit = 0, friction = 1) {
         super(vLimit);
         this.aLimit = aLimit;

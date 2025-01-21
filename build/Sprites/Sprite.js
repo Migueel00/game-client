@@ -1,5 +1,20 @@
 //Clase gestora de los sprites
 export default class Sprite {
+    id;
+    state;
+    xPos;
+    yPos;
+    imageSet;
+    frames;
+    hud;
+    physics;
+    hitBox;
+    enemy;
+    isCollidingWithPlayer;
+    isCollidingWithObstacleOnTheTop;
+    isCollidingWithObstacleOnTheLeft;
+    isCollidingWithObstacleOnTheBottom;
+    isCollidingWithObstacleOnTheRight;
     constructor(id, state, xPos, yPos, imageSet, frames, hud, physics, hitBox) {
         this.id = id; // Tipo de sprite
         this.state = state; // Estado de animacion del sprite
