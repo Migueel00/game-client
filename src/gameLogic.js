@@ -540,6 +540,7 @@ function updateTimersPlus(timer) {
     }
 
 }
+
 function updateLevelTimer() {
     const timer = globals.levelTimer;
 

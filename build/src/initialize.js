@@ -1,7 +1,6 @@
 import globals from "./globals.js";
 import { Game, FPS, SpriteID, State, ParticleID, ParticleState, GRAVITI, Sound, ProyectileType } from "./constants.js";
 import Knight from "../Sprites/Knight.js";
-import Potion from "../Sprites/Potion.js";
 import LucretiaProyectile from "../Sprites/LucretiaProyectile.js";
 import EnemyArcher from "../Sprites/EnemyArcher.js";
 import ImageSet from "./ImageSet.js";
@@ -21,6 +20,8 @@ import ArcherProyectile from "../Sprites/ArcherProyectile.js";
 import Lucretia from "../Sprites/Lucretia.js";
 import Fire from "../Sprites/Fire.js";
 import StaticSprite from "./StaticSprites/StaticSprite.js";
+import HealPotion from "./Potions/HealPotion.js";
+import DamagePotion from "./Potions/DamagePotion.js";
 //Funcion que inicializa los elementos HTML
 function initHTMLelements() {
     //canvas context Screen
@@ -199,12 +200,12 @@ export function initLucretiaProyectileLeft() {
 }
 //Iniciar pocion cura
 function initHealPotion() {
-    const healPotion = Potion.create(SpriteID.HEAL_POTION);
+    const healPotion = HealPotion.create(globals.sprites[0]);
     globals.spritesHUD.push(healPotion);
 }
 //Iniciar pocio daño
 function initDamagePotion() {
-    const damagePotion = Potion.create(SpriteID.DAMAGE_POTION);
+    const damagePotion = DamagePotion.create([]); // Momently i pass a void array in future pass a array with the enemies 
     globals.spritesHUD.push(damagePotion);
 }
 export function initLifeIcon(xPos) {

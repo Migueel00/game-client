@@ -1,5 +1,4 @@
 import globals from "./globals.js";
-import { Block2, Obstacles } from "./constants.js";
 
 export default function detectCollisions() {
 
@@ -28,7 +27,6 @@ function colisionPlayerProyectileSprite(projectiles, sprites) {
         for (let j = 0; j < sprites.length; j++) {
             const sprite = sprites[j];
             sprite.isCollidingWithPlayerProyectile = false;
-
 
             const x1 = playerProjectile.xPos + playerProjectile.hitBox.xOffSet;
             const y1 = playerProjectile.yPos + playerProjectile.hitBox.yOffSet;

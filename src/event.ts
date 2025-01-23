@@ -1,4 +1,4 @@
-import HealPotion from "../Sprites/Potion.js";
+import HealPotion from "./Potions/Potion.js";
 import Sprite from "../Sprites/Sprite.js";
 import { Key, Sound } from "./constants.js";
 import globals from "./globals.js";

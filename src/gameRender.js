@@ -1,5 +1,5 @@
 import globals from "./globals.js";
-import { Game, Tile, ParticleState, ParticleID, State} from "./constants.js";
+import { Game, Tile, ParticleState, ParticleID, State, SpriteID} from "./constants.js";
 
 
 //Funcion que renderiza los gráficos
@@ -401,12 +401,8 @@ function drawsprites(){
         const sprite = globals.sprites[i];
 
         // drawSpriteRectangle(sprite);
-        if(sprite.hud){
-            renderSpriteHudSide(sprite);
-        }else{
-            sprite.state !== State.OFF ? renderSprite(sprite) : false;
-            // drawHitBox(sprite); 
-        }      
+        sprite.state !== State.OFF ? renderSprite(sprite) : false;
+        // drawHitBox(sprite); 
     }
 }
 
@@ -415,6 +411,19 @@ function drawSpritesHUD(){
         const sprite = globals.spritesHUD[i];
 
         renderSpriteHud(sprite);
+    }
+}
+
+function drawSpritesHUDSide(){
+    for(let i = 0; i < globals.spritesHUD.length; i++){
+        const sprite = globals.spritesHUD[i];
+
+        switch(sprite.id){
+            case SpriteID.HEAL_POTION:
+            case SpriteID.DAMAGE_POTION:
+                renderSpriteHudSide(sprite);
+                break;
+        }
     }
 }
 
@@ -510,6 +519,7 @@ function renderHudSide(){
     globals.ctxHUD2.fillStyle = "#fff";
     globals.ctxHUD2.fillText("" + damageTimer +" s", 32, 210);
     
+    drawSpritesHUDSide();
 }
 
 //Renderizar sprite
