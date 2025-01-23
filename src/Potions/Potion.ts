@@ -27,4 +27,8 @@ export default class Potion{
         this.imageSet = imageSet;
         this.frames = frames;
     }
+
+    public update() : void {
+        
+    }
 }

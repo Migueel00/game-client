@@ -86,54 +86,7 @@ export function keyupHandler(event: KeyboardEvent) : void{
     }
 }
 
-//Potion events
-export function healPotionEvent(sprite : HealPotion) : void{
-    const life = globals.life
-    if(sprite.frames.frameCounter === 3 && globals.action.heal && life < 40){
-        // Add life
-        globals.life += 10;
-        // reset potion frames and timer
-        sprite.frames.frameCounter  = 0;
-        globals.potionsTimers.value = 0;
-        
-        // Logic for the event
-        for(let i = 5; i > 0; i--){
-            console.log(i);
-            if(Math.floor(globals.life / 10) === i){
-                initLifeIcon(220 + i * 15);
-                console.log(i);
 
-            }
-        }
-    }
-
-}
-
-export function damagePotionEvent(sprite : Sprite): void{ 
-    if(sprite.frames.frameCounter === 3 && globals.action.damage){
-
-
-        // Reset the states of the timer and frames
-        sprite.frames.frameCounter      = 0;
-        globals.damagePotionTimer.value = 0;
-
-        // Random number of enemies to kill
-        let randomNumberOfEnemiesToKill = Math.floor(Math.random() * 8 + 1); // valor maximo 8
-
-        // logic for the event
-        for(let k = 0; k < randomNumberOfEnemiesToKill; k++){
-            for(let i = 0; i < globals.sprites.length; i++){
-                const sprite = globals.sprites[i];
-                
-                let indexOfEnemy;
-                if(sprite.enemy){
-                    indexOfEnemy = globals.sprites.indexOf(sprite);
-                    globals.sprites.splice(indexOfEnemy, 1);
-                }
-            }
-        }
-    }
-}
 
 // GET, POST events
 export function getPlayerData(): void{

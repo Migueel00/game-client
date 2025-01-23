@@ -2,7 +2,7 @@ import globals from "./globals.js";
 import { Game, State, SpriteID, ParticleState, ParticleID, Sound } from "./constants.js";
 import detectCollisions from "./collisions.js";
 import { initKnight2, initKnightShield, initKnightArcher, initLifeIcon, createFireParticle, initFireworks } from "./initialize.js";
-import { createUserName, damagePotionEvent, getPlayerData, healPotionEvent, postNewScore } from "./event.js";
+import { createUserName, getPlayerData, postNewScore } from "./event.js";
 export default function update() {
     //Change what the game is doing based on the game state
     switch (globals.gameState) {
@@ -51,19 +51,6 @@ export function calculatePositionProyectile() {
     let yPosLucretia = positionLucretia().yPos;
     return { xPosLucretia, yPosLucretia };
 }
-//Actualizar estado heal potion
-function updateHealPotion(sprite) {
-    const time = globals.potionsTimers.value;
-    if (time >= 15) {
-        globals.potionsTimers.value = 15;
-    }
-    for (let i = 1; i < 4; i++) {
-        if (time / 5 === i) {
-            sprite.frames.frameCounter = i;
-        }
-    }
-    healPotionEvent(sprite);
-}
 function updateShootTimer() {
     globals.shootTimer.timeChangeCounter += globals.deltaTime;
     if (globals.shootTimer.timeChangeCounter > globals.shootTimer.timeChangeValue) {
@@ -76,18 +63,6 @@ function updateShootTimer() {
     if (globals.action.attack) {
         globals.shootTimer.value = 0;
     }
-}
-function updateDamagePotion(sprite) {
-    const time = globals.damagePotionTimer.value;
-    for (let i = 1; i < 4; i++) {
-        if (Math.floor(time / 10 === i)) {
-            sprite.frames.frameCounter = i;
-        }
-    }
-    if (time >= 29) {
-        globals.damagePotionTimer.value = 30;
-    }
-    damagePotionEvent(sprite);
 }
 function updateDamagePotionTimer() {
     //Incrementamos el contador de cambio de valor
@@ -310,12 +285,6 @@ function updateSprite(sprite) {
             break;
         case SpriteID.LUCRETIA:
             sprite.update();
-            break;
-        case SpriteID.HEAL_POTION:
-            updateHealPotion(sprite);
-            break;
-        case SpriteID.DAMAGE_POTION:
-            updateDamagePotion(sprite);
             break;
         case SpriteID.FIRE:
             sprite.update();
