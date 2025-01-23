@@ -14,7 +14,8 @@ import update, { calculatePositionProyectile } from "./gameLogic.js";
 import HitBox from "./HitBox.js";
 import Timer from "./Timer.js";
 import Camera from "./Camera.js";
-import ExplosionParticle, {FireParticle} from "./Particle.js";
+import ExplosionParticle from "./Particles/ExplosionParticle.js";
+import FireParticle from "./Particles/FireParticle.js";
 import Score from "./Score.js";
 import KnightShield from "../Sprites/KnightShield.js";
 import ArcherProyectile from "../Sprites/ArcherProyectile.js";
@@ -474,7 +475,6 @@ export function initFireworks(){
 
         globals.particles.push(particle);
     }
-
 }
 
 export function createFireParticle(): void{

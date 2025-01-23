@@ -608,21 +608,21 @@ function updateParticle(particle) {
             if (globals.gameState != Game.PLAYING) {
                 particle.state = ParticleState.OFF;
             }
-            updateExplosionParticle(particle);
+            particle.update();
             break;
 
         case ParticleID.FIRE:
             if (globals.gameState != Game.PLAYING) {
                 particle.state = ParticleState.OFF;
             }
-            updateFireParticle(particle);
+            particle.update()
             break;
 
         case ParticleID.FIREWORKS:
             if (globals.gameState != Game.HIGHSCORES) {
                 particle.state = ParticleState.OFF;
             }
-            updateFireworkParticle(particle);
+            particle.update();
             break;
 
         default:
@@ -630,104 +630,5 @@ function updateParticle(particle) {
     }
 }
 
-function updateExplosionParticle(particle) {
-
-    particle.fadeCounter += globals.deltaTime;
-
-    // Cogemos las velocidades de los arrays
-    switch (particle.state) {
-        case ParticleState.ON:
-            if (particle.fadeCounter > particle.timeToFade) {
-
-                particle.fadeCounter = 0;
-                particle.state = ParticleState.FADE;
-            }
-            break;
-        case ParticleState.FADE:
-            particle.alpha -= 0.01;
-
-            if (particle.alpha <= 0) {
-                particle.state = ParticleState.OFF;
-            }
-            break;
-        case ParticleState.OFF:
-            break;
-        default:
-            break;
-    }
-
-    particle.xPos += particle.physics.vx * globals.deltaTime;
-    particle.yPos += particle.physics.vy * globals.deltaTime;
-}
-
-function updateFireworkParticle(particle) {
-
-    particle.fadeCounter += globals.deltaTime;
-
-    // Cogemos las velocidades de los arrays
-    switch (particle.state) {
-        case ParticleState.ON:
-            if (particle.fadeCounter > particle.timeToFade) {
-
-                particle.fadeCounter = 0;
-                particle.state = ParticleState.FADE;
-            }
-            break;
-        case ParticleState.FADE:
-            particle.alpha -= 0.06;
-
-            if (particle.alpha <= 0) {
-                particle.state = ParticleState.OFF;
-            }
-            break;
-        case ParticleState.OFF:
-            break;
-        default:
-            break;
-    }
-
-    particle.physics.vx += particle.physics.ax * globals.deltaTime;
-    particle.physics.vy += particle.physics.ay * globals.deltaTime;
-
-    //Limitamos las velocidades  a 1, para que no haya cambio de sentido
-    const velModule = Math.sqrt(Math.pow(particle.physics.vx, 2) + Math.pow(particle.physics.vy, 2));
-
-    if (velModule < 1) {
-        particle.physics.vx = 0;
-        particle.physics.vy = 0;
-    }
-
-    particle.xPos += particle.physics.vx * globals.deltaTime;
-    particle.yPos += particle.physics.vy * globals.deltaTime;
-}
 
 
-function updateFireParticle(particle) {
-
-    switch (particle.state) {
-
-        case ParticleState.ON:
-            particle.radius -= 0.1;
-            if (particle.radius < 2) {
-
-                particle.state = ParticleState.FADE;
-            }
-            break;
-        case ParticleState.FADE:
-            particle.alpha -= 0.3;
-            if (particle.alpha <= 0) {
-
-                particle.state = ParticleState.OFF;
-
-            }
-            break;
-        case ParticleState.OFF:
-            break;
-        default:
-            break;
-
-    }
-
-    particle.xPos += particle.physics.vx * globals.deltaTime;
-    particle.yPos += particle.physics.vy * globals.deltaTime;
-}
