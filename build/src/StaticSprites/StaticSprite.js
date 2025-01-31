@@ -6,7 +6,6 @@ export default class StaticSprite {
     yPos;
     frames;
     imageSet;
-    hud;
     constructor(id, state, xPos, yPos, imageSet) {
         this.id = id;
         this.state = state;
@@ -14,6 +13,5 @@ export default class StaticSprite {
         this.yPos = yPos;
         this.frames = new Frames(1);
         this.imageSet = imageSet;
-        this.hud = true;
     }
 }

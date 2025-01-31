@@ -7,15 +7,15 @@ import { SpriteID, State, Block2, Obstacles } from "../src/constants.js";
 import globals from "../src/globals.js";
 import { initLucretiaProyectile, initLucretiaProyectileDown, initLucretiaProyectileLeft, initLucretiaProyectileUp } from "../src/initialize.js";
 export default class Lucretia extends Sprite {
-    constructor(id, state, xPos, yPos, imageSet, frames, hud, physics, hitBox) {
-        super(id, state, xPos, yPos, imageSet, frames, hud, physics, hitBox);
+    constructor(id, state, xPos, yPos, imageSet, frames, physics, hitBox) {
+        super(id, state, xPos, yPos, imageSet, frames, physics, hitBox);
     }
     static create() {
         const imageSet = new ImageSet(22, 0, 90, 80, 120, 80, 30, 0);
         const frames = new Frames(6, 2);
         const physics = new Physics(80);
         const hitBox = new HitBox(16, 41, 30, 28);
-        return new Lucretia(SpriteID.LUCRETIA, State.LUCRETIA_IDLE_LEFT, globals.canvas.width / 2, globals.canvas.height / 2, imageSet, frames, false, physics, hitBox);
+        return new Lucretia(SpriteID.LUCRETIA, State.LUCRETIA_IDLE_LEFT, globals.canvas.width / 2, globals.canvas.height / 2, imageSet, frames, physics, hitBox);
     }
     //actualizar estado lucretia
     update() {

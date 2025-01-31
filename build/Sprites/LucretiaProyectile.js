@@ -9,10 +9,9 @@ export default class LucretiaProyectile extends Sprite {
     lucretiaProyectile;
     isCollidingWithSprite;
     constructor(id, state, xPos, yPos, imageSet, frames, physics, hitBox) {
-        super(id, state, xPos, yPos, imageSet, frames, false, physics, hitBox);
+        super(id, state, xPos, yPos, imageSet, frames, physics, hitBox);
         this.lucretiaProyectile = true; // variable que indica si es un proyectil de lucretia
         this.isCollidingWithSprite = false; // variable que indica si colisiona con un sprite
-        this.hud = false; // Variable que indica si es parte del hud
         this.isCollidingWithSprite = false; // Variable que indica si colisiona con un sprite
     }
     static create(xPos, yPos, type) {

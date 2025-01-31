@@ -7,7 +7,7 @@ export default function detectCollisions() {
     // calcular colision del player con cada uno de los sprites
     for (let i = 0; i < globals.sprites.length; i++) {
         const sprite = globals.sprites[i];
-        if (!sprite.hud && !sprite.lucretiaProyectile) {
+        if (!sprite.lucretiaProyectile) {
             detectCollisionBetweenPlayerAndSprite(sprite);
         }
     }
@@ -25,12 +25,10 @@ function colisionPlayerProyectileSprite(projectiles, sprites) {
             const w1 = playerProjectile.hitBox.xSize;
             const h1 = playerProjectile.hitBox.ySize;
             let x2, y2, w2, h2;
-            if (!sprite.hud) {
-                x2 = sprite.xPos + sprite.hitBox.xOffSet;
-                y2 = sprite.yPos + sprite.hitBox.yOffSet;
-                w2 = sprite.hitBox.xSize;
-                h2 = sprite.hitBox.ySize;
-            }
+            x2 = sprite.xPos + sprite.hitBox.xOffSet;
+            y2 = sprite.yPos + sprite.hitBox.yOffSet;
+            w2 = sprite.hitBox.xSize;
+            h2 = sprite.hitBox.ySize;
             const isOverlap = rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2);
             if (isOverlap) {
                 sprite.isCollidingWithPlayerProyectile = true;
@@ -53,12 +51,10 @@ function detectCollisionBetweenPlayerAndSprite(sprite) {
     const w1 = player.hitBox.xSize;
     const h1 = player.hitBox.ySize;
     let x2, y2, w2, h2;
-    if (!sprite.hud) {
-        x2 = sprite.xPos + sprite.hitBox.xOffSet;
-        y2 = sprite.yPos + sprite.hitBox.yOffSet;
-        w2 = sprite.hitBox.xSize;
-        h2 = sprite.hitBox.ySize;
-    }
+    x2 = sprite.xPos + sprite.hitBox.xOffSet;
+    y2 = sprite.yPos + sprite.hitBox.yOffSet;
+    w2 = sprite.hitBox.xSize;
+    h2 = sprite.hitBox.ySize;
     const isOverlap = rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2);
     if (isOverlap) {
         //Existe colision

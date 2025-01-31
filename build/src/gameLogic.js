@@ -3,6 +3,7 @@ import { Game, State, SpriteID, ParticleState, ParticleID, Sound } from "./const
 import detectCollisions from "./collisions.js";
 import { initKnight2, initKnightShield, initKnightArcher, initLifeIcon, createFireParticle, initFireworks } from "./initialize.js";
 import { createUserName, getPlayerData, postNewScore } from "./event.js";
+import CollisionManager from "./CollisionManager.js";
 export default function update() {
     //Change what the game is doing based on the game state
     switch (globals.gameState) {
@@ -129,6 +130,8 @@ function playGame() {
     updateLifeIcon();
     updateParticles();
     updateCamera();
+    const collisionManager = new CollisionManager(globals.sprites);
+    collisionManager.detectAllCollisions();
 }
 function newGame() {
     const sprite = globals.spritesNewGame[1];

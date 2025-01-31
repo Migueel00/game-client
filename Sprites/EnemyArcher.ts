@@ -11,7 +11,6 @@ import { Obstacles, Block2 } from "../src/constants.js";
 
 export default class EnemyArcher extends Sprite {
     isCollidingWithPlayerProyectile: boolean;
-    enemyArcher: boolean;
 
     constructor(
         id: number,
@@ -20,15 +19,12 @@ export default class EnemyArcher extends Sprite {
         yPos: number,
         imageSet: ImageSet,
         frames: Frames,
-        hud: boolean,
         physics: Physics,
         hitBox: HitBox
     ) {
 
-        super(id, state, xPos, yPos, imageSet, frames, hud, physics, hitBox);
+        super(id, state, xPos, yPos, imageSet, frames, physics, hitBox);
         this.isCollidingWithPlayerProyectile = false;
-        this.enemyArcher = true;
-        this.enemy = true;
     }
 
     public static create(): EnemyArcher {
@@ -47,7 +43,7 @@ export default class EnemyArcher extends Sprite {
 
         const hitBox = new HitBox(16, 40, 37, 22);
 
-        return new EnemyArcher(SpriteID.KNIGHT_ARCHER, State.KNIGHT_ARCHER_RIGHT, 0, 0, imageSet, frames, false, physics, hitBox);
+        return new EnemyArcher(SpriteID.KNIGHT_ARCHER, State.KNIGHT_ARCHER_RIGHT, 0, 0, imageSet, frames, physics, hitBox);
     }
 
     public update(): void {

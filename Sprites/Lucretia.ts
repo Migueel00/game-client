@@ -15,11 +15,10 @@ export default class Lucretia extends Sprite {
         yPos: number,
         imageSet: ImageSet,
         frames: Frames,
-        hud: boolean,
         physics: Physics,
         hitBox: HitBox
     ){
-        super(id, state, xPos, yPos, imageSet, frames, hud, physics, hitBox);
+        super(id, state, xPos, yPos, imageSet, frames, physics, hitBox);
     }
 
     public static create() : Lucretia{
@@ -31,7 +30,7 @@ export default class Lucretia extends Sprite {
 
         const hitBox = new HitBox(16, 41, 30, 28);
 
-        return new Lucretia(SpriteID.LUCRETIA, State.LUCRETIA_IDLE_LEFT, globals.canvas.width / 2, globals.canvas.height / 2, imageSet, frames, false, physics, hitBox);
+        return new Lucretia(SpriteID.LUCRETIA, State.LUCRETIA_IDLE_LEFT, globals.canvas.width / 2, globals.canvas.height / 2, imageSet, frames, physics, hitBox);
     }
 
     //actualizar estado lucretia

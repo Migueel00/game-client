@@ -19,14 +19,13 @@ export default class Knight extends Sprite {
         yPos: number,
         imageSet: ImageSet,
         frames: Frames,
-        hud: boolean,
         physics: Physics,
         hitBox: HitBox,
         maxTimeToChangeDirection: number
     ) {
 
         //LLamada al constructor de la clase Sprite
-        super(id, state, xPos, yPos, imageSet, frames, hud, physics, hitBox);
+        super(id, state, xPos, yPos, imageSet, frames,physics, hitBox);
 
         this.directionChangeCounter = 0;                             // Contador para cambio de direccion (seconds)
         this.maxTimeToChangeDirection = maxTimeToChangeDirection;      // Máximo tiempo para cambio de dirección (seconds)
@@ -58,7 +57,7 @@ export default class Knight extends Sprite {
         const yPos = Math.floor(Math.random() * canvasHeightWithoutBorders) + 32; // Suma el alto de un borde
 
         //creamos el this
-        return new Knight(SpriteID.KNIGHT, State.KNIGHT_RIGHT, xPos, yPos, imageSet, frames, false, physics, hitBox, maxTimeToChangeDirection);
+        return new Knight(SpriteID.KNIGHT, State.KNIGHT_RIGHT, xPos, yPos, imageSet, frames, physics, hitBox, maxTimeToChangeDirection);
     }
 
     //actulizar estado caballero

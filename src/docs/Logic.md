@@ -1,0 +1,1 @@
+Dentro de hitbox hay una propiedad ->> isTrigger para diferenciar entre elementos que se elimian al colisionar o chocan y rebotan al colisionar

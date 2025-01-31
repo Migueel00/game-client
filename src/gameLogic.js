@@ -6,6 +6,7 @@ import {
     initKnightShield, initKnightArcher, initLifeIcon, createFireParticle, initFireworks
 } from "./initialize.js";
 import { createUserName, getPlayerData, postNewScore } from "./event.js";
+import CollisionManager from "./CollisionManager.js";
 
 export default function update() {
 
@@ -181,6 +182,9 @@ function playGame() {
     updateParticles();
 
     updateCamera();
+
+    const collisionManager = new CollisionManager(globals.sprites);
+    collisionManager.detectAllCollisions();
 }
 
 function newGame() {

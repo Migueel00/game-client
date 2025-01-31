@@ -10,12 +10,9 @@ import { positionLucretia } from "../src/gameLogic.js";
 import { Obstacles, Block2 } from "../src/constants.js";
 export default class EnemyArcher extends Sprite {
     isCollidingWithPlayerProyectile;
-    enemyArcher;
-    constructor(id, state, xPos, yPos, imageSet, frames, hud, physics, hitBox) {
-        super(id, state, xPos, yPos, imageSet, frames, hud, physics, hitBox);
+    constructor(id, state, xPos, yPos, imageSet, frames, physics, hitBox) {
+        super(id, state, xPos, yPos, imageSet, frames, physics, hitBox);
         this.isCollidingWithPlayerProyectile = false;
-        this.enemyArcher = true;
-        this.enemy = true;
     }
     static create() {
         const imageSet = new ImageSet(16, 0, 80, 80, 120, 80, 0, 0);
@@ -28,7 +25,7 @@ export default class EnemyArcher extends Sprite {
         // Objeto physics 
         const physics = new Physics(0, omega, initAngle, xRotCenter, yRotCenter);
         const hitBox = new HitBox(16, 40, 37, 22);
-        return new EnemyArcher(SpriteID.KNIGHT_ARCHER, State.KNIGHT_ARCHER_RIGHT, 0, 0, imageSet, frames, false, physics, hitBox);
+        return new EnemyArcher(SpriteID.KNIGHT_ARCHER, State.KNIGHT_ARCHER_RIGHT, 0, 0, imageSet, frames, physics, hitBox);
     }
     update() {
         this.updateKnightArcher();

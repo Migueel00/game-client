@@ -37,7 +37,6 @@ function init() : void{
     initCamera();
 
     initParticles();
-
 }
 
 //GAME EXECUTE

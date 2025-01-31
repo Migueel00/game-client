@@ -13,11 +13,10 @@ export default class ArcherProyectile extends Sprite {
         yPos: number,
         imageSet: ImageSet,
         frames: Frames,
-        hud: boolean,
         physics: Physics,
         hitBox: HitBox
     ) {
-        super(id, state, xPos, yPos, imageSet, frames, hud, physics, hitBox);
+        super(id, state, xPos, yPos, imageSet, frames, physics, hitBox);
     }
 
     public static create(xPos: number, yPos: number): ArcherProyectile {
@@ -29,7 +28,7 @@ export default class ArcherProyectile extends Sprite {
 
         const hitBox = new HitBox(16, 21, 14, 5);
 
-        return new ArcherProyectile(SpriteID.ARCHER_PROYECTILE, State.ARCHER_PROYECTILE_HORIZONTAL, xPos, yPos, imageSet, frames, false, physics, hitBox);
+        return new ArcherProyectile(SpriteID.ARCHER_PROYECTILE, State.ARCHER_PROYECTILE_HORIZONTAL, xPos, yPos, imageSet, frames, physics, hitBox);
     }
 
     public static createLeft(xPos: number, yPos: number): ArcherProyectile {
@@ -41,6 +40,6 @@ export default class ArcherProyectile extends Sprite {
 
         const hitBox = new HitBox(16, 21, 14, 5);
 
-        return new ArcherProyectile(SpriteID.ARCHER_PROYECTILE_LEFT, State.ARCHER_PROYECTILE_HORIZONTAL, xPos, yPos, imageSet, frames, false, physics, hitBox);
+        return new ArcherProyectile(SpriteID.ARCHER_PROYECTILE_LEFT, State.ARCHER_PROYECTILE_HORIZONTAL, xPos, yPos, imageSet, frames, physics, hitBox);
     }
 }

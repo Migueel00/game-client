@@ -19,20 +19,17 @@ export default class KnightShield extends Sprite {
         yPos: number,
         imageSet: ImageSet,
         frames: Frames,
-        hud: boolean,
         physics: Physics,
         hitBox: HitBox,
         maxTimeToChangeDirection: number
     ) {
 
         //LLamada al constructor de la clase Sprite
-        super(id, state, xPos, yPos, imageSet, frames, hud, physics, hitBox);
+        super(id, state, xPos, yPos, imageSet, frames, physics, hitBox);
 
         this.directionChangeCounter = 0;                             // Contador para cambio de direccion (seconds)
         this.maxTimeToChangeDirection = maxTimeToChangeDirection;      // Máximo tiempo para cambio de dirección (seconds)
         this.isCollidingWithPlayerProyectile = false;                         // Variable que indica si el sprite colisiona con un proyectil del player
-        this.enemy = true;                          // Variable para indicar si es un enemigo o no
-
     }
 
     public static create(): KnightShield {
@@ -52,7 +49,7 @@ export default class KnightShield extends Sprite {
         const canvasHeightWithoutBorders = globals.canvas.height - 2 * 32;        // Resta el doble del alto del borde
         const yPos = Math.floor(Math.random() * canvasHeightWithoutBorders) + 32; // Suma el alto de un borde
 
-        return new KnightShield(SpriteID.KNIGHT_SHIELD, State.KNIGHT_SHIELD_RIGHT, xPos, yPos, imageSet, frames, false, physics, hitBox, maxTimeToChangeDirection);
+        return new KnightShield(SpriteID.KNIGHT_SHIELD, State.KNIGHT_SHIELD_RIGHT, xPos, yPos, imageSet, frames, physics, hitBox, maxTimeToChangeDirection);
     }
 
     // hacer un update

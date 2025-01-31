@@ -5,7 +5,6 @@ export default class Fire {
     yPos;
     imageSet;
     frames;
-    hud;
     hitBox;
     constructor(id, state, xPos, yPos, imageSet, frames, hitBox) {
         this.id = id;
@@ -14,7 +13,6 @@ export default class Fire {
         this.yPos = yPos;
         this.imageSet = imageSet;
         this.frames = frames;
-        this.hud = false;
         this.hitBox = hitBox;
     }
     update() {
