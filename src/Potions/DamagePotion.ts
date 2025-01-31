@@ -36,7 +36,7 @@ export default class DamagePotion extends Potion {
     }
 
     public update() : void{
-
+        this.updateDamagePotion();
     }
 
     private updateDamagePotion() : void {

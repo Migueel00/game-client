@@ -19,6 +19,7 @@ export default class DamagePotion extends Potion {
         return new DamagePotion(SpriteID.DAMAGE_POTION, State.DAMAGE, 0, 38, imageSet, frames, timer, enemies);
     }
     update() {
+        this.updateDamagePotion();
     }
     updateDamagePotion() {
         const time = this.timer.value;
