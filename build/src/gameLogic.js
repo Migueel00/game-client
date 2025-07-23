@@ -1,6 +1,5 @@
 import globals from "./globals.js";
 import { Game, State, SpriteID, ParticleState, ParticleID, Sound } from "./constants.js";
-import detectCollisions from "./collisions.js";
 import { initKnight2, initKnightShield, initKnightArcher, initLifeIcon, createFireParticle, initFireworks } from "./initialize.js";
 import { createUserName, getPlayerData, postNewScore } from "./event.js";
 import CollisionManager from "./CollisionManager.js";
@@ -113,8 +112,6 @@ function calculateCollisionSpriteAndRemove(sprite) {
 function playGame() {
     // .... A completar
     updateSprites();
-    //Colisiones
-    detectCollisions();
     //Actualizacion de la lógica de juego
     updateLife();
     //Update timers

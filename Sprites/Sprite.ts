@@ -4,7 +4,7 @@ import Physics from "../src/Physics.js";
 import HitBox from "../src/HitBox.js";
 
 //Clase gestora de los sprites
-export default class Sprite{
+export default abstract class Sprite{
     id: number;
     state: number;
     xPos: number;
@@ -56,6 +56,8 @@ export default class Sprite{
         this.yPos += this.collisionAdjusment.y;
         this.collisionAdjusment = {x: 0, y: 0}
     }
+
+    public abstract update(lucretiaYpos? : number) : void;
 }
 
 

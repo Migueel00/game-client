@@ -22,4 +22,6 @@ export default class ArcherProyectile extends Sprite {
         const hitBox = new HitBox(16, 21, 14, 5);
         return new ArcherProyectile(SpriteID.ARCHER_PROYECTILE_LEFT, State.ARCHER_PROYECTILE_HORIZONTAL, xPos, yPos, imageSet, frames, physics, hitBox);
     }
+    update() {
+    }
 }

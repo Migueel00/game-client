@@ -1,6 +1,6 @@
 import Physics, { PhysicsParticle } from "../Physics.js";
 
-export default class Particle {
+export default abstract class Particle {
     id: number;
     state: number;
     xPos: number;
@@ -27,4 +27,6 @@ export default class Particle {
         this.alpha      = alpha;
         this.physics    = physics;
     }
+
+    public abstract update() : void;
 }

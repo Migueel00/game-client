@@ -327,15 +327,6 @@ function drawNewGameScreenSprite() {
         renderSpriteNewGame(sprite);
     }
 }
-function drawSpriteRectangle(sprite) {
-    //Datos del sprite
-    const x1 = Math.floor(sprite.xPos);
-    const y1 = Math.floor(sprite.yPos);
-    const w1 = sprite.imageSet.xSize;
-    const h1 = sprite.imageSet.ySize;
-    globals.ctx.fillStyle = "green";
-    globals.ctx.fillRect(x1, y1, w1, h1);
-}
 //Renderizar el HUD
 function renderHUD() {
     const score = globals.points;

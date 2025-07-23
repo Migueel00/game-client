@@ -42,4 +42,8 @@ export default class ArcherProyectile extends Sprite {
 
         return new ArcherProyectile(SpriteID.ARCHER_PROYECTILE_LEFT, State.ARCHER_PROYECTILE_HORIZONTAL, xPos, yPos, imageSet, frames, physics, hitBox);
     }
+
+    public update(): void {
+        
+    }
 }

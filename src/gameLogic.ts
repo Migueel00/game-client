@@ -1,12 +1,15 @@
 import globals from "./globals.js";
 import { Game, State, SpriteID, ParticleState, ParticleID, Sound } from "./constants.js";
-import detectCollisions from "./collisions.js";
 import {
     initKnight2,
     initKnightShield, initKnightArcher, initLifeIcon, createFireParticle, initFireworks
 } from "./initialize.js";
 import { createUserName, getPlayerData, postNewScore } from "./event.js";
 import CollisionManager from "./CollisionManager.js";
+import Timer from "./Timer.js";
+import Sprite from "../Sprites/Sprite.js";
+import Particle from "./Particles/Particle.js";
+import ArcherProyectile from "../Sprites/ArcherProyectile.js";
 
 export default function update() {
 
@@ -109,7 +112,7 @@ function updateDamagePotionTimer() {
     }
 }
 
-function updateArcherProyectile(sprite) {
+function updateArcherProyectile(sprite : ArcherProyectile) {
     // Maquina de estados
     switch (sprite.state) {
         case State.ARCHER_PROYECTILE_HORIZONTAL:
@@ -127,7 +130,7 @@ function updateArcherProyectile(sprite) {
     calculateCollisionSpriteAndRemove(sprite);
 }
 
-function updateArcherProyectileLeft(sprite) {
+function updateArcherProyectileLeft(sprite : ArcherProyectile) {
     switch (sprite.state) {
         case State.ARCHER_PROYECTILE_HORIZONTAL:
             //Disparo a la izquierda
@@ -143,7 +146,7 @@ function updateArcherProyectileLeft(sprite) {
     calculateCollisionSpriteAndRemove(sprite);
 }
 
-function calculateCollisionSpriteAndRemove(sprite) {
+function calculateCollisionSpriteAndRemove(sprite : Sprite) {
     let isCollision = calculateCollisionWithBorders(sprite);
 
     if (isCollision) {
@@ -156,8 +159,7 @@ function playGame() {
     // .... A completar
     updateSprites();
 
-    //Colisiones
-    detectCollisions();
+
 
     //Actualizacion de la lógica de juego
     updateLife();
@@ -208,7 +210,7 @@ function newGame() {
     }
 }
 
-function updateNewGame(sprite) {
+function updateNewGame(sprite : Sprite) {
     const time = globals.menuTimer.value;
 
     if (time >= 1) {
@@ -353,7 +355,7 @@ function updateSprites() {
 }
 
 
-function updateAnimationFrame(sprite) {
+function updateAnimationFrame(sprite : Sprite) {
 
     //aumento el contador de tiempo entre frames
     sprite.frames.frameChangeCounter++;
@@ -374,7 +376,7 @@ function updateAnimationFrame(sprite) {
     }
 }
 
-function updateSprite(sprite) {
+function updateSprite(sprite : Sprite) {
     const type = sprite.id;
     const lucretiaYPos = positionLucretia().yPos;
     switch (type) {
@@ -409,7 +411,7 @@ function updateSprite(sprite) {
 }
 
 
-function calculateCollisionWithBorders(sprite) {
+function calculateCollisionWithBorders(sprite : Sprite) {
     let isCollision = false;
 
     //Colision con el borde derecho de la pantalla
@@ -483,7 +485,7 @@ function initEnemiRandomly() {
 
 }
 
-function updateTimers(timer) {
+function updateTimers(timer : Timer) {
     timer.timeChangeCounter += globals.deltaTime;
 
     if (timer.timeChangeCounter > timer.timeChangeValue) {
@@ -495,7 +497,7 @@ function updateTimers(timer) {
 
 }
 
-function updateTimersPlus(timer) {
+function updateTimersPlus(timer : Timer) {
     timer.timeChangeCounter += globals.deltaTime;
 
     if (timer.timeChangeCounter > timer.timeChangeValue) {
@@ -564,7 +566,7 @@ function updateParticles() {
     }
 }
 
-function updateParticle(particle) {
+function updateParticle(particle : Particle) {
 
     const type = particle.id;
 
