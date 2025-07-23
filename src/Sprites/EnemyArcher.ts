@@ -1,13 +1,12 @@
-import ImageSet from "../src/ImageSet.js";
-import Frames from "../src/Frames.js";
-import Physics from "../src/Physics.js";
-import HitBox from "../src/HitBox.js";
-import { SpriteID, State } from "../src/constants.js";
-import globals from "../src/globals.js";
+import Frames from "../Frames.js";
+import HitBox from "../HitBox.js";
+import ImageSet from "../ImageSet.js";
+import Physics from "../Physics.js";
+import { Block2, Obstacles, SpriteID, State } from "../constants.js";
+import { positionLucretia } from "../gameLogic.js";
+import globals from "../globals.js";
+import { initArcherProyectile, initArcherProyectileLeft } from "../initialize.js";
 import Sprite from "./Sprite.js";
-import { initArcherProyectile, initArcherProyectileLeft } from "../src/initialize.js";
-import { positionLucretia } from "../src/gameLogic.js";
-import { Obstacles, Block2 } from "../src/constants.js";
 
 export default class EnemyArcher extends Sprite {
     isCollidingWithPlayerProyectile: boolean;

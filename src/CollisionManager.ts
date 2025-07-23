@@ -1,6 +1,6 @@
-import Sprite from "../Sprites/Sprite.js";
-import globals from "./globals.js";
+import Sprite from "./Sprites/Sprite.js";
 import { Block2, Obstacles, SpriteID, State } from "./constants.js";
+import globals from "./globals.js";
 
 type collisionSide = 'top' | 'bottom' | 'left' | 'right';
 

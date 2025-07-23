@@ -1,10 +1,10 @@
-import Potion from "./Potion.js";
-import ImageSet from "../ImageSet.js";
 import Frames from "../Frames.js";
+import ImageSet from "../ImageSet.js";
 import Timer from "../Timer.js";
 import { SpriteID, State } from "../constants.js";
 import globals from "../globals.js";
 import { initLifeIcon } from "../initialize.js";
+import Potion from "./Potion.js";
 export default class HealPotion extends Potion {
     timer;
     lucretia;

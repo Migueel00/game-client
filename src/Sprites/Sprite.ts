@@ -1,7 +1,7 @@
-import ImageSet from "../src/ImageSet.js";
-import Frames from "../src/Frames.js";
-import Physics from "../src/Physics.js";
-import HitBox from "../src/HitBox.js";
+import Frames from "../Frames.js";
+import HitBox from "../HitBox.js";
+import ImageSet from "../ImageSet.js";
+import Physics from "../Physics.js";
 
 //Clase gestora de los sprites
 export default abstract class Sprite{

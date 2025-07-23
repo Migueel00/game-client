@@ -1,8 +1,8 @@
-import globals from "./globals.js";
-import { Game, State, SpriteID, ParticleState, ParticleID, Sound } from "./constants.js";
-import { initKnight2, initKnightShield, initKnightArcher, initLifeIcon, createFireParticle, initFireworks } from "./initialize.js";
-import { createUserName, getPlayerData, postNewScore } from "./event.js";
 import CollisionManager from "./CollisionManager.js";
+import { Game, ParticleID, ParticleState, Sound, SpriteID, State } from "./constants.js";
+import { createUserName, getPlayerData, postNewScore } from "./event.js";
+import globals from "./globals.js";
+import { createFireParticle, initFireworks, initKnight2, initKnightArcher, initKnightShield, initLifeIcon } from "./initialize.js";
 export default function update() {
     //Change what the game is doing based on the game state
     switch (globals.gameState) {

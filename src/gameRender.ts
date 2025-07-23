@@ -1,7 +1,7 @@
+import { Game, ParticleID, ParticleState, SpriteID, State, Tile } from "./constants.js";
 import globals from "./globals.js";
-import { Game, Tile, ParticleState, ParticleID, State, SpriteID } from "./constants.js";
 import Particle from "./Particles/Particle.js";
-import Sprite from "../Sprites/Sprite.js";
+import Sprite from "./Sprites/Sprite.js";
 
 
 //Funcion que renderiza los gráficos

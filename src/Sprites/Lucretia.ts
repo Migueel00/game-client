@@ -1,11 +1,11 @@
+import Frames from "../Frames.js";
+import HitBox from "../HitBox.js";
+import ImageSet from "../ImageSet.js";
+import Physics from "../Physics.js";
+import { Block2, Obstacles, SpriteID, State } from "../constants.js";
+import globals from "../globals.js";
+import { initLucretiaProyectile, initLucretiaProyectileDown, initLucretiaProyectileLeft, initLucretiaProyectileUp } from "../initialize.js";
 import Sprite from "./Sprite.js";
-import ImageSet from "../src/ImageSet.js";
-import Frames from "../src/Frames.js";
-import Physics from "../src/Physics.js";
-import HitBox from "../src/HitBox.js";
-import { SpriteID, State, Block2, Obstacles } from "../src/constants.js";
-import globals from "../src/globals.js";
-import { initLucretiaProyectile, initLucretiaProyectileDown, initLucretiaProyectileLeft, initLucretiaProyectileUp } from "../src/initialize.js";
 
 export default class Lucretia extends Sprite {
     constructor(

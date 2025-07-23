@@ -1,5 +1,5 @@
+import { Game, ParticleID, ParticleState, SpriteID, State, Tile } from "./constants.js";
 import globals from "./globals.js";
-import { Game, Tile, ParticleState, ParticleID, State, SpriteID } from "./constants.js";
 //Funcion que renderiza los gráficos
 export default function render() {
     //Change what the game is doing based on the game state

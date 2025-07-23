@@ -1,27 +1,27 @@
-import globals from "./globals.js";
-import { Game, FPS, SpriteID, State, ParticleID, ParticleState, GRAVITI, Sound, ProyectileType } from "./constants.js";
-import Knight from "../Sprites/Knight.js";
-import LucretiaProyectile from "../Sprites/LucretiaProyectile.js";
-import EnemyArcher from "../Sprites/EnemyArcher.js";
-import ImageSet from "./ImageSet.js";
-import Frames from "./Frames.js";
-import { Level, level1, obstacles } from "./Level.js"; //Importar clase Level y level1
-import { PhysicsParticle } from "./Physics.js";
-import { keydownHandler, keyupHandler, updateMusic } from "./event.js";
-import { calculatePositionProyectile } from "./gameLogic.js";
-import HitBox from "./HitBox.js";
-import Timer from "./Timer.js";
 import Camera from "./Camera.js";
+import { FPS, Game, GRAVITI, ParticleID, ParticleState, ProyectileType, Sound, SpriteID, State } from "./constants.js";
+import { keydownHandler, keyupHandler, updateMusic } from "./event.js";
+import Frames from "./Frames.js";
+import { calculatePositionProyectile } from "./gameLogic.js";
+import globals from "./globals.js";
+import HitBox from "./HitBox.js";
+import ImageSet from "./ImageSet.js";
+import { Level, level1, obstacles } from "./Level.js"; //Importar clase Level y level1
 import ExplosionParticle from "./Particles/ExplosionParticle.js";
 import FireParticle from "./Particles/FireParticle.js";
-import Score from "./Score.js";
-import KnightShield from "../Sprites/KnightShield.js";
-import ArcherProyectile from "../Sprites/ArcherProyectile.js";
-import Lucretia from "../Sprites/Lucretia.js";
-import Fire from "../Sprites/Fire.js";
-import StaticSprite from "./StaticSprites/StaticSprite.js";
-import HealPotion from "./Potions/HealPotion.js";
+import { PhysicsParticle } from "./Physics.js";
 import DamagePotion from "./Potions/DamagePotion.js";
+import HealPotion from "./Potions/HealPotion.js";
+import Score from "./Score.js";
+import ArcherProyectile from "./Sprites/ArcherProyectile.js";
+import EnemyArcher from "./Sprites/EnemyArcher.js";
+import Fire from "./Sprites/Fire.js";
+import Knight from "./Sprites/Knight.js";
+import KnightShield from "./Sprites/KnightShield.js";
+import Lucretia from "./Sprites/Lucretia.js";
+import LucretiaProyectile from "./Sprites/LucretiaProyectile.js";
+import StaticSprite from "./StaticSprites/StaticSprite.js";
+import Timer from "./Timer.js";
 //Funcion que inicializa los elementos HTML
 function initHTMLelements() {
     //canvas context Screen
@@ -382,4 +382,4 @@ export function initScores(data) {
     }
 }
 //Exportamos las funciones
-export { initHTMLelements, initVars, loadAssets, initSprites, initLevel, initEvents, initObstacles, initTimers, initCamera, initParticles };
+export { initCamera, initEvents, initHTMLelements, initLevel, initObstacles, initParticles, initSprites, initTimers, initVars, loadAssets };

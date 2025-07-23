@@ -1,8 +1,6 @@
-import HealPotion from "./Potions/Potion.js";
-import Sprite from "../Sprites/Sprite.js";
 import { Key, Sound } from "./constants.js";
 import globals from "./globals.js";
-import { initLifeIcon, initScores } from "./initialize.js";
+import { initScores } from "./initialize.js";
 
 export function keydownHandler(event : KeyboardEvent) : void{
     

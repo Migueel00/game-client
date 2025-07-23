@@ -1,5 +1,5 @@
-import globals from "./globals.js";
 import { Block2, Obstacles, SpriteID, State } from "./constants.js";
+import globals from "./globals.js";
 export default class CollisionManager {
     sprites;
     static BRICK_SIZE;

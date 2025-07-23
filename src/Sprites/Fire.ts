@@ -1,6 +1,6 @@
-import Frames from "../src/Frames.js";
-import HitBox from "../src/HitBox.js";
-import ImageSet from "../src/ImageSet.js";
+import Frames from "../Frames.js";
+import HitBox from "../HitBox.js";
+import ImageSet from "../ImageSet.js";
 
 export default class Fire {
     id: number;

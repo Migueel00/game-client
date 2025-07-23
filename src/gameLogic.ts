@@ -1,15 +1,18 @@
-import globals from "./globals.js";
-import { Game, State, SpriteID, ParticleState, ParticleID, Sound } from "./constants.js";
-import {
-    initKnight2,
-    initKnightShield, initKnightArcher, initLifeIcon, createFireParticle, initFireworks
-} from "./initialize.js";
-import { createUserName, getPlayerData, postNewScore } from "./event.js";
 import CollisionManager from "./CollisionManager.js";
-import Timer from "./Timer.js";
-import Sprite from "../Sprites/Sprite.js";
+import { Game, ParticleID, ParticleState, Sound, SpriteID, State } from "./constants.js";
+import { createUserName, getPlayerData, postNewScore } from "./event.js";
+import globals from "./globals.js";
+import {
+    createFireParticle, initFireworks,
+    initKnight2,
+    initKnightArcher,
+    initKnightShield,
+    initLifeIcon
+} from "./initialize.js";
 import Particle from "./Particles/Particle.js";
-import ArcherProyectile from "../Sprites/ArcherProyectile.js";
+import ArcherProyectile from "./Sprites/ArcherProyectile.js";
+import Sprite from "./Sprites/Sprite.js";
+import Timer from "./Timer.js";
 
 export default function update() {
 

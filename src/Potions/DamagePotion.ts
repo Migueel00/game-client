@@ -1,12 +1,12 @@
-import Potion from "./Potion.js";
-import ImageSet from "../ImageSet.js";
 import Frames from "../Frames.js";
+import ImageSet from "../ImageSet.js";
+import EnemyArcher from "../Sprites/EnemyArcher.js";
+import Knight from "../Sprites/Knight.js";
+import KnightShield from "../Sprites/KnightShield.js";
 import Timer from "../Timer.js";
 import { SpriteID, State } from "../constants.js";
-import Knight from "../../Sprites/Knight.js";
-import KnightShield from "../../Sprites/KnightShield.js";
-import EnemyArcher from "../../Sprites/EnemyArcher.js";
 import globals from "../globals.js";
+import Potion from "./Potion.js";
 
 export default class DamagePotion extends Potion {
     timer: Timer;
