@@ -2,7 +2,6 @@ import Camera from "./Camera.js";
 import { FPS, Game, GRAVITI, ParticleID, ParticleState, ProyectileType, Sound, SpriteID, State } from "./constants.js";
 import { keydownHandler, keyupHandler, updateMusic } from "./event.js";
 import Frames from "./Frames.js";
-import { calculatePositionProyectile } from "./gameLogic.js";
 import globals from "./globals.js";
 import HitBox from "./HitBox.js";
 import ImageSet from "./ImageSet.js";
@@ -22,6 +21,7 @@ import Lucretia from "./Sprites/Lucretia.js";
 import LucretiaProyectile from "./Sprites/LucretiaProyectile.js";
 import StaticSprite from "./StaticSprites/StaticSprite.js";
 import Timer from "./Timer.js";
+import { calculatePositionProyectile } from "./GameLogic.js";
 //Funcion que inicializa los elementos HTML
 function initHTMLelements() {
     //canvas context Screen

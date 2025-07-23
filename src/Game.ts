@@ -1,12 +1,14 @@
 import globals from "./globals.js";
 import {initHTMLelements, loadAssets,initVars, initSprites, initLevel, initEvents, initObstacles, initTimers, initCamera, initParticles} from "./initialize.js"
-import update from "./gameLogic.js";
 import render from "./gameRender.js";
+import GameLogic from "./GameLogic.js";
+
 
 export default class Game {
+  private gameLogic : GameLogic;
 
   constructor() {
-
+    this.gameLogic = new GameLogic();
   }
 
   public init() : void {
@@ -32,7 +34,7 @@ export default class Game {
     globals.deltaTime += elapsedCycleSeconds;
 
     if(globals.deltaTime >= globals.frameTimeObj){
-      update();
+      this.gameLogic.update();
       render();
       globals.deltaTime = 0;
     }

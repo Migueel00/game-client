@@ -2,7 +2,7 @@
 import { Game } from "./constants.js";
 export default {
     //Acceso al canvas y context
-    canvas: {},
+    canvas: null,
     ctx: {},
     canvasHUD: {},
     ctxHUD: {},

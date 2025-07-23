@@ -2,7 +2,6 @@ import Camera from "./Camera.js";
 import { FPS, Game, GRAVITI, ParticleID, ParticleState, ProyectileType, Sound, SpriteID, State } from "./constants.js";
 import { keydownHandler, keyupHandler, updateMusic } from "./event.js";
 import Frames from "./Frames.js";
-import { calculatePositionProyectile } from "./gameLogic.js";
 import globals from "./globals.js";
 import HitBox from "./HitBox.js";
 import ImageSet from "./ImageSet.js";
@@ -22,13 +21,15 @@ import Lucretia from "./Sprites/Lucretia.js";
 import LucretiaProyectile from "./Sprites/LucretiaProyectile.js";
 import StaticSprite from "./StaticSprites/StaticSprite.js";
 import Timer from "./Timer.js";
+import { calculatePositionProyectile } from "./GameLogic.js";
+
 
 
 //Funcion que inicializa los elementos HTML
 function initHTMLelements(): void{
     //canvas context Screen
-    globals.canvas = document.getElementById('gameScreen');
-    globals.ctx = globals.canvas.getContext("2d");
+    globals.canvas = document.getElementById('gameScreen') as HTMLCanvasElement;
+    globals.ctx = globals.canvas!.getContext("2d");
 
     //canvas context HUD
     globals.canvasHUD = document.getElementById('gameHUD');
@@ -283,9 +284,9 @@ function initFire() : void{
     let nFire = Math.floor(Math.random()* 10 + 1);
 
     for(let i = 0; i < nFire; i++){
-        let xPosAleatoria = Math.floor(Math.random()* (globals.canvas.width - 32) + 1);
+        let xPosAleatoria = Math.floor(Math.random()* (globals.canvas!.width - 32) + 1);
         
-        let yPosAleatoria = Math.floor(Math.random()* (globals.canvas.height - 32)+ 1);
+        let yPosAleatoria = Math.floor(Math.random()* (globals.canvas!.height - 32)+ 1);
 
         const fire  = new Fire(SpriteID.FIRE, State.FIRE_LOOP, xPosAleatoria, yPosAleatoria, imageSet, frames, hitBox);
         fire.xPos = xPosAleatoria;
@@ -424,8 +425,8 @@ function initParticles(){
 function initExplosion(){
 
     const numParticles  = 30;
-    const xInit         = globals.canvas.width / 2;
-    const yInit         = globals.canvas.height / 2;
+    const xInit         = globals.canvas!.width / 2;
+    const yInit         = globals.canvas!.height / 2;
     const radius        = 1.5;
     const timeToFadeMax = 5;
     const alpha         = 1.0;
@@ -449,8 +450,8 @@ function initExplosion(){
 export function initFireworks(){
     
     const numParticles  = 200;
-    const xInit         = Math.floor(Math.random() * globals.canvas.width +  1);
-    const yInit         = Math.floor(Math.random() * globals.canvas.height + 1);
+    const xInit         = Math.floor(Math.random() * globals.canvas!.width +  1);
+    const yInit         = Math.floor(Math.random() * globals.canvas!.height + 1);
     const radius        = 1.5;
     const timeToFadeMax = 2;
     const alpha         = 1.0;

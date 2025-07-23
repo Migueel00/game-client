@@ -4,7 +4,7 @@ import {Game} from "./constants.js";
 export default {
 
     //Acceso al canvas y context
-    canvas: {},
+    canvas: null,
     ctx:    {},
     canvasHUD: {},
     ctxHUD: {},
@@ -92,7 +92,7 @@ export default {
 } as globals;
 
 interface globals {
-    canvas: any;
+    canvas: HTMLCanvasElement | null;
     ctx: any;
     canvasHUD: any; 
     ctxHUD: any;
