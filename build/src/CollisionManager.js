@@ -1,9 +1,20 @@
 import globals from "./globals.js";
-import { SpriteID, State } from "./constants.js";
+import { Block2, Obstacles, SpriteID, State } from "./constants.js";
 export default class CollisionManager {
     sprites;
+    static BRICK_SIZE;
+    static OBSTACLE_TYPES;
+    static MAP_OBSTACLES;
     constructor(sprites) {
         this.sprites = sprites;
+    }
+    static initialize() {
+        this.BRICK_SIZE = globals.level.imageSet.xGridSize;
+        this.OBSTACLE_TYPES = [Obstacles.BLOQUE_3, Obstacles.BLOQUE_2,
+            Obstacles.BLOQUE_6, Obstacles.BLOQUE_5, Obstacles.BLOQUE_8,
+            Obstacles.BLOQUE_7
+        ];
+        this.MAP_OBSTACLES = [Block2.BLOQUE_4];
     }
     detectAllCollisions() {
         const player = this.getPlayer();

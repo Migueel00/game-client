@@ -13,6 +13,10 @@ export default class Sprite {
     isCollidingWithObstacleOnTheLeft;
     isCollidingWithObstacleOnTheBottom;
     isCollidingWithObstacleOnTheRight;
+    collisionAdjusment = {
+        x: 0,
+        y: 0
+    };
     constructor(id, state, xPos, yPos, imageSet, frames, physics, hitBox) {
         this.id = id; // Tipo de sprite
         this.state = state; // Estado de animacion del sprite
@@ -27,5 +31,11 @@ export default class Sprite {
         this.isCollidingWithObstacleOnTheLeft = false; // hacia la izq
         this.isCollidingWithObstacleOnTheBottom = false; // Hacia abajo
         this.isCollidingWithObstacleOnTheRight = false; // Hacia la derecha
+    }
+    // Method for apply adjust collision
+    applyCollisionAdjustment() {
+        this.xPos += this.collisionAdjusment.x;
+        this.yPos += this.collisionAdjusment.y;
+        this.collisionAdjusment = { x: 0, y: 0 };
     }
 }

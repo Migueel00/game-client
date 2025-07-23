@@ -18,6 +18,10 @@ export default class Sprite{
     isCollidingWithObstacleOnTheLeft: boolean;
     isCollidingWithObstacleOnTheBottom: boolean;
     isCollidingWithObstacleOnTheRight: boolean;
+    public collisionAdjusment = {   // new properties to manage collisions
+        x: 0,
+        y: 0
+    }
 
     constructor(
         id: number,
@@ -43,6 +47,14 @@ export default class Sprite{
         this.isCollidingWithObstacleOnTheLeft   = false;    // hacia la izq
         this.isCollidingWithObstacleOnTheBottom = false;    // Hacia abajo
         this.isCollidingWithObstacleOnTheRight  = false;    // Hacia la derecha
+    }
+
+
+    // Method for apply adjust collision
+    public applyCollisionAdjustment(){
+        this.xPos += this.collisionAdjusment.x;
+        this.yPos += this.collisionAdjusment.y;
+        this.collisionAdjusment = {x: 0, y: 0}
     }
 }
 
