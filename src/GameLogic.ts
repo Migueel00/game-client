@@ -47,8 +47,8 @@ export default class GameLogic {
     }
 
     if (globals.action.enter) {
-      globals.sounds[Sound.GAME_MUSIC].play();
-      globals.sounds[Sound.GAME_MUSIC].volume = 0.4;
+      globals.getGameMusic().play();
+      globals.getGameMusic().volume = 0.4;
     }
   }
 

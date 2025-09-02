@@ -1,7 +1,10 @@
-import { Key, Sound } from "./constants.js";
+import { Key } from "./constants.js";
 import globals from "./globals.js";
 import { initScores } from "./initialize.js";
 export function keydownHandler(event) {
+    // Primero, delegar el evento al SceneManager
+    globals.handleSceneInput(event);
+    // Luego, manejar controles específicos del juego (cuando estemos en GameScene)
     switch (event.keyCode) {
         case Key.UP:
             globals.action.moveUp = true;
@@ -110,7 +113,7 @@ export function postNewScore() {
 }
 export function updateMusic() {
     const buffer = 0.28;
-    const music = globals.sounds[Sound.GAME_MUSIC];
+    const music = globals.getGameMusic();
     if (music.currentTime > music.duration - buffer) {
         music.currentTime = 0;
         music.play();

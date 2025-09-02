@@ -1,10 +1,13 @@
 import { Game } from "./constants.js";
-import { CanvasManager } from "./core/CanvasManager.js";
 import { AssetManager } from "./core/AssetManager.js";
+import { CanvasManager } from "./core/CanvasManager.js";
+import { SceneManager } from "./core/SceneManager.js";
+import { MenuScene } from "./scenes/MenuScene.js";
 export class GameState {
     // Canvas y contextos
     canvasManager;
     assetManager;
+    sceneManager;
     // Estado del juego
     gameState = Game.INVALID;
     // Tiempo
@@ -14,17 +17,12 @@ export class GameState {
     frameTimeObj = 0;
     // Debug
     txtPruebas = {};
-    // Assets
-    assetsToLoad = [];
-    assetsLoaded = 0;
     // Sprites
     sprites = [];
     storySprites = [];
     controlSprites = [];
     spritesHUD = [];
     spritesNewGame = [];
-    // Datos de imagen
-    tileSets = [];
     // Nivel
     level = {};
     obstacles = {};
@@ -52,7 +50,6 @@ export class GameState {
     aux = 0;
     auxName = 0;
     // Sonidos
-    sounds = [];
     currentSound = -1;
     constructor() {
         // Los canvas se inicializarán después mediante métodos específicos
@@ -68,6 +65,35 @@ export class GameState {
     }
     getCanvasSize() {
         return this.canvasManager.getCanvasSize();
+    }
+    // Métodos del SceneManager
+    initializeScenes() {
+        this.sceneManager = new SceneManager();
+        // Crear y registrar la escena de menú
+        const menuScene = new MenuScene();
+        this.sceneManager.addScene("menu", menuScene);
+        // Comenzar con la escena de menú
+        this.sceneManager.switchToScene("menu");
+    }
+    updateCurrentScene(deltaTime) {
+        if (this.sceneManager) {
+            this.sceneManager.update(deltaTime);
+        }
+    }
+    renderCurrentScene() {
+        if (this.sceneManager) {
+            this.sceneManager.render();
+        }
+    }
+    handleSceneInput(event) {
+        if (this.sceneManager) {
+            this.sceneManager.handleInput(event);
+        }
+    }
+    switchToScene(sceneName) {
+        if (this.sceneManager) {
+            this.sceneManager.switchToScene(sceneName);
+        }
     }
     // Método para resetear el estado del juego
     reset() {

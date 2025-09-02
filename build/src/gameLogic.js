@@ -1,5 +1,5 @@
 import CollisionManager from "./CollisionManager.js";
-import { Game, ParticleID, ParticleState, Sound, SpriteID, State } from "./constants.js";
+import { Game, ParticleID, ParticleState, SpriteID, State } from "./constants.js";
 import { createUserName, getPlayerData, postNewScore } from "./event.js";
 import globals from "./globals.js";
 import { createFireParticle, initFireworks, initKnight2, initKnightArcher, initKnightShield, initLifeIcon } from "./initialize.js";
@@ -34,8 +34,8 @@ export default class GameLogic {
                 console.error("Error : Game state invalid");
         }
         if (globals.action.enter) {
-            globals.sounds[Sound.GAME_MUSIC].play();
-            globals.sounds[Sound.GAME_MUSIC].volume = 0.4;
+            globals.getGameMusic().play();
+            globals.getGameMusic().volume = 0.4;
         }
     }
     updateTimers(timer) {

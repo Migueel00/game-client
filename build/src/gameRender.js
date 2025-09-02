@@ -1,4 +1,4 @@
-import { Game, ParticleID, ParticleState, SpriteID, State, Tile } from "./constants.js";
+import { Game, ParticleID, ParticleState, SpriteID, State } from "./constants.js";
 import globals from "./globals.js";
 //Funcion que renderiza los gráficos
 export default function render() {
@@ -226,7 +226,7 @@ function renderMap() {
             const xPos = j * 16;
             const yPos = i * 16;
             //Dibujar el nuevo fotograma del sprite en la posicion adecuada
-            globals.ctx.drawImage(globals.tileSets[Tile.SIZE_32], //The image file
+            globals.ctx.drawImage(globals.getMapImage(), //The image file
             xTile, yTile, //The source x and y position
             brickSize, brickSize, //The source height and width
             xPos, yPos, //The destination x and y position
@@ -249,7 +249,7 @@ function renderObstacles() {
             const xPos = j * 16;
             const yPos = i * 16;
             //Dibujar el nuevo fotograma del sprite en la posicion adecuada
-            globals.ctx.drawImage(globals.tileSets[Tile.SIZE_32], //The image file
+            globals.ctx.drawImage(globals.getMapImage(), //The image file
             xTile, yTile, //The source x and y position
             brickSize, brickSize, //The source height and width
             xPos, yPos, //The destination x and y position
@@ -275,7 +275,7 @@ function renderSprite(sprite) {
     // volver al origen
     globals.ctx.translate(-(xPos + sprite.imageSet.xSize / 2), -(yPos + sprite.imageSet.ySize / 2));
     //Dibujamos el nuevo fotograma del sprite en la posicion adecuada
-    globals.ctx.drawImage(globals.tileSets[Tile.SIZE_64], xTile, yTile, sprite.imageSet.xSize, sprite.imageSet.ySize, xPos, yPos, 
+    globals.ctx.drawImage(globals.getSpriteSheet(), xTile, yTile, sprite.imageSet.xSize, sprite.imageSet.ySize, xPos, yPos, 
     // 40,60
     sprite.imageSet.xSize, sprite.imageSet.ySize);
     // Restauramos el contexto inicialç
@@ -379,7 +379,7 @@ function renderSpriteHudSide(sprite) {
     const xPos = Math.floor(sprite.xPos);
     const yPos = Math.floor(sprite.yPos);
     //Dibujamos el nuevo fotograma del sprite en la posicion adecuada
-    globals.ctxHUD2.drawImage(globals.tileSets[Tile.SIZE_64], xTile, yTile, sprite.imageSet.xSize, sprite.imageSet.ySize, xPos, yPos, sprite.imageSet.xSize, sprite.imageSet.ySize);
+    globals.ctxHUD2.drawImage(globals.getSpriteSheet(), xTile, yTile, sprite.imageSet.xSize, sprite.imageSet.ySize, xPos, yPos, sprite.imageSet.xSize, sprite.imageSet.ySize);
 }
 function renderSpriteHud(sprite) {
     //Calculamos la posición en el tilemap a dibujar
@@ -391,7 +391,7 @@ function renderSpriteHud(sprite) {
     const xPos = Math.floor(sprite.xPos);
     const yPos = Math.floor(sprite.yPos);
     //Dibujamos el nuevo fotograma del sprite en la posicion adecuada
-    globals.ctxHUD.drawImage(globals.tileSets[Tile.SIZE_64], xTile, yTile, sprite.imageSet.xSize, sprite.imageSet.ySize, xPos, yPos, 35, 20);
+    globals.ctxHUD.drawImage(globals.getSpriteSheet(), xTile, yTile, sprite.imageSet.xSize, sprite.imageSet.ySize, xPos, yPos, 35, 20);
 }
 function drawHitBox(sprite) {
     // Datos del sprite
@@ -420,7 +420,7 @@ function renderSpriteNewGame(sprite) {
     const xPos = Math.floor(sprite.xPos);
     const yPos = Math.floor(sprite.yPos);
     //Dibujamos el nuevo fotograma del sprite en la posicion adecuada
-    globals.ctx.drawImage(globals.tileSets[Tile.SIZE_64], xTile, yTile, sprite.imageSet.xSize, sprite.imageSet.ySize, xPos, yPos, 
+    globals.ctx.drawImage(globals.getSpriteSheet(), xTile, yTile, sprite.imageSet.xSize, sprite.imageSet.ySize, xPos, yPos, 
     // 40,60
     sprite.imageSet.xSize, sprite.imageSet.ySize);
     restoreCamera();

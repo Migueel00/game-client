@@ -312,7 +312,7 @@ function renderMap() {
 
             //Dibujar el nuevo fotograma del sprite en la posicion adecuada
             globals.ctx.drawImage(
-                globals.tileSets[Tile.SIZE_32],  //The image file
+                globals.getMapImage(),  //The image file
                 xTile, yTile,                    //The source x and y position
                 brickSize, brickSize,            //The source height and width
                 xPos, yPos,                      //The destination x and y position
@@ -345,7 +345,7 @@ function renderObstacles() {
 
             //Dibujar el nuevo fotograma del sprite en la posicion adecuada
             globals.ctx.drawImage(
-                globals.tileSets[Tile.SIZE_32],  //The image file
+                globals.getMapImage(),  //The image file
                 xTile, yTile,                    //The source x and y position
                 brickSize, brickSize,            //The source height and width
                 xPos, yPos,                      //The destination x and y position
@@ -384,7 +384,7 @@ function renderSprite(sprite : Sprite) {
 
     //Dibujamos el nuevo fotograma del sprite en la posicion adecuada
     globals.ctx.drawImage(
-        globals.tileSets[Tile.SIZE_64],
+        globals.getSpriteSheet(),
         xTile, yTile,
         sprite.imageSet.xSize, sprite.imageSet.ySize,
         xPos, yPos,
@@ -525,7 +525,7 @@ function renderSpriteHudSide(sprite : Sprite) {
     const yPos = Math.floor(sprite.yPos);
 
     //Dibujamos el nuevo fotograma del sprite en la posicion adecuada
-    globals.ctxHUD2.drawImage(globals.tileSets[Tile.SIZE_64], xTile, yTile, sprite.imageSet.xSize, sprite.imageSet.ySize,
+    globals.ctxHUD2.drawImage(globals.getSpriteSheet(), xTile, yTile, sprite.imageSet.xSize, sprite.imageSet.ySize,
         xPos, yPos,
         sprite.imageSet.xSize, sprite.imageSet.ySize
     );
@@ -545,7 +545,7 @@ function renderSpriteHud(sprite : Sprite) {
     const yPos = Math.floor(sprite.yPos);
 
     //Dibujamos el nuevo fotograma del sprite en la posicion adecuada
-    globals.ctxHUD.drawImage(globals.tileSets[Tile.SIZE_64], xTile, yTile, sprite.imageSet.xSize, sprite.imageSet.ySize,
+    globals.ctxHUD.drawImage(globals.getSpriteSheet(), xTile, yTile, sprite.imageSet.xSize, sprite.imageSet.ySize,
         xPos, yPos,
         35, 20
     );
@@ -592,7 +592,7 @@ function renderSpriteNewGame(sprite : Sprite) {
 
     //Dibujamos el nuevo fotograma del sprite en la posicion adecuada
     globals.ctx.drawImage(
-        globals.tileSets[Tile.SIZE_64],
+        globals.getSpriteSheet(),
         xTile, yTile,
         sprite.imageSet.xSize, sprite.imageSet.ySize,
         xPos, yPos,
@@ -601,7 +601,6 @@ function renderSpriteNewGame(sprite : Sprite) {
     );
 
     restoreCamera();
-
 }
 
 function renderParticles() {
