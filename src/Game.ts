@@ -1,7 +1,7 @@
-import globals from "./globals.js";
-import {initHTMLelements, loadAssets,initVars, initSprites, initLevel, initEvents, initObstacles, initTimers, initCamera, initParticles} from "./initialize.js"
-import render from "./gameRender.js";
 import GameLogic from "./GameLogic.js";
+import render from "./gameRender.js";
+import globals from "./globals.js";
+import { initCamera, initEvents, initHTMLelements, initLevel, initObstacles, initParticles, initSprites, initTimers, initVars, loadAssets } from "./initialize.js";
 
 
 export default class Game {

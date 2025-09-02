@@ -1,5 +1,23 @@
 {
   "devDependencies": {
     "typescript": "^5.7.3"
-  }
+  },
+  "name": "game-client",
+  "version": "1.0.0",
+  "description": "Arcade game build with TS",
+  "main": "game.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsc --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Migueel00/game-client.git"
+  },
+  "author": "Migueel00",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Migueel00/game-client/issues"
+  },
+  "homepage": "https://github.com/Migueel00/game-client#readme"
 }

@@ -35,9 +35,7 @@ export default function render() {
 function drawGame() {
     // moveCamera();
     //Borramos la pantalla entera
-    globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
-    globals.ctxHUD.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
-    globals.ctxHUD2.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
+    globals.clearAllCanvas();
     // Cambiar de estado los hud
     let gameHUd = document.getElementById("gameHUD");
     let gameHUD2 = document.getElementById("gameHUD2");
@@ -71,7 +69,7 @@ function drawNewGame() {
     gameScreen.style.background = "black";
     gameScreen.style.marginTop = "0px";
     //Dibujar nombre del juego
-    const x = globals.canvas.width / 2;
+    const x = globals.getCanvasCenter().x;
     globals.ctx.font = "18px Emulogic";
     globals.ctx.fillStyle = "Yellow";
     globals.ctx.textAlign = "center";
@@ -163,7 +161,6 @@ function drawHighscores() {
     for (let i = 0; i < globals.score.length; i++) {
         const score = globals.score[i];
         globals.ctx.fillStyle = '#fff';
-        globals.ctx.fillText(i + 1, x - 100, 140 + i * 18);
         globals.ctx.fillText(`${score.name}`, x + 20, 140 + i * 18);
         globals.ctx.fillStyle = "yellow";
         globals.ctx.fillText(`${score.score}`, x + 100, 140 + i * 18);
@@ -194,7 +191,7 @@ function drawGameOver() {
     globals.ctx.fillStyle = "#F7AE00";
     globals.ctx.fillText("score: ", 320, 250);
     globals.ctx.fillStyle = "#fff";
-    globals.ctx.fillText(score, 365, 250);
+    globals.ctx.fillText(`${score}`, 365, 250);
     //Estilos new game  
     globals.ctx.fillText("<--", 20, globals.canvas.height - 40);
     globals.ctx.fillText("NEW GAME", 50, globals.canvas.height - 20);
@@ -206,8 +203,8 @@ function drawGameOver() {
 function limpiarPantalla() {
     //Borramos la pantalla entera
     globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
-    globals.ctxHUD.clearRect(0, 0, globals.canvasHUD.width, globals.ctxHUD.height);
-    globals.ctxHUD2.clearRect(0, 0, globals.canvasHUD2.width, globals.ctxHUD2.height);
+    globals.ctxHUD.clearRect(0, 0, globals.canvasHUD.width, globals.canvasHUD.height);
+    globals.ctxHUD2.clearRect(0, 0, globals.canvasHUD2.width, globals.canvasHUD2.height);
     //quitar los huds 
     let gameHUd = document.getElementById("gameHUD");
     let gameHUD2 = document.getElementById("gameHUD2");

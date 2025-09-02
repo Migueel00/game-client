@@ -1,11 +1,11 @@
+import { Block2, Obstacles, SpriteID, State } from "../constants.js";
 import Frames from "../Frames.js";
+import { positionLucretia } from "../GameLogic.js";
+import globals from "../globals.js";
 import HitBox from "../HitBox.js";
 import ImageSet from "../ImageSet.js";
-import Physics from "../Physics.js";
-import { Block2, Obstacles, SpriteID, State } from "../constants.js";
-import { positionLucretia } from "../gameLogic.js";
-import globals from "../globals.js";
 import { initArcherProyectile, initArcherProyectileLeft } from "../initialize.js";
+import Physics from "../Physics.js";
 import Sprite from "./Sprite.js";
 
 export default class EnemyArcher extends Sprite {

@@ -2,6 +2,7 @@ import Camera from "./Camera.js";
 import { FPS, Game, GRAVITI, ParticleID, ParticleState, ProyectileType, Sound, SpriteID, State } from "./constants.js";
 import { keydownHandler, keyupHandler, updateMusic } from "./event.js";
 import Frames from "./Frames.js";
+import { calculatePositionProyectile } from "./GameLogic.js";
 import globals from "./globals.js";
 import HitBox from "./HitBox.js";
 import ImageSet from "./ImageSet.js";
@@ -21,23 +22,15 @@ import Lucretia from "./Sprites/Lucretia.js";
 import LucretiaProyectile from "./Sprites/LucretiaProyectile.js";
 import StaticSprite from "./StaticSprites/StaticSprite.js";
 import Timer from "./Timer.js";
-import { calculatePositionProyectile } from "./GameLogic.js";
 
 
 
 //Funcion que inicializa los elementos HTML
 function initHTMLelements(): void{
-    //canvas context Screen
-    globals.canvas = document.getElementById('gameScreen') as HTMLCanvasElement;
-    globals.ctx = globals.canvas!.getContext("2d");
-
-    //canvas context HUD
-    globals.canvasHUD = document.getElementById('gameHUD');
-    globals.ctxHUD    = globals.canvasHUD.getContext("2d");
-
-    //canvas HUD Game
-    globals.canvasHUD2 = document.getElementById('gameHUD2');
-    globals.ctxHUD2    = globals.canvasHUD2.getContext("2d");
+    //Inicializar canvas usando los nuevos métodos de la clase
+    globals.initializeCanvas('gameScreen');
+    globals.initializeHUDCanvas('gameHUD');
+    globals.initializeHUD2Canvas('gameHUD2');
 
     //Eliminacion del Anti-Aliasing
     globals.ctx.imageSmoothingEnabled = false;
@@ -516,3 +509,4 @@ export {
     initCamera, initEvents, initHTMLelements, initLevel, initObstacles, initParticles, initSprites, initTimers, initVars,
     loadAssets
 };
+
