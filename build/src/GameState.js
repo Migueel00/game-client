@@ -1,12 +1,8 @@
 import { Game } from "./constants.js";
+import { CanvasManager } from "./core/CanvasManager.js";
 export class GameState {
     // Canvas y contextos
-    _canvas;
-    _ctx;
-    _canvasHUD;
-    _ctxHUD;
-    _canvasHUD2;
-    _ctxHUD2;
+    canvasManager;
     // Estado del juego
     gameState = Game.INVALID;
     // Tiempo
@@ -59,100 +55,17 @@ export class GameState {
     constructor() {
         // Los canvas se inicializarán después mediante métodos específicos
     }
-    // Método para inicializar el canvas principal
-    initializeCanvas(canvasId) {
-        const canvas = document.getElementById(canvasId);
-        if (!canvas) {
-            throw new Error(`Canvas with id '${canvasId}' not found`);
-        }
-        this._canvas = canvas;
-        const ctx = canvas.getContext('2d');
-        if (!ctx) {
-            throw new Error('Could not get 2D context from canvas');
-        }
-        this._ctx = ctx;
+    initializeCanvas() {
+        this.canvasManager = new CanvasManager();
+        this.canvasManager.initializeCanvas('gameScreen', 'gameHUD', 'sideGameHud');
+        // Configurar anti-aliasing
+        this.canvasManager.ctx.imageSmoothingEnabled = false;
     }
-    // Método para inicializar el HUD canvas
-    initializeHUDCanvas(canvasId) {
-        const canvas = document.getElementById(canvasId);
-        if (!canvas) {
-            throw new Error(`HUD Canvas with id '${canvasId}' not found`);
-        }
-        this._canvasHUD = canvas;
-        const ctx = canvas.getContext('2d');
-        if (!ctx) {
-            throw new Error('Could not get 2D context from HUD canvas');
-        }
-        this._ctxHUD = ctx;
-    }
-    // Método para inicializar el HUD2 canvas
-    initializeHUD2Canvas(canvasId) {
-        const canvas = document.getElementById(canvasId);
-        if (!canvas) {
-            throw new Error(`HUD2 Canvas with id '${canvasId}' not found`);
-        }
-        this._canvasHUD2 = canvas;
-        const ctx = canvas.getContext('2d');
-        if (!ctx) {
-            throw new Error('Could not get 2D context from HUD2 canvas');
-        }
-        this._ctxHUD2 = ctx;
-    }
-    // Getters para acceso seguro a canvas y contextos
-    get canvas() {
-        if (!this._canvas) {
-            throw new Error('Canvas not initialized. Call initializeCanvas() first.');
-        }
-        return this._canvas;
-    }
-    get ctx() {
-        if (!this._ctx) {
-            throw new Error('Canvas context not initialized. Call initializeCanvas() first.');
-        }
-        return this._ctx;
-    }
-    get canvasHUD() {
-        if (!this._canvasHUD) {
-            throw new Error('HUD Canvas not initialized. Call initializeHUDCanvas() first.');
-        }
-        return this._canvasHUD;
-    }
-    get ctxHUD() {
-        if (!this._ctxHUD) {
-            throw new Error('HUD Canvas context not initialized. Call initializeHUDCanvas() first.');
-        }
-        return this._ctxHUD;
-    }
-    get canvasHUD2() {
-        if (!this._canvasHUD2) {
-            throw new Error('HUD2 Canvas not initialized. Call initializeHUD2Canvas() first.');
-        }
-        return this._canvasHUD2;
-    }
-    get ctxHUD2() {
-        if (!this._ctxHUD2) {
-            throw new Error('HUD2 Canvas context not initialized. Call initializeHUD2Canvas() first.');
-        }
-        return this._ctxHUD2;
-    }
-    // Métodos de utilidad
-    getCanvasWidth() {
-        return this.canvas.width;
-    }
-    getCanvasHeight() {
-        return this.canvas.height;
-    }
-    getCanvasCenter() {
-        return {
-            x: this.canvas.width / 2,
-            y: this.canvas.height / 2
-        };
-    }
-    // Método para limpiar todos los canvas
     clearAllCanvas() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctxHUD.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctxHUD2.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.canvasManager.clearCanvas();
+    }
+    getCanvasSize() {
+        return this.canvasManager.getCanvasSize();
     }
     // Método para resetear el estado del juego
     reset() {
@@ -166,6 +79,25 @@ export class GameState {
         this.auxName = 0;
         this.currentSound = -1;
         // Resetear otros valores según necesites
+    }
+    // Getters para acceso a canvas (para compatibilidad con código existente)
+    get canvas() {
+        return this.canvasManager.canvas;
+    }
+    get ctx() {
+        return this.canvasManager.ctx;
+    }
+    get canvasHUD() {
+        return this.canvasManager.hudCanvas;
+    }
+    get ctxHUD() {
+        return this.canvasManager.hudCtx;
+    }
+    get canvasHUD2() {
+        return this.canvasManager.sideHudCanvas;
+    }
+    get ctxHUD2() {
+        return this.canvasManager.sideHudCtx;
     }
 }
 // Instancia singleton del estado del juego

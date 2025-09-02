@@ -93,7 +93,7 @@ function drawNewGame() {
 
 
     //Dibujar nombre del juego
-    const x = globals.getCanvasCenter().x;
+    const x = globals.getCanvasSize().width / 2;
     globals.ctx.font = "18px Emulogic";
     globals.ctx.fillStyle = "Yellow";
     globals.ctx.textAlign = "center";

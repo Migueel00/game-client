@@ -25,9 +25,7 @@ import Timer from "./Timer.js";
 //Funcion que inicializa los elementos HTML
 function initHTMLelements() {
     //Inicializar canvas usando los nuevos métodos de la clase
-    globals.initializeCanvas('gameScreen');
-    globals.initializeHUDCanvas('gameHUD');
-    globals.initializeHUD2Canvas('gameHUD2');
+    globals.initializeCanvas();
     //Eliminacion del Anti-Aliasing
     globals.ctx.imageSmoothingEnabled = false;
     //Caja de texto de pruebas
