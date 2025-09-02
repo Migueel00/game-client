@@ -1,9 +1,11 @@
 import { Game } from "./constants.js";
 import { CanvasManager } from "./core/CanvasManager.js";
+import { AssetManager } from "./core/AssetManager.js";
 
 export class GameState {
   // Canvas y contextos
   private canvasManager!: CanvasManager;
+  private assetManager!: AssetManager;
 
   // Estado del juego
   public gameState: number = Game.INVALID;
@@ -125,6 +127,36 @@ export class GameState {
 
   public get ctxHUD2(): CanvasRenderingContext2D {
     return this.canvasManager.sideHudCtx;
+  }
+
+  public initializeAssets(): void {
+    this.assetManager = new AssetManager();
+
+    // Configurar los assets que cargar
+    this.assetManager.addImage('spritesheet', './images/spritesheet4-0-0.png');
+    this.assetManager.addImage('map', './images/Mapa_Final.png');
+    this.assetManager.addSound('gameMusic', 'gameMusic');
+  }
+
+  public async loadAssets(): Promise<void> {
+    await this.assetManager.loadAllAssets();
+  }
+
+  // Getters para compatibilidad (reemplazar arrays tileSets y sounds)
+  public getSpriteSheet(): HTMLImageElement {
+    return this.assetManager.getSpriteSheet();
+  }
+
+  public getMapImage(): HTMLImageElement {
+    return this.assetManager.getMapImage();
+  }
+
+  public getGameMusic(): HTMLAudioElement {
+    return this.assetManager.getGameMusic();
+  }
+
+  public getAssetsLoadingProgress(): number {
+    return this.assetManager.getLoadingProgress();
   }
 }
 

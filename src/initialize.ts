@@ -72,59 +72,28 @@ function initVars(): void{
 }
 
 //carga los archivos: TILEMAPS, IMAGES, SOUNDS
-function loadAssets(): void{
-    let tileSet;
-
-    //load the spritesheet image
-    tileSet = new Image();
-    tileSet.addEventListener("load", loadHandler, false);
-    tileSet.src = "./images/spritesheet4-0-0.png";
-    globals.tileSets.push(tileSet);
-    globals.assetsToLoad.push(tileSet);
-
-    //Load the map image
-    tileSet = new Image();
-    tileSet.addEventListener("load", loadHandler, false);
-    tileSet.src = "./images/Mapa_Final.png"; //ruta relativa al html
-    globals.tileSets.push(tileSet);
-    globals.assetsToLoad.push(tileSet);
-
-    // Load sounds
-    let gameMusic = document.querySelector<HTMLAudioElement>("#gameMusic");
-    if(gameMusic) {
-        gameMusic.addEventListener("canplaythrough", loadHandler, false);
+async function loadAssets(): Promise<void>{
+    // Inicializar el AssetManager
+    globals.initializeAssets();
+    
+    try {
+        // Cargar todos los assets
+        await globals.loadAssets();
+        
+        // Configurar event listener para música (mantener funcionalidad existente)
+        const gameMusic = globals.getGameMusic();
         gameMusic.addEventListener("timeupdate", updateMusic, false);
-        gameMusic.load();
-        globals.sounds.push(gameMusic);
-        globals.assetsToLoad.push(gameMusic);
-    }else {
-        console.error("Element with id 'gameMusic' not found");
-    }
-
-}
-//Funcion que se llama cda vez que se carga un activo
-function loadHandler() : void{
-    globals.assetsLoaded++;
-
-    //Una vez se han cargado todos los activos pasamos
-    if(globals.assetsLoaded === globals.assetsToLoad.length){
         
-        //UPDATE . Remove the load event listener
-        for(let i = 0; i < globals.tileSets.length; i++){
-            globals.tileSets[i].removeEventListener("load", loadHandler, false);
-        }
-        
-        // Remove the load event listener from sounds
-        for(let i = 0; i < globals.sounds.length; i++){
-            globals.sounds[i].removeEventListener("canplaythrough", loadHandler, false);
-        }
-
         console.log("Assets finished loading");
-
+        
         //Start the game
         globals.gameState = Game.NEW_GAME;
+        
+    } catch (error) {
+        console.error("Error loading assets:", error);
+        // Aquí podrías manejar el error, mostrar mensaje al usuario, etc.
     }
-} 
+}
 
 function initSprites() : void{
     //Game screen

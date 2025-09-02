@@ -7,9 +7,9 @@ export default class Game {
     constructor() {
         this.gameLogic = new GameLogic();
     }
-    init() {
+    async init() {
         initHTMLelements();
-        loadAssets();
+        await loadAssets(); // Ahora esperamos la carga de assets
         initVars();
         initSprites();
         initLevel();

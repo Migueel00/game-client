@@ -1,5 +1,5 @@
 import Game from "./Game.js";
-window.onload = () => {
+window.onload = async () => {
     const game = new Game();
-    game.init();
+    await game.init();
 };

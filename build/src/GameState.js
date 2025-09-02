@@ -1,8 +1,10 @@
 import { Game } from "./constants.js";
 import { CanvasManager } from "./core/CanvasManager.js";
+import { AssetManager } from "./core/AssetManager.js";
 export class GameState {
     // Canvas y contextos
     canvasManager;
+    assetManager;
     // Estado del juego
     gameState = Game.INVALID;
     // Tiempo
@@ -98,6 +100,29 @@ export class GameState {
     }
     get ctxHUD2() {
         return this.canvasManager.sideHudCtx;
+    }
+    initializeAssets() {
+        this.assetManager = new AssetManager();
+        // Configurar los assets que cargar
+        this.assetManager.addImage('spritesheet', './images/spritesheet4-0-0.png');
+        this.assetManager.addImage('map', './images/Mapa_Final.png');
+        this.assetManager.addSound('gameMusic', 'gameMusic');
+    }
+    async loadAssets() {
+        await this.assetManager.loadAllAssets();
+    }
+    // Getters para compatibilidad (reemplazar arrays tileSets y sounds)
+    getSpriteSheet() {
+        return this.assetManager.getSpriteSheet();
+    }
+    getMapImage() {
+        return this.assetManager.getMapImage();
+    }
+    getGameMusic() {
+        return this.assetManager.getGameMusic();
+    }
+    getAssetsLoadingProgress() {
+        return this.assetManager.getLoadingProgress();
     }
 }
 // Instancia singleton del estado del juego

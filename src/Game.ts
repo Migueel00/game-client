@@ -11,9 +11,9 @@ export default class Game {
     this.gameLogic = new GameLogic();
   }
 
-  public init() : void {
+  public async init() : Promise<void> {
     initHTMLelements();
-    loadAssets();
+    await loadAssets();  // Ahora esperamos la carga de assets
     initVars();
     initSprites();
     initLevel();
